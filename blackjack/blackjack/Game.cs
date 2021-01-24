@@ -6,12 +6,17 @@ namespace blackjack
 {
     class Game
     {
-        public int _yourScore = 0;
-        public int _computerScore = 0;
+        private int _yourScore = 0;
+        private int _computerScore = 0;
 
         private int[] _deck = new int[36] { 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11 };
         private int _stepCounter = 0;
         private bool _playerMissed;
+        private bool _computerMissed = false;
+
+        public int YourScore { get; set; }
+        public int ComputerScore { get; set; }
+
 
         public Game()
         {
@@ -34,6 +39,14 @@ namespace blackjack
                 ToGo("Player");
                 ToGo("Computer");
 
+                /* if computer missed and player has more score then computer, player is winner */
+                if (_computerScore < _yourScore && _computerMissed)
+                {
+                    break;
+                }
+
+                ShowLog("test " + YourScore.ToString());
+
                 if ((_yourScore >= 21 || _computerScore >= 21) || (_computerScore >= 15 && _playerMissed))
                 {
                     continuee = false;
@@ -48,13 +61,14 @@ namespace blackjack
         }
 
         /* Custom method for show to screen logs the game */
-        public void ShowLog(string value)
+        private void ShowLog(string value)
         {
             Console.WriteLine(value);
         }
 
         /* The method return weight of new card */
-        private int GetCard() {
+        private int GetCard()
+        {
             Random random = new Random();
             int cardInDeck = random.Next(0 + _stepCounter, 36);
             int currentCard = _deck[cardInDeck];
@@ -76,6 +90,7 @@ namespace blackjack
                 case "Computer":
                     if (_computerScore >= 15)
                     {
+                        _computerMissed = true;
                         ShowLog("Computer missed");
                         break;
                     }
