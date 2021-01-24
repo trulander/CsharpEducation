@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
+Program program = new Program();
+
 namespace ConsoleApp1
 {
-    public static class Program
+    
+    public class Program
     {
-        static void Main(string[] args)
+         void Main(string[] args)
         {
             int length = 15;
             for (int i = 0; i < length; i++)
