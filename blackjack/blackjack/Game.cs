@@ -4,17 +4,23 @@ using System.Text;
 
 namespace blackjack
 {
-    class Game
+    class Game : AbstractGame
     {
         private int[] _deck = new int[36] { 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11 };
         private int _stepCounter = 0;
-        private bool _playerMissed;
-        private bool _computerMissed = false;
-
-        public int YourScore { get; private set; }
-        public int ComputerScore { get; private set; }
+        private User player, computer;
 
         public Game()
+        {
+            player = new Player();
+            computer = new Computer();
+
+            player.UserName = "Player";
+
+            Start();
+        }
+
+        protected override void Start()
         {
             bool continuee = true;
             string request;
@@ -24,44 +30,38 @@ namespace blackjack
             {
                 ShowLog("Do you want to go? (Y/N)");
                 request = Console.ReadLine();
-                _playerMissed = (request == "Y" || request == "y") ? false : true;
+                player.Missed = (request == "Y" || request == "y") ? false : true;
 
                 /* if you missed and computer has more score then you, computer is winner */
-                if (ComputerScore > YourScore && _playerMissed)
+                if (computer.UserScore > player.UserScore && player.Missed)
                 {
                     break;
                 }
 
-                ToGo("Player");
-                ToGo("Computer");
+                ToGo(player);
+                ToGo(computer);
 
                 /* if computer missed and player has more score then computer, player is winner */
-                if (ComputerScore < YourScore && _computerMissed)
+                if (computer.UserScore < player.UserScore && computer.Missed)
                 {
                     break;
                 }
 
-                if ((YourScore >= 21 || ComputerScore >= 21) || (ComputerScore >= 15 && _playerMissed))
+                if ((player.UserScore >= 21 || computer.UserScore >= 21) || (computer.UserScore >= 15 && player.Missed))
                 {
                     continuee = false;
                     break;
                 }
 
-                ShowLog("Current score: " + YourScore + ":" + ComputerScore);
+                ShowLog("Current score: " + player.UserScore + ":" + computer.UserScore);
 
             } while (continuee);
-            
+
             Finish();
         }
 
-        /* Custom method for show to screen logs the game */
-        public static void ShowLog(string value)
-        {
-            Console.WriteLine(value);
-        }
-
         /* The method return weight of new card */
-        private int GetCard()
+        protected override int GetCard()
         {
             Random random = new Random();
             int cardInDeck = random.Next(0 + _stepCounter, 36);
@@ -76,73 +76,50 @@ namespace blackjack
          * The method make new step of the game
          * It can to get value is Player or Computer
          */
-        private void ToGo(string user) 
+        protected override void ToGo(User user)
         {
-            int card = GetCard();
-            switch (user)
+            if ((user.UserScore >= 15 && user.Type == "AI") || user.Missed)
             {
-                case "Computer":
-                    if (ComputerScore >= 15)
-                    {
-                        _computerMissed = true;
-                        ShowLog("Computer missed");
-                        break;
-                    }
-                    if (card == 11 && ComputerScore <= 10)//if it blackjack, i'll check how many score i can to count
-                    {
-                        ComputerScore += card;
-                    }
-                    else if (card != 11)
-                    {
-                        ComputerScore += card;
-                    }
-                    else
-                    {
-                        ComputerScore += 1;
-                    }
-                    ShowLog("Computer card is:" + card);
-                    break;
-                case "Player":
-                default:
-                    if (_playerMissed)
-                    {
-                        ShowLog("Player missed");
-                        break;
-                    }
-                    if (card == 11 && YourScore <= 10)//if it blackjack, i'll check how many score i can to count
-                    {
-                        YourScore += card;
-                    }
-                    else if (card != 11)
-                    {
-                        YourScore += card;
-                    }
-                    else
-                    {
-                        YourScore += 1;
-                    }
-                    ShowLog("Your card is:" + card);
-                    break;
+                user.Missed = true;
+                ShowLog(user.UserName + " missed");
+            }
+            else
+            {
+                int card = GetCard();
+                /* if it blackjack, i'll check how many score i can to count */
+                if (card == 11 && user.UserScore <= 10)
+                {
+                    user.UserScore += card;
+                }
+                else if (card != 11)
+                {
+                    user.UserScore += card;
+                }
+                else
+                {
+                    user.UserScore += 1;
+                }
+                ShowLog(user.UserName + " card is:" + card);
             }
         }
 
         /* The method make result and show to the screen */
-        private void Finish()
+        protected override void Finish()
         {
-            if ((YourScore > ComputerScore && YourScore < 22 && YourScore != 0) ||
-                (YourScore < 22 && YourScore != 0 && ComputerScore > 22 && ComputerScore != 0))
+            if ((player.UserScore > computer.UserScore && player.UserScore < 22 && player.UserScore != 0) ||
+                (player.UserScore < 22 && player.UserScore != 0 && computer.UserScore > 22 && computer.UserScore != 0))
             {
-                ShowLog("The winner is player ");
+                ShowLog("The winner is " + player.UserName);
             }
-            else if (ComputerScore < 22 && ComputerScore != 0 && ComputerScore != YourScore)
+            else if (computer.UserScore < 22 && computer.UserScore != 0 && computer.UserScore != player.UserScore)
             {
-                ShowLog("The winner is computer ");
+                ShowLog("The winner is " + computer.UserName);
             }
             else
             {
                 ShowLog("The winner is nobody, it's fail. ");
             }
-            ShowLog("score " + YourScore + ":" + ComputerScore);
+            ShowLog("score " + player.UserScore + ":" + computer.UserScore);
         }
     }
 }
