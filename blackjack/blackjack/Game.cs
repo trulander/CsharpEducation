@@ -8,14 +8,14 @@ namespace blackjack
     {
         private int[] _deck = new int[36] { 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11 };
         private int _stepCounter = 0;
-        private User player, computer;
+        private User _player, _computer;
 
         public Game()
         {
-            player = new Player();
-            computer = new Computer();
+            _player = new Player();
+            _computer = new Computer();
 
-            player.UserName = "Player";
+            _player.UserName = "Player";
 
             Start();
         }
@@ -30,30 +30,30 @@ namespace blackjack
             {
                 ShowLog("Do you want to go? (Y/N)");
                 request = Console.ReadLine();
-                player.Missed = (request == "Y" || request == "y") ? false : true;
+                _player.Missed = (request == "Y" || request == "y") ? false : true;
 
                 /* if you missed and computer has more score then you, computer is winner */
-                if (computer.UserScore > player.UserScore && player.Missed)
+                if (_computer.UserScore > _player.UserScore && _player.Missed)
                 {
                     break;
                 }
 
-                ToGo(player);
-                ToGo(computer);
+                ToGo(_player);
+                ToGo(_computer);
 
                 /* if computer missed and player has more score then computer, player is winner */
-                if (computer.UserScore < player.UserScore && computer.Missed)
+                if (_computer.UserScore < _player.UserScore && _computer.Missed)
                 {
                     break;
                 }
 
-                if ((player.UserScore >= 21 || computer.UserScore >= 21) || (computer.UserScore >= 15 && player.Missed))
+                if ((_player.UserScore >= 21 || _computer.UserScore >= 21) || (_computer.UserScore >= 15 && _player.Missed))
                 {
                     continuee = false;
                     break;
                 }
 
-                ShowLog("Current score: " + player.UserScore + ":" + computer.UserScore);
+                ShowLog("Current score: " + _player.UserScore + ":" + _computer.UserScore);
 
             } while (continuee);
 
@@ -106,20 +106,20 @@ namespace blackjack
         /* The method make result and show to the screen */
         protected override void Finish()
         {
-            if ((player.UserScore > computer.UserScore && player.UserScore < 22 && player.UserScore != 0) ||
-                (player.UserScore < 22 && player.UserScore != 0 && computer.UserScore > 22 && computer.UserScore != 0))
+            if ((_player.UserScore > _computer.UserScore && _player.UserScore < 22 && _player.UserScore != 0) ||
+                (_player.UserScore < 22 && _player.UserScore != 0 && _computer.UserScore > 22 && _computer.UserScore != 0))
             {
-                ShowLog("The winner is " + player.UserName);
+                ShowLog("The winner is " + _player.UserName);
             }
-            else if (computer.UserScore < 22 && computer.UserScore != 0 && computer.UserScore != player.UserScore)
+            else if (_computer.UserScore < 22 && _computer.UserScore != 0 && _computer.UserScore != _player.UserScore)
             {
-                ShowLog("The winner is " + computer.UserName);
+                ShowLog("The winner is " + _computer.UserName);
             }
             else
             {
                 ShowLog("The winner is nobody, it's fail. ");
             }
-            ShowLog("score " + player.UserScore + ":" + computer.UserScore);
+            ShowLog("score " + _player.UserScore + ":" + _computer.UserScore);
         }
     }
 }
