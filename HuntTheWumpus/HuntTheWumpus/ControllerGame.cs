@@ -23,6 +23,9 @@ namespace HuntTheWumpus
             string textAction = "";
             int action;
             bool shoot = false;
+            string[] neighborAround;
+            string[] warning;
+            int counter = 0;
             if (key.Modifiers == _shoot)
             {
                 textAction = "Shooting ";
@@ -53,10 +56,52 @@ namespace HuntTheWumpus
                     return true;
                     break;
             }
-            _unitController.Players[0].ToGo(action, shoot);
-            _unitController.Wumpuses[0].AutoGo();
+
+            if(_unitController.Players[0].ToGo(action, shoot))
+            {
+                return false;
+            }
+
+            if (_unitController.Wumpuses[0].AutoGo())
+            {
+                return false;
+            }
+
+            neighborAround = _unitController.Players[0].WhoIsAround();
+            for (int i = 0; i < neighborAround.Length; i++)
+            {
+                if (neighborAround[i] != "")
+                {
+                    counter++;
+                }
+            }
+            warning = new string[counter];
+            counter = 0;
+            for (int i = 0; i < neighborAround.Length; i++)
+            {
+                if (neighborAround[i] != "")
+                {
+                    if (_unitController.Bats[0].Marker == neighborAround[i])
+                    {
+                        warning[counter] = Bat.TEXTWARNING;
+                    }
+                    if (_unitController.Holes[0].Marker == neighborAround[i])
+                    {
+                        warning[counter] = Hole.TEXTWARNING;
+                    }
+                    if (_unitController.Wumpuses[0].Marker == neighborAround[i])
+                    {
+                        warning[counter] = Wumpus.TEXTWARNING;
+                    }
+                    counter++;
+                }
+                //neighborAround
+            }
+
+            _view.ShowWarning(warning);
             _view.ShowKeyPressed(textAction);
             _view.MapReload();
+            
             return true;
         }
 

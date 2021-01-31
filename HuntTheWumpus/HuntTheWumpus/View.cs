@@ -45,6 +45,19 @@ namespace HuntTheWumpus
             PrintLine(value, ConsoleColor.Red);
         }
 
+        public void ShowWarning(string[] value)
+        {
+            Console.SetCursorPosition(_map.SizeX * 3, 0);
+            for (int i = 0; i < value.Length; i++)
+            {
+                Print("                                                                    ");
+            }
+            Console.SetCursorPosition(_map.SizeX * 3, 0);
+            for (int i = 0; i < value.Length; i++)
+            {
+                PrintLine(value[i], ConsoleColor.Red);
+            }
+        }
 
 
         public static void ShowStartInformation()

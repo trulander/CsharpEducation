@@ -16,7 +16,7 @@ namespace HuntTheWumpus
             View.PrintLine("One player created.", Color);
         }
 
-        public void ToGo(int action, bool shoot)
+        public bool ToGo(int action, bool shoot)
         {
             if (shoot)
             {
@@ -25,12 +25,13 @@ namespace HuntTheWumpus
             else
             {
                 base.ToGo(action);
+                _map.WhoIsAround(PositionX, PositionY);
             }
-            
+            return false;
         }
-        public void ToShoot(int action)
+        public bool ToShoot(int action)
         {
-
+            return true;
         }
     }
 }

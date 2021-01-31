@@ -6,6 +6,7 @@ namespace HuntTheWumpus
 {
     class Hole : Unit
     {
+        public const string TEXTWARNING = "You feel the draft";
         public Hole(Map map) : base(map)
         {
             _map = map;

@@ -6,6 +6,7 @@ namespace HuntTheWumpus
 {
     class Bat : Unit
     {
+        public const string TEXTWARNING = "you hear the rustle";
         public Bat(Map map) : base(map)
         {
             _map = map;
