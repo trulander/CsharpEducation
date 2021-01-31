@@ -8,16 +8,14 @@ namespace HuntTheWumpus
     class View
     {
         private Map _map;
-        private Unit[] _units;
-        public View(Map map, Unit[] units)
+        public View(Map map)
         {
             _map = map;
-            _units = units;
             PrintLine("View initialised");
         }
         public void MapReload()
         {
-            Clear();
+            Console.SetCursorPosition(0, 0);
 
             for (int i = 0; i < _map.SizeX; i++)
             {

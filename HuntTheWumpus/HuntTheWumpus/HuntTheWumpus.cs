@@ -15,7 +15,7 @@ namespace HuntTheWumpus
             Map map = new Map(6,6);
             UnitController unitController = new UnitController(1, 2, 1, 2, map);
             
-            _view = new View(map, unitController.Units);
+            _view = new View(map);
             _controllerGame = new ControllerGame(_view, unitController);
             
 
@@ -28,6 +28,7 @@ namespace HuntTheWumpus
         }
         private void StartGame()
         {
+            View.Clear();
             _view.MapReload();
 
             while (_continue)

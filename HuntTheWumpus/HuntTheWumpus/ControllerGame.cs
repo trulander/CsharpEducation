@@ -8,19 +8,11 @@ namespace HuntTheWumpus
     {
         private View _view;
         private UnitController _unitController;
-        private Unit _userObj;
         private ConsoleModifiers _shoot = ConsoleModifiers.Control;
         public ControllerGame(View view, UnitController unitController)
         {
             _view = view;
             _unitController = unitController;
-            for (int i = 0; i < _unitController.Units.Length; i++)/* i need to find user object of object array*/
-            {
-                if (_unitController.Units[i].Type == "Player")
-                {
-                    _userObj = _unitController.Units[i];
-                } 
-            }
             View.PrintLine("ControllerGame initialised");
         }
 
@@ -53,7 +45,9 @@ namespace HuntTheWumpus
                 default:
                     break;
             }
+            _unitController.Players[0].ToGo(key);
             _view.ShowKeyPressed(textAction);
+            _view.MapReload();
             return true;
         }
     }

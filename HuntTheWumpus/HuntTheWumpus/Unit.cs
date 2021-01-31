@@ -25,10 +25,12 @@ namespace HuntTheWumpus
             int y = randomY.Next(0, _map.SizeY);
             _map.Busy[x, y] = Marker;
             _map.BusyColor[x, y] = Color;
+            PositionX = x;
+            PositionY = y;
         }
-        public void ToGo() 
-        { 
+        //public void ToGo() 
+        //{ 
         
-        }
+        //}
     }
 }

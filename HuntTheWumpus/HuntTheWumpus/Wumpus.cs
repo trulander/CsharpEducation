@@ -15,9 +15,9 @@ namespace HuntTheWumpus
             View.PrintLine("One wumpus created.", Color);
         }
 
-        public void ToGo()
-        {
-            throw new NotImplementedException();
-        }
+        //public void ToGo()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
