@@ -36,9 +36,15 @@ namespace HuntTheWumpus
 
         public void AutoGo()
         {
+            Random toGo = new Random();
+            bool complete = false;
 
+            do
+            {
+                complete = ToGo(toGo.Next(0, 4));
+            } while (!complete);
         }
-        public void ToGo(int key) 
+        public bool ToGo(int key) 
         {
             switch (key)
             {
@@ -50,6 +56,7 @@ namespace HuntTheWumpus
                         _map.Busy[PositionX, PositionY] = null;
                         _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
                         PositionX = PositionX - 1;
+                        return true;
                     }
 
                     break;
@@ -61,6 +68,7 @@ namespace HuntTheWumpus
                         _map.Busy[PositionX, PositionY] = null;
                         _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
                         PositionX = PositionX + 1;
+                        return true;
                     }
                     break;
                 case RIGHT:
@@ -71,6 +79,7 @@ namespace HuntTheWumpus
                         _map.Busy[PositionX, PositionY] = null;
                         _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
                         PositionY = PositionY + 1;
+                        return true;
                     }
                     break;
                 case LEFT:
@@ -81,11 +90,13 @@ namespace HuntTheWumpus
                         _map.Busy[PositionX, PositionY] = null;
                         _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
                         PositionY = PositionY - 1;
+                        return true;
                     }
                     break;
                 default:
                     break;
             }
+            return false;
         }
     }
 }

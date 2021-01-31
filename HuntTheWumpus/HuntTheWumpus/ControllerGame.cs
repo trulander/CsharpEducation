@@ -54,6 +54,7 @@ namespace HuntTheWumpus
                     break;
             }
             _unitController.Players[0].ToGo(action, shoot);
+            _unitController.Wumpuses[0].AutoGo();
             _view.ShowKeyPressed(textAction);
             _view.MapReload();
             return true;

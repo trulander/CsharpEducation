@@ -18,5 +18,14 @@ namespace HuntTheWumpus
             BusyColor = new ConsoleColor[SizeX, SizeY];
             View.PrintLine("Map initialised: " + SizeX + " x " + SizeY + " size.");
         }
+
+        public bool IsCursorFree(int x, int y)
+        {
+            if (Busy[x, y] == null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
