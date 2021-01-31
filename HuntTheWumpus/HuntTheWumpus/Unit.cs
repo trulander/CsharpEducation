@@ -28,9 +28,64 @@ namespace HuntTheWumpus
             PositionX = x;
             PositionY = y;
         }
-        //public void ToGo() 
-        //{ 
-        
-        //}
+
+        public const int UP = 0;
+        public const int DOWN = 1;
+        public const int RIGHT = 2;
+        public const int LEFT = 3;
+
+        public void AutoGo()
+        {
+
+        }
+        public void ToGo(int key) 
+        {
+            switch (key)
+            {
+                case UP:
+                    if (PositionX - 1 >= 0 && _map.Busy[PositionX - 1, PositionY] == null)
+                    {
+                        _map.Busy[PositionX - 1, PositionY] = Marker;
+                        _map.BusyColor[PositionX - 1, PositionY] = Color;
+                        _map.Busy[PositionX, PositionY] = null;
+                        _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
+                        PositionX = PositionX - 1;
+                    }
+
+                    break;
+                case DOWN:
+                    if (PositionX + 1 < _map.SizeX && _map.Busy[PositionX + 1, PositionY] == null)
+                    {
+                        _map.Busy[PositionX + 1, PositionY] = Marker;
+                        _map.BusyColor[PositionX + 1, PositionY] = Color;
+                        _map.Busy[PositionX, PositionY] = null;
+                        _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
+                        PositionX = PositionX + 1;
+                    }
+                    break;
+                case RIGHT:
+                    if (PositionY + 1 < _map.SizeY && _map.Busy[PositionX, PositionY + 1] == null)
+                    {
+                        _map.Busy[PositionX, PositionY + 1] = Marker;
+                        _map.BusyColor[PositionX, PositionY + 1] = Color;
+                        _map.Busy[PositionX, PositionY] = null;
+                        _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
+                        PositionY = PositionY + 1;
+                    }
+                    break;
+                case LEFT:
+                    if (PositionY - 1 >= 0 && _map.Busy[PositionX, PositionY - 1] == null)
+                    {
+                        _map.Busy[PositionX, PositionY - 1] = Marker;
+                        _map.BusyColor[PositionX, PositionY - 1] = Color;
+                        _map.Busy[PositionX, PositionY] = null;
+                        _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
+                        PositionY = PositionY - 1;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

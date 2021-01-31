@@ -16,59 +16,21 @@ namespace HuntTheWumpus
             View.PrintLine("One player created.", Color);
         }
 
-        public void ToGo(ConsoleKeyInfo key)
+        public void ToGo(int action, bool shoot)
         {
-            string textAction = "";
-            if (key.Modifiers == ConsoleModifiers.Control)
+            if (shoot)
             {
-                textAction = "Shooting ";
+                ToShoot(action);
             }
-            switch (key.Key)
+            else
             {
-                case ConsoleKey.UpArrow:
-                    if (PositionX - 1 >= 0 && _map.Busy[PositionX - 1, PositionY] == null)
-                    {
-                        _map.Busy[PositionX - 1, PositionY] = Marker;
-                        _map.BusyColor[PositionX - 1, PositionY] = Color;
-                        _map.Busy[PositionX, PositionY] = null;
-                        _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
-                        PositionX = PositionX - 1;
-                    }
-                    
-                    break;
-                case ConsoleKey.DownArrow:
-                    if (PositionX + 1 < _map.SizeX && _map.Busy[PositionX + 1, PositionY] == null)
-                    {
-                        _map.Busy[PositionX + 1, PositionY] = Marker;
-                        _map.BusyColor[PositionX + 1, PositionY] = Color;
-                        _map.Busy[PositionX, PositionY] = null;
-                        _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
-                        PositionX = PositionX + 1;
-                    }
-                    break;
-                case ConsoleKey.RightArrow:
-                    if (PositionY + 1 < _map.SizeY && _map.Busy[PositionX, PositionY + 1] == null)
-                    {
-                        _map.Busy[PositionX, PositionY + 1] = Marker;
-                        _map.BusyColor[PositionX, PositionY + 1] = Color;
-                        _map.Busy[PositionX, PositionY] = null;
-                        _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
-                        PositionY = PositionY + 1;
-                    }
-                    break;
-                case ConsoleKey.LeftArrow:
-                    if (PositionY - 1 >= 0 && _map.Busy[PositionX, PositionY - 1] == null)
-                    {
-                        _map.Busy[PositionX, PositionY - 1] = Marker;
-                        _map.BusyColor[PositionX, PositionY - 1] = Color;
-                        _map.Busy[PositionX, PositionY] = null;
-                        _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
-                        PositionY = PositionY - 1;
-                    }
-                    break;
-                default:
-                    break;
+                base.ToGo(action);
             }
+            
+        }
+        public void ToShoot(int action)
+        {
+
         }
     }
 }
