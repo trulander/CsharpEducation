@@ -51,9 +51,9 @@ namespace HuntTheWumpus
 
         public void ShowKeyPressed(string value)
         {
-            Console.SetCursorPosition(0, _map.SizeY);
-            Print("                                                                    ");
-            Console.SetCursorPosition(0, _map.SizeY);
+            Console.SetCursorPosition(0, _map.SizeX);
+            Print("               ");
+            Console.SetCursorPosition(0, _map.SizeX);
             PrintLine(value, ConsoleColor.Red);
         }
 
@@ -62,15 +62,15 @@ namespace HuntTheWumpus
             
             for (int i = 0; i < value.Length; i++)
             {
-                Console.SetCursorPosition(_map.SizeX * 3, i);
-                Print("                                                                    ");
+                Console.SetCursorPosition(_map.SizeY * 3, i);
+                Print("                    ");
             }
             for (int i = 0; i < value.Length; i++)
             {
-                Console.SetCursorPosition(_map.SizeX * 3, i);
+                Console.SetCursorPosition(_map.SizeY * 3, i);
                 PrintLine(value[i], ConsoleColor.Red);
             }
-            Console.SetCursorPosition(_map.SizeX * 3, _map.SizeY);
+            Console.SetCursorPosition(_map.SizeY * 3, _map.SizeX);
         }
 
         public static void DebugView(string value)
@@ -81,38 +81,14 @@ namespace HuntTheWumpus
 
         public void ResultOfGame(string value)
         {
-            //Clear();
-            Console.SetCursorPosition(0, 10);
+            Console.SetCursorPosition(0, _map.SizeX + 5);
             Print("The winner is " + value, ConsoleColor.Green);
-            Console.SetCursorPosition(0, 20);
+            Console.SetCursorPosition(0, _map.SizeX + 10);
         }
         public static void ShowStartInformation()
         {
             PrintLine("HuntTheWumpus", ConsoleColor.Red);
             Print("Starting game...", ConsoleColor.Red);
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    Console.SetCursorPosition(17, 1);
-            //    Thread.Sleep(300);
-            //    switch (i % 4)
-            //    {
-            //        case 1:
-            //            Print("/", ConsoleColor.Green);
-            //            break;
-            //        case 2:
-            //            Print("-", ConsoleColor.Green);
-            //            break;
-            //        case 3:
-            //            Print("\\", ConsoleColor.Green);
-            //            break;
-            //        default:
-            //            Print("|", ConsoleColor.Green);
-            //            break;
-            //    }
-
-            //}
-            Console.SetCursorPosition(16, 1);
-            Print("100%", ConsoleColor.Green);
             PrintLine();
         }
         public static void instruction()
@@ -132,10 +108,6 @@ namespace HuntTheWumpus
             PrintLine("CTRL + Right - for shoot to right", ConsoleColor.Green);
             PrintLine("CTRL + Left - for shoot to left", ConsoleColor.Green);
         }
-
-
-
-
 
         public static void PrintLine(string value, ConsoleColor color = ConsoleColor.White)
         {

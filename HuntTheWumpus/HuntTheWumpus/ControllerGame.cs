@@ -55,26 +55,25 @@ namespace HuntTheWumpus
                     break;
             }
 
+            /* player or players(futute maybe multiplayer mode) is/are going*/
             if(!_unitController.Players[0].ToGo(action, shoot))
             {
                 if (shoot && WhoIsItByMarker(_unitController.Players[0].FireTo) is Wumpus)
                 {
                     GetWumpusObject(_unitController.Players[0].TargetPositionX, _unitController.Players[0].TargetPositionY).Destroy();
                     {
+                        bool finish = true;
+                        for (int i = 0; i < _unitController.Wumpuses.Length; i++)
                         {
-                            bool finish = true;
-                            for (int i = 0; i < _unitController.Wumpuses.Length; i++)
+                            if (_unitController.Wumpuses[i].Alive)
                             {
-                                if (_unitController.Wumpuses[i].Alive)
-                                {
-                                    finish = false;
-                                    break;
-                                }
+                                finish = false;
+                                break;
                             }
-                            if (finish)
-                            {
-                                return false;
-                            }
+                        }
+                        if (finish)
+                        {
+                            return false;
                         }
                     }
                 }
@@ -84,9 +83,14 @@ namespace HuntTheWumpus
                     _unitController.Players[0].Destroy();
                     return false;
                 }
+
+                if (WhoIsItByMarker(_unitController.Players[0].Meet) is Bat)
+                {
+                    GetBatObject(_unitController.Players[0].TargetPositionX, _unitController.Players[0].TargetPositionY).ToGo(_unitController.Players[0]);
+                }
             }
 
-            {
+            {/* wumpuses are going*/
                 for (int i = 0; i < _unitController.Wumpuses.Length; i++)
                 {
                     if (_unitController.Wumpuses[i].Alive)
@@ -111,7 +115,7 @@ namespace HuntTheWumpus
             return true;
         }
 
-        public Unit GetWumpusObject(int x, int y)
+        public Wumpus GetWumpusObject(int x, int y)
         {
             for (int i = 0; i < _unitController.Wumpuses.Length; i++)
             {
@@ -122,6 +126,19 @@ namespace HuntTheWumpus
             }
             return null;
         }
+
+        public Bat GetBatObject(int x, int y)
+        {
+            for (int i = 0; i < _unitController.Bats.Length; i++)
+            {
+                if (_unitController.Bats[i].PositionX == x && _unitController.Bats[i].PositionY == y)
+                {
+                    return _unitController.Bats[i];
+                }
+            }
+            return null;
+        }
+
         public void MakeResultOfGame()
         {
             bool woompusAlive = false;

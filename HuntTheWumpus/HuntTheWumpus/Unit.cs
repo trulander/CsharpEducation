@@ -45,6 +45,7 @@ namespace HuntTheWumpus
             PositionY = y;
             TargetPositionX = PositionX;
             TargetPositionY = PositionY;
+            Alive = true;
 
         }
 
@@ -60,11 +61,11 @@ namespace HuntTheWumpus
             Alive = false;
         }
 
-        protected bool SaveNewPosition()
+        public bool SaveNewPosition(bool important = false)
         {
             if (_map.IsCursorCorrect(TargetPositionX, TargetPositionY))
             {
-                if (_map.IsCursorFree(TargetPositionX, TargetPositionY))
+                if (_map.IsCursorFree(TargetPositionX, TargetPositionY) || important)
                 {
                     _map.Busy[TargetPositionX, TargetPositionY] = Marker;
                     _map.BusyColor[TargetPositionX, TargetPositionY] = Color;

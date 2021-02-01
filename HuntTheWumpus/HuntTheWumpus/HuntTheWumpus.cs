@@ -14,8 +14,8 @@ namespace HuntTheWumpus
         public HuntTheWumpus()
         {
             View.ShowStartInformation();
-            Map map = new Map(6,6);
-            _unitController = new UnitController(1, 2, 2, 2, map);
+            Map map = new Map(Program.SizeX, Program.SizeY);
+            _unitController = new UnitController(1, Program.BatCount, Program.WumpusCount, Program.HoleCount, map);
             
             _view = new View(map);
             _controllerGame = new ControllerGame(_view, _unitController);
