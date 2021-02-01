@@ -4,6 +4,7 @@ using System.Text;
 
 namespace HuntTheWumpus
 {
+    /* Class for game logic*/
     class ControllerGame
     {
         private View _view;
@@ -15,6 +16,8 @@ namespace HuntTheWumpus
             _unitController = unitController;
             View.PrintLine("ControllerGame initialised");
         }
+
+        /* method for return object wumpus by coordinate x y*/
         private Wumpus GetWumpusObject(int x, int y)
         {
             for (int i = 0; i < _unitController.Wumpuses.Length; i++)
@@ -27,6 +30,7 @@ namespace HuntTheWumpus
             return null;
         }
 
+        /* method for return object bat by coordinate x y*/
         private Bat GetBatObject(int x, int y)
         {
             for (int i = 0; i < _unitController.Bats.Length; i++)
@@ -39,6 +43,7 @@ namespace HuntTheWumpus
             return null;
         }
 
+        /* method for return type of object by marker on the map */
         private Unit WhoIsItByMarker(string marker)
         {
             if (_unitController.Bats[0].Marker == marker)
@@ -59,6 +64,8 @@ namespace HuntTheWumpus
             }
             return null;
         }
+
+        /* Main method for reading the buttons what was pushed user and base logic what we have to do every step */
         public bool ReadKey()
         {
             Console.TreatControlCAsInput = true;/* drop default action when we're using modification key (ctrl, shift,alt) */
@@ -120,13 +127,15 @@ namespace HuntTheWumpus
                         }
                     }
                 }
-                
+
+                /* if player meet the wumpus or hole on the previous step, player have to be die */
                 if (WhoIsItByMarker(_unitController.Players[0].Meet) is Wumpus || WhoIsItByMarker(_unitController.Players[0].Meet) is Hole)
                 {
                     _unitController.Players[0].Destroy();
                     return false;
                 }
 
+                /* if player meet the bat on the previous step, he has to be teleportate together the bat */
                 if (WhoIsItByMarker(_unitController.Players[0].Meet) is Bat)
                 {
                     GetBatObject(_unitController.Players[0].TargetPositionX, _unitController.Players[0].TargetPositionY).ToGo(_unitController.Players[0]);
@@ -158,6 +167,7 @@ namespace HuntTheWumpus
             return true;
         }
 
+        /* make result of the end game and show it on the screen*/
         public void MakeResultOfGame()
         {
             bool woompusAlive = false;
@@ -185,6 +195,7 @@ namespace HuntTheWumpus
             Console.ReadLine();
         }
 
+        /* chech who around me */
         public void ChechWarning()
         {
             string[] neighborAround = _unitController.Players[0].WhoIsAround();

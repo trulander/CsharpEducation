@@ -4,6 +4,7 @@ using System.Text;
 
 namespace HuntTheWumpus
 {
+    /* Main class the game*/
     internal class HuntTheWumpus
     {
         private View _view;
@@ -30,14 +31,18 @@ namespace HuntTheWumpus
         }
         private void StartGame()
         {
+            /* clear console and show game map*/
             View.Clear();
             _view.MapReload(!Program.IsVisibleGameObject ? _unitController.Players[0].Marker : "");
             _controllerGame.ChechWarning();
 
+            /* main cycle the game*/
             while (_continue)
             {
                 _continue = _controllerGame.ReadKey();
             }
+
+            /* finaly reload the map together all game objects*/
             _view.MapReload();
             _controllerGame.MakeResultOfGame();
         }

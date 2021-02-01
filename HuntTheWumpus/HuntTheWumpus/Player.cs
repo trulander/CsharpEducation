@@ -17,6 +17,7 @@ namespace HuntTheWumpus
             View.PrintLine("One player created.", Color);
         }
 
+        /* method for make the step*/
         public bool ToGo(int action, bool shoot)
         {
             if (shoot)
@@ -29,6 +30,8 @@ namespace HuntTheWumpus
             }
             return false;
         }
+
+        /* method for make a shoot*/
         public bool ToShoot(int action)
         {
             switch (action)

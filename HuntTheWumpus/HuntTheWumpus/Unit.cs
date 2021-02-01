@@ -4,6 +4,7 @@ using System.Text;
 
 namespace HuntTheWumpus
 {
+    /* main class for game's objects */
     public class Unit
     {
         public const int UP = 0;
@@ -26,6 +27,7 @@ namespace HuntTheWumpus
         {
             _map = map;
         }
+        /* method for auto placement the object on a map of the game */
         public void Spawn() 
         {
             Random randomX = new Random();
@@ -49,11 +51,13 @@ namespace HuntTheWumpus
 
         }
 
+        /* method as provider between  map object and current object, i need to use method from map's object */
         public string[] WhoIsAround()
         {
             return _map.WhoIsAround(PositionX, PositionY);
         }
 
+        /* method for deleting the object from the game */
         public void Destroy()
         {
             _map.Busy[PositionX, PositionY] = null;
@@ -61,6 +65,7 @@ namespace HuntTheWumpus
             Alive = false;
         }
 
+        /* method for save new position the object on the map*/
         public bool SaveNewPosition(bool important = false)
         {
             if (_map.IsCursorCorrect(TargetPositionX, TargetPositionY))
@@ -87,6 +92,8 @@ namespace HuntTheWumpus
             TargetPositionY = PositionY;
             return false;
         }
+
+        /* method for make the step*/
         public bool ToGo(int key) 
         {
             switch (key)

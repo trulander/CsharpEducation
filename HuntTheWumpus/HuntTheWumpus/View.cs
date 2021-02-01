@@ -5,6 +5,7 @@ using System.Threading;
 
 namespace HuntTheWumpus
 {
+    /* class for generate view as layout */
     class View
     {
         private Map _map;
@@ -13,6 +14,8 @@ namespace HuntTheWumpus
             _map = map;
             PrintLine("View initialised");
         }
+
+        /*methor for reload the map*/
         public void MapReload(string marker = "")
         {
             Console.SetCursorPosition(0, 0);
@@ -49,6 +52,7 @@ namespace HuntTheWumpus
             
         }
 
+        /* method for show what action player did on a previous step */
         public void ShowKeyPressed(string value)
         {
             Console.SetCursorPosition(0, _map.SizeX);
@@ -57,6 +61,7 @@ namespace HuntTheWumpus
             PrintLine(value, ConsoleColor.Red);
         }
 
+        /* method for show message about objects that around */
         public void ShowWarning(string[] value)
         {
             
@@ -73,24 +78,30 @@ namespace HuntTheWumpus
             Console.SetCursorPosition(_map.SizeY * 3, _map.SizeX);
         }
 
-        public static void DebugView(string value)
-        {
-            Console.SetCursorPosition(0, 20);
-            PrintLine(value, ConsoleColor.Red);
-        }
-
+        /* for show in the finale who is winner */
         public void ResultOfGame(string value)
         {
             Console.SetCursorPosition(0, _map.SizeX + 5);
             Print("The winner is " + value, ConsoleColor.Green);
             Console.SetCursorPosition(0, _map.SizeX + 10);
         }
+
+        /* for show different debug debug informations */
+        public static void DebugView(string value)
+        {
+            Console.SetCursorPosition(0, 20);
+            PrintLine(value, ConsoleColor.Red);
+        }
+
+        /* for information on the start */
         public static void ShowStartInformation()
         {
             PrintLine("HuntTheWumpus", ConsoleColor.Red);
             Print("Starting game...", ConsoleColor.Red);
             PrintLine();
         }
+
+        /* instruction how play the game */
         public static void instruction()
         {
             Clear();

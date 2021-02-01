@@ -3,6 +3,7 @@ using System.Text;
 
 namespace HuntTheWumpus
 {
+    /* Setup */
     class Program
     {
         public static bool IsVisibleGameObject { get; set; }
@@ -15,6 +16,7 @@ namespace HuntTheWumpus
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
+            /* Default game settings*/
             IsVisibleGameObject = false;
             SizeX = 6;
             SizeY = 6;
@@ -24,8 +26,10 @@ namespace HuntTheWumpus
 
             string consoleKey;
             bool next = false;
-            Int32 consoleKeyNumber;
+            int consoleKeyNumber;
 
+
+            /* Request for custom setting*/
             View.Print("Do you want to ");
             View.Print("change", ConsoleColor.Green);
             View.PrintLine(" default setup? (Y/N)");
