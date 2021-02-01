@@ -67,6 +67,12 @@ namespace HuntTheWumpus
             PrintLine(value, ConsoleColor.Red);
         }
 
+        public void ResultOfGame(string value)
+        {
+            Clear();
+            Console.SetCursorPosition(10, 10);
+            Print("The winner is " + value, ConsoleColor.Green);
+        }
         public static void ShowStartInformation()
         {
             PrintLine("HuntTheWumpus", ConsoleColor.Red);

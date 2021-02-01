@@ -12,6 +12,7 @@ namespace HuntTheWumpus
             Marker = "+";
             Color = ConsoleColor.Green;
             Type = "Player";
+            Alive = true;
             Spawn();
             View.PrintLine("One player created.", Color);
         }

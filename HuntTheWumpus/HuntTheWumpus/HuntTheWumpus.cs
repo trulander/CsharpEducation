@@ -36,6 +36,7 @@ namespace HuntTheWumpus
             {
                 _continue = _controllerGame.ReadKey();
             }
+            _controllerGame.MakeResultOfGame();
         }
     }
 }

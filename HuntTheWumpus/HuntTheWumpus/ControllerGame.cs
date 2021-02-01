@@ -57,14 +57,30 @@ namespace HuntTheWumpus
 
             if(!_unitController.Players[0].ToGo(action, shoot))
             {
-                //_unitController.Players[0].Meet
-                return false;
+                if (WhoIsItByMarker(_unitController.Players[0].Meet) is Wumpus)
+                {
+                    _unitController.Players[0].Alive = false;
+                    return false;
+                }
             }
 
-            if (_unitController.Wumpuses[0].AutoGo())
             {
-                return false;
+                Random toGo = new Random();
+                bool complete = true;
+
+                do
+                {
+                    
+                    if (complete = !_unitController.Wumpuses[0].ToGo(toGo.Next(0, 4)) && WhoIsItByMarker(_unitController.Wumpuses[0].Meet) is Player)
+                    {
+                        _unitController.Players[0].Alive = false;
+                        return false;
+                    }
+                } while (complete);
             }
+
+
+
 
             _view.ShowKeyPressed(textAction);
             _view.MapReload();
@@ -72,6 +88,22 @@ namespace HuntTheWumpus
             return true;
         }
 
+        public void MakeResultOfGame()
+        {
+            if (!_unitController.Players[0].Alive && !_unitController.Wumpuses[0].Alive)
+            {
+                _view.ResultOfGame("NObody");
+            }
+            else if (_unitController.Players[0].Alive)
+            {
+                _view.ResultOfGame("Player");
+            }
+            else
+            {
+                _view.ResultOfGame("Wumpus");
+            }
+            
+        }
         public Unit WhoIsItByMarker(string marker)
         {
             if (_unitController.Bats[0].Marker == marker)
@@ -85,6 +117,10 @@ namespace HuntTheWumpus
             if (_unitController.Wumpuses[0].Marker == marker)
             {
                 return _unitController.Wumpuses[0];
+            }
+            if (_unitController.Players[0].Marker == marker)
+            {
+                return _unitController.Players[0];
             }
             return null;
         }

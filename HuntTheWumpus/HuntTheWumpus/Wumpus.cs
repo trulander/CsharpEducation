@@ -12,22 +12,23 @@ namespace HuntTheWumpus
             _map = map;
             Marker = "W";
             Color = ConsoleColor.Red;
+            Alive = true;
             Spawn();
             View.PrintLine("One wumpus created.", Color);
         }
 
-        public bool AutoGo()
-        {
-            Random toGo = new Random();
-            bool complete = false;
+        //public bool AutoGo()
+        //{
+        //    Random toGo = new Random();
+        //    bool complete = false;
 
-            do
-            {
-                complete = ToGo(toGo.Next(0, 4));
-            } while (!complete);
+        //    do
+        //    {
+        //        complete = ToGo(toGo.Next(0, 4));
+        //    } while (!complete);
 
-            return false;
-        }
+        //    return false;
+        //}
         //public void ToGo()
         //{
         //    throw new NotImplementedException();
