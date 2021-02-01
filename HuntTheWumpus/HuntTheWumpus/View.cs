@@ -61,6 +61,11 @@ namespace HuntTheWumpus
             Console.SetCursorPosition(_map.SizeX * 3, _map.SizeY);
         }
 
+        public static void DebugView(string value)
+        {
+            Console.SetCursorPosition(0, 20);
+            PrintLine(value, ConsoleColor.Red);
+        }
 
         public static void ShowStartInformation()
         {

@@ -55,8 +55,9 @@ namespace HuntTheWumpus
                     break;
             }
 
-            if(_unitController.Players[0].ToGo(action, shoot))
+            if(!_unitController.Players[0].ToGo(action, shoot))
             {
+                //_unitController.Players[0].Meet
                 return false;
             }
 
@@ -71,6 +72,22 @@ namespace HuntTheWumpus
             return true;
         }
 
+        public Unit WhoIsItByMarker(string marker)
+        {
+            if (_unitController.Bats[0].Marker == marker)
+            {
+                return _unitController.Bats[0];
+            }
+            if (_unitController.Holes[0].Marker == marker)
+            {
+                return _unitController.Holes[0];
+            }
+            if (_unitController.Wumpuses[0].Marker == marker)
+            {
+                return _unitController.Wumpuses[0];
+            }
+            return null;
+        }
         public void ChechWarning()
         {
             string[] neighborAround = _unitController.Players[0].WhoIsAround();
@@ -80,15 +97,15 @@ namespace HuntTheWumpus
             {
                 if (neighborAround[i] != "")
                 {
-                    if (_unitController.Bats[0].Marker == neighborAround[i])
+                    if (WhoIsItByMarker(neighborAround[i]) is Bat)
                     {
                         warning[0] = Bat.TEXTWARNING;
                     }
-                    if (_unitController.Holes[0].Marker == neighborAround[i])
+                    if (WhoIsItByMarker(neighborAround[i]) is Hole)
                     {
                         warning[1] = Hole.TEXTWARNING;
                     }
-                    if (_unitController.Wumpuses[0].Marker == neighborAround[i])
+                    if (WhoIsItByMarker(neighborAround[i]) is Wumpus)
                     {
                         warning[2] = Wumpus.TEXTWARNING;
                     }

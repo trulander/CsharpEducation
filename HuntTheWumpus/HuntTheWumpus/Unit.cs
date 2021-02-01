@@ -19,6 +19,7 @@ namespace HuntTheWumpus
         public bool Alive { get; set; }
         public string Type { get; set; }
         public ConsoleColor Color { get; set; }
+        public string Meet { get; set; }
         public Unit(Map map)
         {
             _map = map;
@@ -63,6 +64,10 @@ namespace HuntTheWumpus
                             PositionX = PositionX - 1;
                             return true;
                         }
+                        else
+                        {
+                            Meet = _map.WhoIsIt(PositionX - 1, PositionY);
+                        }
                     }
 
                     break;
@@ -78,6 +83,10 @@ namespace HuntTheWumpus
                             PositionX = PositionX + 1;
                             return true;
                         }
+                        else
+                        {
+                            Meet = _map.WhoIsIt(PositionX + 1, PositionY);
+                        }
                     }
                     break;
                 case RIGHT:
@@ -92,6 +101,10 @@ namespace HuntTheWumpus
                             PositionY = PositionY + 1;
                             return true;
                         }
+                        else
+                        {
+                            Meet = _map.WhoIsIt(PositionX, PositionY + 1);
+                        }
                     }
                     break;
                 case LEFT:
@@ -105,6 +118,10 @@ namespace HuntTheWumpus
                             _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
                             PositionY = PositionY - 1;
                             return true;
+                        }
+                        else
+                        {
+                            Meet = _map.WhoIsIt(PositionX, PositionY - 1);
                         }
                     }
                     break;

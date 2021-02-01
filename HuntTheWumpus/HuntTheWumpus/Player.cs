@@ -24,8 +24,16 @@ namespace HuntTheWumpus
             }
             else
             {
-                base.ToGo(action);
-               // _map.WhoIsAround(PositionX, PositionY);
+                return base.ToGo(action);
+                //if (base.ToGo(action))
+                //{
+                //    View.DebugView("could to go");
+                //}
+                //else
+                //{
+                //    View.DebugView("could'n to go");
+                //}
+                // _map.WhoIsAround(PositionX, PositionY);
             }
             return false;
         }
