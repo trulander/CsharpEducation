@@ -11,6 +11,7 @@ namespace test_for_inheritance
         public ChildTwo(string field) : base(field)
         {
             FieldOne = field;
+            Console.WriteLine("Object ChildTwo created;");
         }
     }
 }

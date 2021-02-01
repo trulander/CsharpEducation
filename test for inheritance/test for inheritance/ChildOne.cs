@@ -11,6 +11,7 @@ namespace test_for_inheritance
         public ChildOne(string field) : base(field)
         {
             FieldOne = field;
+            Console.WriteLine("Object ChildOne created;");
         }
         public void MethodTwo(string value)
         {
