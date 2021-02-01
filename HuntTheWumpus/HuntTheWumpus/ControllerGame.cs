@@ -181,7 +181,8 @@ namespace HuntTheWumpus
             {
                 _view.ResultOfGame("Wumpus");
             }
-            
+            View.PrintLine("Press any key to close the window.");
+            Console.ReadLine();
         }
 
         public void ChechWarning()
