@@ -30,6 +30,7 @@ namespace HuntTheWumpus
         {
             View.Clear();
             _view.MapReload();
+            _controllerGame.ChechWarning();
 
             while (_continue)
             {

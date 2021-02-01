@@ -47,16 +47,18 @@ namespace HuntTheWumpus
 
         public void ShowWarning(string[] value)
         {
-            Console.SetCursorPosition(_map.SizeX * 3, 0);
+            
             for (int i = 0; i < value.Length; i++)
             {
+                Console.SetCursorPosition(_map.SizeX * 3, i);
                 Print("                                                                    ");
             }
-            Console.SetCursorPosition(_map.SizeX * 3, 0);
             for (int i = 0; i < value.Length; i++)
             {
+                Console.SetCursorPosition(_map.SizeX * 3, i);
                 PrintLine(value[i], ConsoleColor.Red);
             }
+            Console.SetCursorPosition(_map.SizeX * 3, _map.SizeY);
         }
 
 

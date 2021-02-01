@@ -45,7 +45,7 @@ namespace HuntTheWumpus
 
         public string[] WhoIsAround()
         {
-            return _map.WhoIsAround(PositionY, PositionY);
+            return _map.WhoIsAround(PositionX, PositionY);
         }
         public bool ToGo(int key) 
         {

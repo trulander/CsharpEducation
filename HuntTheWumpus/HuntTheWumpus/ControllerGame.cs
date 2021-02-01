@@ -18,14 +18,12 @@ namespace HuntTheWumpus
 
         public bool ReadKey()
         {
-            Console.TreatControlCAsInput = true;/* drop default action when we're using modification key (ctrl, shift,alt)*/
-            ConsoleKeyInfo key = Console.ReadKey();
+            Console.TreatControlCAsInput = true;/* drop default action when we're using modification key (ctrl, shift,alt) */
+            Console.CursorVisible = false;/* hide cursor */
+            ConsoleKeyInfo key = Console.ReadKey(true);
             string textAction = "";
             int action;
             bool shoot = false;
-            string[] neighborAround;
-            string[] warning;
-            int counter = 0;
             if (key.Modifiers == _shoot)
             {
                 textAction = "Shooting ";
@@ -67,47 +65,38 @@ namespace HuntTheWumpus
                 return false;
             }
 
-            neighborAround = _unitController.Players[0].WhoIsAround();
-            for (int i = 0; i < neighborAround.Length; i++)
-            {
-                if (neighborAround[i] != "")
-                {
-                    counter++;
-                }
-            }
-            warning = new string[counter];
-            counter = 0;
-            for (int i = 0; i < neighborAround.Length; i++)
+            _view.ShowKeyPressed(textAction);
+            _view.MapReload();
+            ChechWarning();
+            return true;
+        }
+
+        public void ChechWarning()
+        {
+            string[] neighborAround = _unitController.Players[0].WhoIsAround();
+            string[] warning = new string[3]; ;
+
+             for (int i = 0; i < neighborAround.Length; i++)
             {
                 if (neighborAround[i] != "")
                 {
                     if (_unitController.Bats[0].Marker == neighborAround[i])
                     {
-                        warning[counter] = Bat.TEXTWARNING;
+                        warning[0] = Bat.TEXTWARNING;
                     }
                     if (_unitController.Holes[0].Marker == neighborAround[i])
                     {
-                        warning[counter] = Hole.TEXTWARNING;
+                        warning[1] = Hole.TEXTWARNING;
                     }
                     if (_unitController.Wumpuses[0].Marker == neighborAround[i])
                     {
-                        warning[counter] = Wumpus.TEXTWARNING;
+                        warning[2] = Wumpus.TEXTWARNING;
                     }
-                    counter++;
                 }
-                //neighborAround
             }
-
+            Array.Sort(warning);
+            Array.Reverse(warning);
             _view.ShowWarning(warning);
-            _view.ShowKeyPressed(textAction);
-            _view.MapReload();
-            
-            return true;
-        }
-
-        public void CheckNighbor()
-        {
-
         }
     }
 }
