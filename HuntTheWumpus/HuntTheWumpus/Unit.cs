@@ -12,7 +12,7 @@ namespace HuntTheWumpus
         public const int LEFT = 3;
         public const string TEXTWARNING = "";
 
-        public Map _map;
+        protected Map _map;
         public int PositionX { get; set; }
         public int PositionY { get; set; }
         public int TargetPositionX { get; set; }

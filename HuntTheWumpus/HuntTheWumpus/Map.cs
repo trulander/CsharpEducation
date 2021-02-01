@@ -8,8 +8,8 @@ namespace HuntTheWumpus
     {
         public int SizeX { get; set; }
         public int SizeY { get; set; }
-        public string[,] Busy;
-        public ConsoleColor[,] BusyColor;
+        public string[,] Busy { get; set; }
+        public ConsoleColor[,] BusyColor { get; set; }
         public Map(int x, int y)
         {
             SizeX = x;

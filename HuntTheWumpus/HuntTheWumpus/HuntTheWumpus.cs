@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HuntTheWumpus
 {
-    class HuntTheWumpus
+    internal class HuntTheWumpus
     {
         private View _view;
         private bool _continue = true;

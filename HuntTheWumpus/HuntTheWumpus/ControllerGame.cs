@@ -15,7 +15,50 @@ namespace HuntTheWumpus
             _unitController = unitController;
             View.PrintLine("ControllerGame initialised");
         }
+        private Wumpus GetWumpusObject(int x, int y)
+        {
+            for (int i = 0; i < _unitController.Wumpuses.Length; i++)
+            {
+                if (_unitController.Wumpuses[i].PositionX == x && _unitController.Wumpuses[i].PositionY == y)
+                {
+                    return _unitController.Wumpuses[i];
+                }
+            }
+            return null;
+        }
 
+        private Bat GetBatObject(int x, int y)
+        {
+            for (int i = 0; i < _unitController.Bats.Length; i++)
+            {
+                if (_unitController.Bats[i].PositionX == x && _unitController.Bats[i].PositionY == y)
+                {
+                    return _unitController.Bats[i];
+                }
+            }
+            return null;
+        }
+
+        private Unit WhoIsItByMarker(string marker)
+        {
+            if (_unitController.Bats[0].Marker == marker)
+            {
+                return _unitController.Bats[0];
+            }
+            if (_unitController.Holes[0].Marker == marker)
+            {
+                return _unitController.Holes[0];
+            }
+            if (_unitController.Wumpuses[0].Marker == marker)
+            {
+                return _unitController.Wumpuses[0];
+            }
+            if (_unitController.Players[0].Marker == marker)
+            {
+                return _unitController.Players[0];
+            }
+            return null;
+        }
         public bool ReadKey()
         {
             Console.TreatControlCAsInput = true;/* drop default action when we're using modification key (ctrl, shift,alt) */
@@ -115,30 +158,6 @@ namespace HuntTheWumpus
             return true;
         }
 
-        public Wumpus GetWumpusObject(int x, int y)
-        {
-            for (int i = 0; i < _unitController.Wumpuses.Length; i++)
-            {
-                if (_unitController.Wumpuses[i].PositionX == x && _unitController.Wumpuses[i].PositionY == y)
-                {
-                    return _unitController.Wumpuses[i];
-                }
-            }
-            return null;
-        }
-
-        public Bat GetBatObject(int x, int y)
-        {
-            for (int i = 0; i < _unitController.Bats.Length; i++)
-            {
-                if (_unitController.Bats[i].PositionX == x && _unitController.Bats[i].PositionY == y)
-                {
-                    return _unitController.Bats[i];
-                }
-            }
-            return null;
-        }
-
         public void MakeResultOfGame()
         {
             bool woompusAlive = false;
@@ -164,26 +183,7 @@ namespace HuntTheWumpus
             }
             
         }
-        public Unit WhoIsItByMarker(string marker)
-        {
-            if (_unitController.Bats[0].Marker == marker)
-            {
-                return _unitController.Bats[0];
-            }
-            if (_unitController.Holes[0].Marker == marker)
-            {
-                return _unitController.Holes[0];
-            }
-            if (_unitController.Wumpuses[0].Marker == marker)
-            {
-                return _unitController.Wumpuses[0];
-            }
-            if (_unitController.Players[0].Marker == marker)
-            {
-                return _unitController.Players[0];
-            }
-            return null;
-        }
+
         public void ChechWarning()
         {
             string[] neighborAround = _unitController.Players[0].WhoIsAround();
