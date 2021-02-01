@@ -4,6 +4,7 @@ using System.Text;
 
 namespace HuntTheWumpus
 {
+    /* class for hole */
     class Hole : Unit
     {
         public const string TEXTWARNING = "You feel the draft";
@@ -15,10 +16,5 @@ namespace HuntTheWumpus
             Spawn();
             View.PrintLine("One hole created.", Color);
         }
-
-        //public void ToGo()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

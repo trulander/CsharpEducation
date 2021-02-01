@@ -4,6 +4,7 @@ using System.Text;
 
 namespace HuntTheWumpus
 {
+    /* class for bat */
     class Bat : Unit
     {
         public const string TEXTWARNING = "you hear the rustle";
@@ -16,6 +17,7 @@ namespace HuntTheWumpus
             View.PrintLine("One bat created.", Color);
         }
 
+        /* method for make the step*/
         public void ToGo(Player player)
         {
             _map.Busy[PositionX, PositionY] = null;

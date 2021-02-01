@@ -151,7 +151,7 @@ namespace HuntTheWumpus
                         bool complete = true;
                         do
                         {
-                            if (complete = _unitController.Wumpuses[i].ToGo(toGo.Next(0, 4)) && WhoIsItByMarker(_unitController.Wumpuses[i].Meet) is Player)
+                            if (complete = !_unitController.Wumpuses[i].ToGo(toGo.Next(0, 4)) && WhoIsItByMarker(_unitController.Wumpuses[i].Meet) is Player)
                             {
                                 _unitController.Players[0].Alive = false;
                                 return false;

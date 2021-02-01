@@ -23,9 +23,8 @@ namespace HuntTheWumpus
             Bats = new Bat[bat];
             Wumpuses = new Wumpus[wumpus];
             Holes = new Hole[hole];
-            
 
-            /* */
+            /* Generate game's objects*/
             for (int i = 0; i < player; i++)
             {
                 Players[i] = new Player(_map);

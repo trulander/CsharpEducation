@@ -120,6 +120,7 @@ namespace HuntTheWumpus
             PrintLine("CTRL + Left - for shoot to left", ConsoleColor.Green);
         }
 
+        /* custom method printline width color*/
         public static void PrintLine(string value, ConsoleColor color = ConsoleColor.White)
         {
             if (color != null)
@@ -132,10 +133,14 @@ namespace HuntTheWumpus
                 Console.ResetColor();
             }
         }
+
+        /* custom method printline */
         public static void PrintLine()
         {
             Console.WriteLine();
         }
+
+        /* custom method print width color */
         public static void Print(string value, ConsoleColor color = ConsoleColor.White)
         {
             if (color != null)
@@ -148,6 +153,8 @@ namespace HuntTheWumpus
                 Console.ResetColor();
             }
         }
+
+        /* custom method clear console */
         public static void Clear()
         {
             Console.Clear();
