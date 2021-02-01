@@ -6,6 +6,7 @@ namespace HuntTheWumpus
 {
     class Player : Unit
     {
+        public string FireTo { get; set; }
         public Player(Map map) : base(map)
         {
             _map = map;
@@ -21,25 +22,57 @@ namespace HuntTheWumpus
         {
             if (shoot)
             {
-                ToShoot(action);
+                return ToShoot(action);
             }
             else
             {
                 return base.ToGo(action);
-                //if (base.ToGo(action))
-                //{
-                //    View.DebugView("could to go");
-                //}
-                //else
-                //{
-                //    View.DebugView("could'n to go");
-                //}
-                // _map.WhoIsAround(PositionX, PositionY);
             }
             return false;
         }
         public bool ToShoot(int action)
         {
+            switch (action)
+            {
+                case UP:
+                    TargetPositionX = PositionX - 1;
+                    TargetPositionY = PositionY;
+                    if (_map.IsCursorCorrect(TargetPositionX, PositionY))
+                    {
+                        FireTo = _map.WhoIsIt(TargetPositionX, PositionY);
+                        return false;
+                    }
+                    break;
+                case DOWN:
+                    TargetPositionX = PositionX + 1;
+                    TargetPositionY = PositionY;
+                    if (_map.IsCursorCorrect(TargetPositionX, PositionY))
+                    {
+                        FireTo = _map.WhoIsIt(TargetPositionX, PositionY);
+                        return false;
+                    }
+                    break;
+                case RIGHT:
+                    TargetPositionY = PositionY + 1;
+                    TargetPositionX = PositionX;
+                    if (_map.IsCursorCorrect(PositionX, TargetPositionY))
+                    {
+                        FireTo = _map.WhoIsIt(PositionX, TargetPositionY);
+                        return false;
+                    }
+                    break;
+                case LEFT:
+                    TargetPositionY = PositionY - 1;
+                    TargetPositionX = PositionX;
+                    if (_map.IsCursorCorrect(PositionX, TargetPositionY))
+                    {
+                        FireTo = _map.WhoIsIt(PositionX, TargetPositionY);
+                        return false;
+                    }
+                    break;
+                default:
+                    break;
+            }
             return true;
         }
     }

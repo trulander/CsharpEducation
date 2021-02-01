@@ -15,6 +15,8 @@ namespace HuntTheWumpus
         public Map _map;
         public int PositionX { get; set; }
         public int PositionY { get; set; }
+        public int TargetPositionX { get; set; }
+        public int TargetPositionY { get; set; }
         public string Marker { get; set; }
         public bool Alive { get; set; }
         public string Type { get; set; }
@@ -41,6 +43,8 @@ namespace HuntTheWumpus
             _map.BusyColor[x, y] = Color;
             PositionX = x;
             PositionY = y;
+            TargetPositionX = PositionX;
+            TargetPositionY = PositionY;
 
         }
 
@@ -48,82 +52,63 @@ namespace HuntTheWumpus
         {
             return _map.WhoIsAround(PositionX, PositionY);
         }
+
+        public void Destroy()
+        {
+            _map.Busy[PositionX, PositionY] = null;
+            _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
+            Alive = false;
+        }
+
+        protected bool SaveNewPosition()
+        {
+            if (_map.IsCursorCorrect(TargetPositionX, TargetPositionY))
+            {
+                if (_map.IsCursorFree(TargetPositionX, TargetPositionY))
+                {
+                    _map.Busy[TargetPositionX, TargetPositionY] = Marker;
+                    _map.BusyColor[TargetPositionX, TargetPositionY] = Color;
+                    _map.Busy[PositionX, PositionY] = null;
+                    _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
+                    PositionX = TargetPositionX;
+                    PositionY = TargetPositionY;
+                    return true;
+                }
+                else
+                {
+                    Meet = _map.WhoIsIt(TargetPositionX, TargetPositionY);
+                    //TargetPositionX = PositionX;
+                    //TargetPositionY = PositionY;
+                    return false;
+                }
+            }
+            TargetPositionX = PositionX;
+            TargetPositionY = PositionY;
+            return false;
+        }
         public bool ToGo(int key) 
         {
             switch (key)
             {
                 case UP:
-                    if (_map.IsCursorCorrect(PositionX - 1, PositionY))
-                    {
-                        if (_map.IsCursorFree(PositionX - 1, PositionY))
-                        {
-                            _map.Busy[PositionX - 1, PositionY] = Marker;
-                            _map.BusyColor[PositionX - 1, PositionY] = Color;
-                            _map.Busy[PositionX, PositionY] = null;
-                            _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
-                            PositionX = PositionX - 1;
-                            return true;
-                        }
-                        else
-                        {
-                            Meet = _map.WhoIsIt(PositionX - 1, PositionY);
-                        }
-                    }
-
+                    TargetPositionX = PositionX - 1;
+                    TargetPositionY = PositionY;
+                    return SaveNewPosition();
                     break;
                 case DOWN:
-                    if (_map.IsCursorCorrect(PositionX + 1, PositionY))
-                    {
-                        if (_map.IsCursorFree(PositionX + 1, PositionY))
-                        {
-                            _map.Busy[PositionX + 1, PositionY] = Marker;
-                            _map.BusyColor[PositionX + 1, PositionY] = Color;
-                            _map.Busy[PositionX, PositionY] = null;
-                            _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
-                            PositionX = PositionX + 1;
-                            return true;
-                        }
-                        else
-                        {
-                            Meet = _map.WhoIsIt(PositionX + 1, PositionY);
-                        }
-                    }
+                    TargetPositionX = PositionX + 1;
+                    TargetPositionY = PositionY;
+                    return SaveNewPosition();
                     break;
                 case RIGHT:
-                    if (_map.IsCursorCorrect(PositionX, PositionY + 1))
-                    {
-                        if (_map.IsCursorFree(PositionX, PositionY + 1))
-                        {
-                            _map.Busy[PositionX, PositionY + 1] = Marker;
-                            _map.BusyColor[PositionX, PositionY + 1] = Color;
-                            _map.Busy[PositionX, PositionY] = null;
-                            _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
-                            PositionY = PositionY + 1;
-                            return true;
-                        }
-                        else
-                        {
-                            Meet = _map.WhoIsIt(PositionX, PositionY + 1);
-                        }
-                    }
+                    TargetPositionY = PositionY + 1;
+                    TargetPositionX = PositionX;
+                    return SaveNewPosition();
                     break;
                 case LEFT:
-                    if (_map.IsCursorCorrect(PositionX, PositionY - 1))
-                    {
-                        if (_map.IsCursorFree(PositionX, PositionY - 1))
-                        {
-                            _map.Busy[PositionX, PositionY - 1] = Marker;
-                            _map.BusyColor[PositionX, PositionY - 1] = Color;
-                            _map.Busy[PositionX, PositionY] = null;
-                            _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
-                            PositionY = PositionY - 1;
-                            return true;
-                        }
-                        else
-                        {
-                            Meet = _map.WhoIsIt(PositionX, PositionY - 1);
-                        }
-                    }
+                    TargetPositionY = PositionY - 1;
+                    TargetPositionX = PositionX;
+                    return SaveNewPosition();
                     break;
                 default:
                     break;

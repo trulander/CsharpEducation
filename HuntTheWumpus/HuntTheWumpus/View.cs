@@ -13,7 +13,7 @@ namespace HuntTheWumpus
             _map = map;
             PrintLine("View initialised");
         }
-        public void MapReload()
+        public void MapReload(string marker = "")
         {
             Console.SetCursorPosition(0, 0);
 
@@ -24,7 +24,19 @@ namespace HuntTheWumpus
                     if (_map.Busy[i,j] != null)
                     {
                         Print("[");
-                        Print(_map.Busy[i, j], _map.BusyColor[i, j]);
+                        if (marker == "")
+                        {
+                            Print(_map.Busy[i, j], _map.BusyColor[i, j]);
+                        }
+                        else if (marker == _map.Busy[i, j])
+                        {
+                            Print(_map.Busy[i, j], _map.BusyColor[i, j]); 
+                        }
+                        else
+                        {
+                            Print(" ");
+                        }
+                        
                         Print("]");
                     }
                     else
@@ -69,9 +81,10 @@ namespace HuntTheWumpus
 
         public void ResultOfGame(string value)
         {
-            Clear();
-            Console.SetCursorPosition(10, 10);
+            //Clear();
+            Console.SetCursorPosition(0, 10);
             Print("The winner is " + value, ConsoleColor.Green);
+            Console.SetCursorPosition(0, 20);
         }
         public static void ShowStartInformation()
         {

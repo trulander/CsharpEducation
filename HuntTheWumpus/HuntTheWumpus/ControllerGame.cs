@@ -57,40 +57,83 @@ namespace HuntTheWumpus
 
             if(!_unitController.Players[0].ToGo(action, shoot))
             {
-                if (WhoIsItByMarker(_unitController.Players[0].Meet) is Wumpus)
+                if (shoot && WhoIsItByMarker(_unitController.Players[0].FireTo) is Wumpus)
                 {
-                    _unitController.Players[0].Alive = false;
+                    GetWumpusObject(_unitController.Players[0].TargetPositionX, _unitController.Players[0].TargetPositionY).Destroy();
+                    {
+                        {
+                            bool finish = true;
+                            for (int i = 0; i < _unitController.Wumpuses.Length; i++)
+                            {
+                                if (_unitController.Wumpuses[i].Alive)
+                                {
+                                    finish = false;
+                                    break;
+                                }
+                            }
+                            if (finish)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                
+                if (WhoIsItByMarker(_unitController.Players[0].Meet) is Wumpus || WhoIsItByMarker(_unitController.Players[0].Meet) is Hole)
+                {
+                    _unitController.Players[0].Destroy();
                     return false;
                 }
             }
 
             {
-                Random toGo = new Random();
-                bool complete = true;
-
-                do
+                for (int i = 0; i < _unitController.Wumpuses.Length; i++)
                 {
-                    
-                    if (complete = !_unitController.Wumpuses[0].ToGo(toGo.Next(0, 4)) && WhoIsItByMarker(_unitController.Wumpuses[0].Meet) is Player)
+                    if (_unitController.Wumpuses[i].Alive)
                     {
-                        _unitController.Players[0].Alive = false;
-                        return false;
+                        Random toGo = new Random();
+                        bool complete = true;
+                        do
+                        {
+                            if (complete = _unitController.Wumpuses[i].ToGo(toGo.Next(0, 4)) && WhoIsItByMarker(_unitController.Wumpuses[i].Meet) is Player)
+                            {
+                                _unitController.Players[0].Alive = false;
+                                return false;
+                            }
+                        } while (complete);
                     }
-                } while (complete);
+                }
             }
 
-
-
-
             _view.ShowKeyPressed(textAction);
-            _view.MapReload();
+            _view.MapReload(!Program.IsVisibleGameObject ? _unitController.Players[0].Marker : "");
             ChechWarning();
             return true;
         }
 
+        public Unit GetWumpusObject(int x, int y)
+        {
+            for (int i = 0; i < _unitController.Wumpuses.Length; i++)
+            {
+                if (_unitController.Wumpuses[i].PositionX == x && _unitController.Wumpuses[i].PositionY == y)
+                {
+                    return _unitController.Wumpuses[i];
+                }
+            }
+            return null;
+        }
         public void MakeResultOfGame()
         {
-            if (!_unitController.Players[0].Alive && !_unitController.Wumpuses[0].Alive)
+            bool woompusAlive = false;
+            for (int i = 0; i < _unitController.Wumpuses.Length; i++)
+            {
+                if (_unitController.Wumpuses[i].Alive)
+                {
+                    woompusAlive = true;
+                }
+            }
+
+            if (_unitController.Players[0].Alive && woompusAlive)
             {
                 _view.ResultOfGame("NObody");
             }

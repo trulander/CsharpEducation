@@ -9,14 +9,16 @@ namespace HuntTheWumpus
         private View _view;
         private bool _continue = true;
         private ControllerGame _controllerGame;
+        private UnitController _unitController;
+        
         public HuntTheWumpus()
         {
             View.ShowStartInformation();
             Map map = new Map(6,6);
-            UnitController unitController = new UnitController(1, 2, 1, 2, map);
+            _unitController = new UnitController(1, 2, 2, 2, map);
             
             _view = new View(map);
-            _controllerGame = new ControllerGame(_view, unitController);
+            _controllerGame = new ControllerGame(_view, _unitController);
             
 
             View.PrintLine("Press anykey to show instruction for play the game..");
@@ -29,13 +31,14 @@ namespace HuntTheWumpus
         private void StartGame()
         {
             View.Clear();
-            _view.MapReload();
+            _view.MapReload(!Program.IsVisibleGameObject ? _unitController.Players[0].Marker : "");
             _controllerGame.ChechWarning();
 
             while (_continue)
             {
                 _continue = _controllerGame.ReadKey();
             }
+            _view.MapReload();
             _controllerGame.MakeResultOfGame();
         }
     }

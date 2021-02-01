@@ -16,9 +16,11 @@ namespace HuntTheWumpus
             View.PrintLine("One bat created.", Color);
         }
 
-        //public void ToGo()
-        //{
-        //    ///throw new NotImplementedException();
-        //}
+        public void ToGo()
+        {
+            _map.Busy[PositionX, PositionY] = null;
+            _map.BusyColor[PositionX, PositionY] = ConsoleColor.White;
+            Spawn();
+        }
     }
 }
