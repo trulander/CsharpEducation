@@ -5,12 +5,12 @@ using System.Text;
 namespace HuntTheWumpus
 {
     /**/
-    class UnitController
+    public class UnitController
     {
-        public Player[] Players;
-        public Bat[] Bats;
-        public Wumpus[] Wumpuses;
-        public Hole[] Holes;
+        public Player[] Players { get; set; }
+        public Bat[] Bats { get; set; }
+        public Wumpus[] Wumpuses { get; set; }
+        public Hole[] Holes { get; set; }
 
         private int _countUnits;
         private Map _map;

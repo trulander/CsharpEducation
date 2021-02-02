@@ -6,7 +6,7 @@ using System.Threading;
 namespace HuntTheWumpus
 {
     /* class for generate view as layout */
-    class View
+    public class View
     {
         private Map _map;
         public View(Map map)

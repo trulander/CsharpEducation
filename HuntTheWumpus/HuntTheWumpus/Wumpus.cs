@@ -5,7 +5,7 @@ using System.Text;
 namespace HuntTheWumpus
 {
     /* class for wumpus */
-    class Wumpus : Unit
+    public class Wumpus : Unit
     {
         public const string TEXTWARNING = "you feel bad smell";
         public Wumpus(Map map) : base(map)

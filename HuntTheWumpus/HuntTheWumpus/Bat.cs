@@ -5,7 +5,7 @@ using System.Text;
 namespace HuntTheWumpus
 {
     /* class for bat */
-    class Bat : Unit
+    public class Bat : Unit
     {
         public const string TEXTWARNING = "you hear the rustle";
         public Bat(Map map) : base(map)

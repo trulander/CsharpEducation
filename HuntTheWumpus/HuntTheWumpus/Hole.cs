@@ -5,7 +5,7 @@ using System.Text;
 namespace HuntTheWumpus
 {
     /* class for hole */
-    class Hole : Unit
+    public class Hole : Unit
     {
         public const string TEXTWARNING = "You feel the draft";
         public Hole(Map map) : base(map)

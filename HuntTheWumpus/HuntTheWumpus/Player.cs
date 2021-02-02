@@ -5,7 +5,7 @@ using System.Text;
 namespace HuntTheWumpus
 {
     /* class for player */
-    class Player : Unit
+    public class Player : Unit
     {
         public string FireTo { get; set; }
         public Player(Map map) : base(map)

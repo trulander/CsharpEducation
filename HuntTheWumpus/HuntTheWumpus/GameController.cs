@@ -5,16 +5,16 @@ using System.Text;
 namespace HuntTheWumpus
 {
     /* Class for game logic*/
-    class ControllerGame
+    public class GameController
     {
         private View _view;
         private UnitController _unitController;
         private ConsoleModifiers _shoot = ConsoleModifiers.Control;
-        public ControllerGame(View view, UnitController unitController)
+        public GameController(View view, UnitController unitController)
         {
             _view = view;
             _unitController = unitController;
-            View.PrintLine("ControllerGame initialised");
+            View.PrintLine("GameController initialised");
         }
 
         /* method for return object wumpus by coordinate x y*/
@@ -192,7 +192,7 @@ namespace HuntTheWumpus
                 _view.ResultOfGame("Wumpus");
             }
             View.PrintLine("Press any key to close the window.");
-            Console.ReadLine();
+            Console.ReadKey();
         }
 
         /* chech who around me */
