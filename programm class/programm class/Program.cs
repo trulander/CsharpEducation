@@ -6,19 +6,28 @@ namespace programm_class
     {
         static void Main(string[] args)
         {
-            Printer.Print("test");
+            // Printer.Print("test");
 
 
-            Person person = new Person("alex",17);
-            //person.SetName("Alex");
+            // Person person = new Person("alex",17);
+            // //person.SetName("Alex");
 
-            //Person person2 = new Person();
-           // person2.SetName("Alex2");
+            // //Person person2 = new Person();
+            //// person2.SetName("Alex2");
 
-            person.Name = "trulander";
+            // person.Name = "trulander";
+
+            string test1 = "1";
+            string test2 = test1;
+
+            test1 = "2";
+            test2 = "3";
+
+            Console.WriteLine(test1);
+            Console.WriteLine(test2);
 
 
-            Console.WriteLine(person.Name);
+            //Console.WriteLine(person.Name);
             //Console.WriteLine(person.GetName());
             //Console.WriteLine(person2.GetName());
 
