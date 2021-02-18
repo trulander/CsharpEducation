@@ -9,6 +9,7 @@ namespace ShowCase.Views
     {
         private int _coordinateCursorX = 0;
         private int _coordinateCursorY = 0;
+        private int[] _pointerItems;
 
         private void SaveCursor()
         {
@@ -37,40 +38,61 @@ namespace ShowCase.Views
             Console.SetCursorPosition(_coordinateCursorX, _coordinateCursorY);
         }        
 
-        public void MapGenerate(DataBase dataBase)
+        public void MapGenerate(DataBase dataBase, int[] pointerItems)
         {
+            _pointerItems = pointerItems;
             for (int i = 0; i < dataBase.Shops.Count; i++)
             {
-                GenerateShop(dataBase.Shops[i]);
+                GenerateShop(dataBase.Shops[i], i);                     
             }
 
         }
 
-        public void GenerateShop(Shop<Case<Product<int>>> shop)
+        public void GenerateShop(Shop<Case<Product<int>>> shop, int currentShop)
         {
-            
+            ConsoleColor color;
+            if (currentShop == _pointerItems[0])
+            {
+                color = ConsoleColor.Green;
+            }else
+            {
+                color = ConsoleColor.White;
+            }
             PrintLine("/-" + 
                       new string('-',((shop.Storage.Capacity * 15) / 2) - 2) + 
                       "Shop" + 
                       new string('-',((shop.Storage.Capacity * 15) / 2) - 2 + ((shop.Storage.Capacity * 15) % 2)) + 
-                      "-\\");
+                      "-\\", color);
             
             SaveCursor();
+            ConsoleColor caseColor;
+            int currentCase;
             for (int i = 0; i < shop.Storage.Capacity; i++)
             {
+                if (currentShop == _pointerItems[0] && _pointerItems[1] == i)
+                {
+                    caseColor = ConsoleColor.Green;
+                    currentCase = i;
+                }
+                else
+                {
+                    caseColor = ConsoleColor.White;
+                    currentCase = -1;
+                }
+                
                 try
                 {
-                    GenerateCase(shop.Storage[i]);
+                    GenerateCase(shop.Storage[i], currentCase);
                 }
                 catch
                 {
                     SetCursorY();
                    // SetCursorX();
-                    PrintLine("/----Empty---\\");
+                    PrintLine("/----Empty---\\", caseColor);
                     SetCursorX();
-                    PrintLine("|------------|");
+                    PrintLine("|------------|", caseColor);
                     SetCursorX();
-                    Print("\\------------/");
+                    Print("\\------------/", caseColor);
                     SaveCursorX();
                 }
             }
@@ -79,40 +101,58 @@ namespace ShowCase.Views
                       new string('-',((shop.Storage.Capacity * 15) / 2) - 2) + 
                       "----" + 
                       new string('-',((shop.Storage.Capacity * 15) / 2) - 2 + ((shop.Storage.Capacity * 15) % 2)) + 
-                      "-/");
+                      "-/", color);
         }
 
-        public void GenerateCase(Case<Product<int>> case_)
+        public void GenerateCase(Case<Product<int>> case_, int currentCase)
         {
+            ConsoleColor caseColor;
+            if (currentCase == _pointerItems[1])
+            {
+                caseColor = ConsoleColor.Green;
+            }
+            else
+            {
+                caseColor = ConsoleColor.White;
+            }
             SetCursorY();
             PrintLine("/-" + 
                       new string('-',((case_.Storage.Capacity * 5) / 2) - 2) + 
                       "Case" + 
                       new string('-',((case_.Storage.Capacity * 5) / 2) - 2 + ((case_.Storage.Capacity * 5) % 2)) + 
-                      "-\\");
+                      "-\\", caseColor);
             SetCursorX();
-            Print("|-");
+            Print("|-", caseColor);
             for (int i = 0; i < case_.Storage.Capacity; i++)
             {
+                ConsoleColor color;
+                if (currentCase == _pointerItems[1] && _pointerItems[2] == i)
+                {
+                    color = ConsoleColor.Green;
+                }
+                else
+                {
+                    color = ConsoleColor.White;
+                }
                 try
                 {
-                    Print("-[" + case_.Storage[i].Marker + "]-");
+                    Print("-[" + case_.Storage[i].Marker + "]-", color);
                 }
                 catch
                 {
-                    Print("-" + "[ ]" + "-");
+                    Print("-" + "[ ]" + "-", color);
                 }
             }
-            PrintLine("-|");
+            PrintLine("-|", caseColor);
             SetCursorX();
-            Print("\\-" + new string('-',case_.Storage.Capacity * 5) + "-/");
+            Print("\\-" + new string('-',case_.Storage.Capacity * 5) + "-/", caseColor);
             //
             //Console.WriteLine("");
             SaveCursorX();
             
         }
 
-        public void GenerateProduct(Product<int> product)
+        public void GenerateProduct(Product<int> product, ConsoleColor color)
         {
             Print(product.Marker);
         }

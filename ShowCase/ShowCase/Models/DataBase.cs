@@ -10,17 +10,21 @@ namespace ShowCase.Models
         public List<Shop<Case<Product<int>>>> Shops { get; set; }
         // public ArrayList[][] Root { get; set; }
 
+        public enum KeyData
+        {
+            UP = ConsoleKey.UpArrow,
+            DOWN = ConsoleKey.DownArrow,
+            RIGHT = ConsoleKey.RightArrow,
+            LEFT = ConsoleKey.LeftArrow,
+            APPLY = ConsoleKey.Enter,
+            EXIT = ConsoleKey.Escape,
+            ENTERMODIFIER = ConsoleModifiers.Control
+            
+        }
         public DataBase()
         {
-
             Shops = new List<Shop<Case<Product<int>>>>();
             
-            // Root = new[] {new[] {new ArrayList()}};
-            // _shop[0].Add(new Case(1));
-            // _shop[0].Add(new Case(1));
-            Console.WriteLine(Shops);
         }
-
-        
     }
 }
