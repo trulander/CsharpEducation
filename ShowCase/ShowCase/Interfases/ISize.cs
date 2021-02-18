@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ShowCase.Interfases
+{
+    public interface ISize<T>
+    {
+        List<T> Size { get;}
+        const int maxSize = 5;
+        const int minSize = 1;
+    }
+}
