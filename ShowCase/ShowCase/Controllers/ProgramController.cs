@@ -1,4 +1,5 @@
-﻿using ShowCase.Models;
+﻿using System;
+using ShowCase.Models;
 using ShowCase.Views;
 
 namespace ShowCase.Controllers
@@ -13,16 +14,14 @@ namespace ShowCase.Controllers
             _dataBase = dataBase;
             _view = new View();
             _modelController = new ModelController(_dataBase);
+            DemoData demoData = new DemoData(_modelController,_dataBase);
+            _view.MapGenerate(_dataBase);
             start();
         }
 
         private void start()
         {
-            _modelController.Create(new Shop<Case<Product<int>>>(1));
-           // _modelController.Create(_dataBase.Shops[0]);
             
-            //_modelController.Create(new Case<Product<int>>(1));
-            //_modelController.Create(new Product<int>(1));            
         }
     }
 }

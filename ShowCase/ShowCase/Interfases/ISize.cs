@@ -6,7 +6,7 @@ namespace ShowCase.Interfases
 {
     public interface ISize<T>
     {
-        List<T> Size { get;}
+        List<T> Storage { get; set; }
         const int maxSize = 5;
         const int minSize = 1;
     }

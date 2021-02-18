@@ -23,6 +23,7 @@ namespace ShowCase
             // Shop shop = new Shop(1);
             // //shop.Create(controller);
             // Case case_ = new Case(1);
+            Console.ReadKey();
         }
     }
 }

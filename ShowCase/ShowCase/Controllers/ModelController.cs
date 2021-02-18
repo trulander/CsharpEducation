@@ -13,20 +13,25 @@ namespace ShowCase.Controllers
             _dataBase = dataBase;
         }
         
-        public void Create (Case<Product<int>> obj)
+        public void Create (Shop<Case<Product<int>>> shop)
         {
-            Console.WriteLine("case");
-        }
-        public void Create (Shop<Case<Product<int>>> obj)
-        {
-            Console.WriteLine("shop");
-            _dataBase.Shops.Add(obj);
+            //Console.WriteLine("shop");
+            _dataBase.Shops.Add(shop);
             
         }
-
-        public void Create (Product<int> obj)
+        
+        public void Create (Shop<Case<Product<int>>> shop, Case<Product<int>> case_)
         {
-            Console.WriteLine("product");
+            //Console.WriteLine("case");
+            int pointToShop = _dataBase.Shops.IndexOf(shop);
+            _dataBase.Shops[pointToShop].Create(case_);
+
+        }
+        
+        public void Create (Case<Product<int>> case_, Product<int> product)
+        {
+           // Console.WriteLine("product");
+            case_.Create(product);
         }        
         public void Edit<T>(T instance)
         {

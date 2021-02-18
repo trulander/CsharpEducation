@@ -11,7 +11,7 @@ namespace ShowCase.Interfases
         string Name { get; set; }
         DateTime WhenCreate { get; set; }
         DateTime WhenDelete { get; set; }
-        void Create<T>(T item);
+        void Create(T item);
         void Edit<T>(T item);
         void Remove<T>(T item);
     }
