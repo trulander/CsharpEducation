@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ShowCase.Models;
+using ShowCase.Views;
 
 namespace ShowCase.Interfases
 {
@@ -11,5 +12,6 @@ namespace ShowCase.Interfases
         public void GenerateCase(Case<Product<int>> obj, int currentShop);
         public void GenerateProduct(Product<int> obj, ConsoleColor color);
         public void GenerateMenu();
+        public void CountPointerForMenu();
     }
 }

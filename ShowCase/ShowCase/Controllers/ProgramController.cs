@@ -21,7 +21,6 @@ namespace ShowCase.Controllers
             /* 2 Pointer on a product*/
             _pointerItems[2] = 0;
             
-            Console.WriteLine(_pointerItems);
             _dataBase = dataBase;
             _view = new View();
             _modelController = new ModelController(_dataBase);
@@ -48,16 +47,16 @@ namespace ShowCase.Controllers
             switch ((int)key.Key)
             {
                 case (int)DataBase.KeyData.UP:
-                    
+                    ChangePositionShop(-1);
                     break;
                 case (int)DataBase.KeyData.DOWN:
-                    
+                    ChangePositionShop(1);
                     break;
                 case (int)DataBase.KeyData.RIGHT:
-                    
+                    ChangePositionCase(1);
                     break;
                 case (int)DataBase.KeyData.LEFT:
-                    
+                    ChangePositionCase(-1);
                     break;
                 case (int)DataBase.KeyData.EXIT:
                     Console.WriteLine("Exit");
@@ -67,7 +66,28 @@ namespace ShowCase.Controllers
                     return true;
                     break;
             }
+            _view.MapGenerate(_dataBase, _pointerItems);
             return true;
+        }
+
+        private void ChangePositionShop(int goTo)
+        {
+            if ((_pointerItems[0] + goTo) >= 0 && (goTo + _pointerItems[0]) <= _dataBase.Shops.Count-1)
+            {
+                _pointerItems[0] = _pointerItems[0] + goTo;
+                if (_pointerItems[1] > _dataBase.Shops[_pointerItems[0]].Storage.Capacity-1)
+                {
+                    _pointerItems[1] = _dataBase.Shops[_pointerItems[0]].Storage.Capacity - 1;
+                }
+            }
+        }
+
+        private void ChangePositionCase(int goTo)
+        {
+            if ((_pointerItems[1] + goTo) >= 0 && (goTo + _pointerItems[1]) <= _dataBase.Shops[_pointerItems[0]].Storage.Capacity-1)
+            {
+                _pointerItems[1] = _pointerItems[1] + goTo;
+            }
         }
     }
 }
