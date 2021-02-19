@@ -44,28 +44,48 @@ namespace ShowCase.Controllers
             Console.CursorVisible = false;/* hide cursor */
             ConsoleKeyInfo key = Console.ReadKey(true);
             
-            switch ((int)key.Key)
+            if ((key.Modifiers & ConsoleModifiers.Shift) != 0)
             {
-                case (int)DataBase.KeyData.UP:
-                    ChangePositionShop(-1);
-                    break;
-                case (int)DataBase.KeyData.DOWN:
-                    ChangePositionShop(1);
-                    break;
-                case (int)DataBase.KeyData.RIGHT:
-                    ChangePositionCase(1);
-                    break;
-                case (int)DataBase.KeyData.LEFT:
-                    ChangePositionCase(-1);
-                    break;
-                case (int)DataBase.KeyData.EXIT:
-                    Console.WriteLine("Exit");
-                    return false;
-                    break;
-                default:
-                    return true;
-                    break;
+                switch ((int)key.Key)
+                {
+                    case (int)DataBase.KeyData.RIGHT:
+                        ChangePositionProduct(1);
+                        break;
+                    case (int)DataBase.KeyData.LEFT:
+                        ChangePositionProduct(-1);
+                        break;
+                    default:
+                        return true;
+                        break;
+                }
             }
+            else
+            {
+
+                switch ((int) key.Key)
+                {
+                    case (int) DataBase.KeyData.UP:
+                        ChangePositionShop(-1);
+                        break;
+                    case (int) DataBase.KeyData.DOWN:
+                        ChangePositionShop(1);
+                        break;
+                    case (int) DataBase.KeyData.RIGHT:
+                        ChangePositionCase(1);
+                        break;
+                    case (int) DataBase.KeyData.LEFT:
+                        ChangePositionCase(-1);
+                        break;
+                    case (int) DataBase.KeyData.EXIT:
+                        Console.WriteLine("Exit");
+                        return false;
+                        break;
+                    default:
+                        return true;
+                        break;
+                }
+            }
+
             _view.MapGenerate(_dataBase, _pointerItems);
             return true;
         }
@@ -75,10 +95,7 @@ namespace ShowCase.Controllers
             if ((_pointerItems[0] + goTo) >= 0 && (goTo + _pointerItems[0]) <= _dataBase.Shops.Count-1)
             {
                 _pointerItems[0] = _pointerItems[0] + goTo;
-                if (_pointerItems[1] > _dataBase.Shops[_pointerItems[0]].Storage.Capacity-1)
-                {
-                    _pointerItems[1] = _dataBase.Shops[_pointerItems[0]].Storage.Capacity - 1;
-                }
+                ChangePositionCase(0);
             }
         }
 
@@ -87,7 +104,35 @@ namespace ShowCase.Controllers
             if ((_pointerItems[1] + goTo) >= 0 && (goTo + _pointerItems[1]) <= _dataBase.Shops[_pointerItems[0]].Storage.Capacity-1)
             {
                 _pointerItems[1] = _pointerItems[1] + goTo;
+
+                if (_dataBase.Shops[_pointerItems[0]].Storage.Count > _pointerItems[1])
+                {
+                    if (_pointerItems[2] > _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Capacity-1)
+                    {
+                        _pointerItems[2] = _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Capacity-1;
+                    }
+                }
+                else
+                {
+                    _pointerItems[2] = 0;
+                }
+                                
+            }else if (_pointerItems[1] > _dataBase.Shops[_pointerItems[0]].Storage.Capacity-1)
+            {
+                _pointerItems[1] = _dataBase.Shops[_pointerItems[0]].Storage.Capacity - 1;
+                _pointerItems[2] = 0;
             }
         }
+        private void ChangePositionProduct(int goTo)
+        {
+            if (_dataBase.Shops[_pointerItems[0]].Storage.Count > _pointerItems[1])
+            {
+                if ((_pointerItems[2] + goTo) >= 0 && (goTo + _pointerItems[2]) <= _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Capacity-1)
+                {
+                    _pointerItems[2] = _pointerItems[2] + goTo;
+                }                
+            }
+
+        }        
     }
 }

@@ -11,7 +11,7 @@ namespace ShowCase
             modelController.Create(dataBase.Shops[0], new Case<Product<int>>(3));
             modelController.Create(dataBase.Shops[0].Storage[0], new Product<int>(2));
             modelController.Create(dataBase.Shops[0].Storage[0], new Product<int>(2));
-            
+            dataBase.Shops[0].Storage[0].Storage[0].Name = "test";            
             modelController.Create(dataBase.Shops[0], new Case<Product<int>>(2));
             modelController.Create(dataBase.Shops[0].Storage[1], new Product<int>(2));
             modelController.Create(dataBase.Shops[0].Storage[1], new Product<int>(2));     

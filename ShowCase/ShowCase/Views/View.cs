@@ -12,6 +12,33 @@ namespace ShowCase.Views
         private int[] _pointerItems;
         private int _maxCoordinatX = 0;
         private int _maxCoordinatY = 0;
+        private int _sizeMenuX = 0;
+        private int _sizeMenuY = 0;
+        private int sizeMenuX
+        {
+            get { return _sizeMenuX;}
+            set
+            {
+                if (value > _sizeMenuX)
+                {
+                    _sizeMenuX = value;
+                }
+            }
+        }
+
+        private int sizeMenuY
+        {
+            get { return _sizeMenuY;}
+            set
+            {
+                if (value > _sizeMenuY)
+                {
+                    _sizeMenuY = value;
+                }
+            }
+        }
+
+        private DataBase _dataBase;
         
         private void SaveCursor()
         {
@@ -44,6 +71,7 @@ namespace ShowCase.Views
         {
             Console.SetCursorPosition(0, 0);
             _pointerItems = pointerItems;
+            _dataBase = dataBase;
             for (int i = 0; i < dataBase.Shops.Count; i++)
             {
                 GenerateShop(dataBase.Shops[i], i);                     
@@ -82,12 +110,12 @@ namespace ShowCase.Views
                     caseColor = ConsoleColor.White;
                     currentCase = -1;
                 }
-                
-                try
+
+                if (shop.Storage.Count > i)
                 {
                     GenerateCase(shop.Storage[i], currentCase);
                 }
-                catch
+                else
                 {
                     SetCursorY();
                    // SetCursorX();
@@ -140,11 +168,12 @@ namespace ShowCase.Views
                 {
                     color = ConsoleColor.White;
                 }
-                try
+
+                if (case_.Storage.Count > i)
                 {
                     Print("-[" + case_.Storage[i].Marker + "]-", color);
                 }
-                catch
+                else
                 {
                     Print("-" + "[ ]" + "-", color);
                 }
@@ -162,21 +191,54 @@ namespace ShowCase.Views
 
         public void GenerateMenu()
         {
+            /*
+                int x = Console.CursorLeft;
+                int y = Console.CursorTop;
+                Console.WriteLine(new string(' ', 30));
+                Console.SetCursorPosition(x,y);
+            */
+            
             Console.SetCursorPosition(_maxCoordinatX+5,0);
             SaveCursor();
-            PrintLine("Shop information");
+
+            for (int i = 0; i < _sizeMenuY; i++)
+            {
+                Console.WriteLine(new string(' ', _sizeMenuX));
+                SetCursorX();
+            } 
+
+            Console.SetCursorPosition(_maxCoordinatX+5,0);
+
+            sizeMenuX = PrintLine("Shop information");
             SetCursorX();
-            PrintLine("Current shop : " + (_pointerItems[0] + 1));
+            sizeMenuX = PrintLine("Current shop : " + (_pointerItems[0] + 1));
             SetCursorX();
-            PrintLine("Current case : " + (_pointerItems[1] + 1));
+            sizeMenuX = PrintLine("Current case : " + (_pointerItems[1] + 1));
+
+            if (_dataBase.Shops[_pointerItems[0]].Storage.Count > _pointerItems[1] && _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Count > _pointerItems[2])
+            {
+                
+                if (_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]].Name != default)
+                {
+                    SetCursorX();
+                    sizeMenuX = PrintLine("Current product : " + (_pointerItems[2] + 1));
+                    SetCursorX();
+                    sizeMenuX = PrintLine("Product name : " + _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]].Name);                    
+                }
+                else
+                {
+                    SetCursorX();
+                    sizeMenuX = PrintLine("Current product : " + (_pointerItems[2] + 1));
+                }                    
+            }
+
             SetCursorX();
-            PrintLine("Current product : " + (_pointerItems[2] + 1));
+            sizeMenuX = PrintLine("----Menu----");
             SetCursorX();
-            PrintLine("----Menu----");
+            sizeMenuX = PrintLine("Name product - *");
             SetCursorX();
-            PrintLine("Name product - *");
-            SetCursorX();
-            PrintLine("Name product2 - $");
+            sizeMenuX = PrintLine("Name product2 - $");
+            sizeMenuY = Console.CursorTop;
             Console.SetCursorPosition(0,_maxCoordinatY+1);
         }
 
@@ -195,17 +257,20 @@ namespace ShowCase.Views
 
 
         /* custom method printline width color*/
-        public static void PrintLine(string value, ConsoleColor color = ConsoleColor.White)
+        public static int PrintLine(string value, ConsoleColor color = ConsoleColor.White)
         {
             if (color != null)
             {
                 Console.ForegroundColor = color;
             }
+
             Console.WriteLine(value);
             if (color != null)
             {
                 Console.ResetColor();
             }
+
+            return value.Length;
         }
 
         /* custom method printline */
@@ -214,7 +279,7 @@ namespace ShowCase.Views
             Console.WriteLine();
         }        
         /* custom method print width color */
-        public static void Print(string value, ConsoleColor color = ConsoleColor.White)
+        public static int Print(string value, ConsoleColor color = ConsoleColor.White)
         {
             if (color != null)
             {
@@ -225,6 +290,8 @@ namespace ShowCase.Views
             {
                 Console.ResetColor();
             }
+
+            return value.Length;
         }
 
     }
