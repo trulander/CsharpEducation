@@ -18,6 +18,7 @@ namespace ShowCase
             // menu["test3"] = 4;
             // Console.WriteLine(menu.Keys.First());
             // Console.WriteLine(menu.Values.First());
+            
             Program program = new Program();
             program.Start();
         }

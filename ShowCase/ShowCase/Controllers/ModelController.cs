@@ -14,19 +14,26 @@ namespace ShowCase.Controllers
             _dataBase = dataBase;
         }
         
-        public void Create (Shop<Case<Product<int>>> shop)
+        /*create shop*/
+        public void Create (int size = 5)
         {
+            Shop<Case<Product<int>>> shop = new Shop<Case<Product<int>>>(size);
+            Edit(shop);
             _dataBase.Shops.Add(shop);
         }
         
-        public void Create (Shop<Case<Product<int>>> shop, Case<Product<int>> case_)
+        /*create case*/
+        public void Create (Shop<Case<Product<int>>> shop, int size = 3)
         {
-            int pointToShop = _dataBase.Shops.IndexOf(shop);
-            _dataBase.Shops[pointToShop].Create(case_);
+            Case<Product<int>> case_ = new Case<Product<int>>(size);
+            Edit(case_);
+            shop.Create(case_);
         }
-        
-        public void Create (Case<Product<int>> case_, Product<int> product)
+        /*create product*/
+        public void Create (Case<Product<int>> case_)
         {
+            Product<int> product = new Product<int>(0);
+            Edit(product);
             case_.Create(product);
         }        
         public void Edit(Shop<Case<Product<int>>> shop)
@@ -43,13 +50,17 @@ namespace ShowCase.Controllers
                     complete = shop.ChangeSize(size, out error);
                     View.PrintLine(error);
                 }
+                else
+                {
+                    View.PrintLine("Please write new size (number)");
+                }
             } while (!complete);
         }
         public void Edit(Case<Product<int>> case_)
         {
             View.PrintLine("Please write new size (number)");
-            bool complete;
-            int size;
+            bool complete = false;
+            int size = 0;
             string error;
             do
             {
@@ -58,6 +69,10 @@ namespace ShowCase.Controllers
                 {
                     complete = case_.ChangeSize(size, out error);
                     View.PrintLine(error);
+                }
+                else
+                {
+                    View.PrintLine("Please write new size (number)");
                 }
             } while (!complete);
         }

@@ -35,7 +35,7 @@ namespace ShowCase.Controllers
             DemoData demoData = new DemoData(_modelController,_dataBase);
             
             Console.TreatControlCAsInput = true;/* drop default action when we're using modification key (ctrl, shift,alt) */
-            //Console.CursorVisible = false;/* hide cursor */
+            Console.CursorVisible = false;/* hide cursor */
             _menu = MakeMenu();
             _view.MapGenerate(_dataBase, _pointerItems, _menu);
             Loop();
@@ -56,9 +56,8 @@ namespace ShowCase.Controllers
         private bool ReadKey()
         {
             ConsoleKeyInfo key = Console.ReadKey(true);
-            
-            
-            if ((key.Modifiers & ConsoleModifiers.Control) != 0)
+            /*If i have hold "shift" button, i can to change position cursor inside a case and in menu*/
+            if ((key.Modifiers & ConsoleModifiers.Shift) != 0)
             {
                 switch ((int)key.Key)
                 {
@@ -68,16 +67,6 @@ namespace ShowCase.Controllers
                     case (int)DataBase.KeyData.DOWN:
                         ChangePositionMenu(1);
                         break;
-                    default:
-                        return true;
-                        break;
-                }
-            }
-            /*If i have hold "shift" button, i have to chacge position cursor inside a case*/
-            else if ((key.Modifiers & ConsoleModifiers.Shift) != 0)
-            {
-                switch ((int)key.Key)
-                {
                     case (int)DataBase.KeyData.RIGHT:
                         ChangePositionProduct(1);
                         break;
@@ -122,12 +111,14 @@ namespace ShowCase.Controllers
             return true;
         }
 
-
+        /*Router actions for menu*/
         private void MenuActions()
         {
             bool complete;
             int size = 0;
             string error;
+            Console.TreatControlCAsInput = false;/* apply default action when we're using modification key (ctrl, shift,alt) */
+            Console.CursorVisible = true;/* show cursor */
             switch (_menu.Keys.ElementAt(_pointerItems[3]))
             {
                 case (int)DataBase.Actions.EditSizeShop:
@@ -149,21 +140,22 @@ namespace ShowCase.Controllers
                     _modelController.Remove(_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]], _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]]);
                     break;
                 case (int)DataBase.Actions.AddShop:
-                    _modelController.Create(new Shop<Case<Product<int>>>(4));
+                    _modelController.Create();
                     break;
                 case (int)DataBase.Actions.AddCase:
-                    _modelController.Create(_dataBase.Shops[_pointerItems[0]], new Case<Product<int>>(3));
+                    _modelController.Create(_dataBase.Shops[_pointerItems[0]]);
                     break;
                 case (int)DataBase.Actions.AddProduct:
                     Product<int> product = new Product<int>(0);
-                    product.Name = Console.ReadLine();
-                    _modelController.Create(_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]], product);
+                    _modelController.Create(_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]]);
                     break;
                 default:
                     break;
             }
             _pointerItems[3] = 0;
             Console.Clear();
+            Console.TreatControlCAsInput = true;/* drop default action when we're using modification key (ctrl, shift,alt) */
+            Console.CursorVisible = false;/* hide cursor */
         }
         private Dictionary<int, string> MakeMenu()
         {
