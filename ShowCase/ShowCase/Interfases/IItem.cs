@@ -12,7 +12,7 @@ namespace ShowCase.Interfases
         DateTime WhenCreate { get; set; }
         DateTime WhenDelete { get; set; }
         void Create(T item);
-        void Edit<T>(T item);
-        void Remove<T>(T item);
+        void Edit(T item);
+        void Remove(T item);
     }
 }

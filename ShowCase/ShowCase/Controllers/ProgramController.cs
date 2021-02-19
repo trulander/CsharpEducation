@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using ShowCase.Models;
 using ShowCase.Views;
@@ -34,7 +35,7 @@ namespace ShowCase.Controllers
             DemoData demoData = new DemoData(_modelController,_dataBase);
             
             Console.TreatControlCAsInput = true;/* drop default action when we're using modification key (ctrl, shift,alt) */
-            Console.CursorVisible = false;/* hide cursor */
+            //Console.CursorVisible = false;/* hide cursor */
             _menu = MakeMenu();
             _view.MapGenerate(_dataBase, _pointerItems, _menu);
             Loop();
@@ -107,6 +108,7 @@ namespace ShowCase.Controllers
                         break;
                     case (int)DataBase.KeyData.APPLY:
                         Console.WriteLine("Apply");
+                        MenuActions();
                         break;
                     case (int) DataBase.KeyData.EXIT:
                         Console.WriteLine("Exit");
@@ -121,6 +123,48 @@ namespace ShowCase.Controllers
         }
 
 
+        private void MenuActions()
+        {
+            bool complete;
+            int size = 0;
+            string error;
+            switch (_menu.Keys.ElementAt(_pointerItems[3]))
+            {
+                case (int)DataBase.Actions.EditSizeShop:
+                    _modelController.Edit(_dataBase.Shops[_pointerItems[0]]);
+                    break;
+                case (int)DataBase.Actions.EditSizeCase:
+                    _modelController.Edit(_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]]);
+                    break;
+                case (int)DataBase.Actions.EditNameProduct:
+                    _modelController.Edit(_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]]);
+                    break;
+                case (int)DataBase.Actions.RemoveShop:
+                    _modelController.Remove(_dataBase.Shops[_pointerItems[0]]);
+                    break;
+                case (int)DataBase.Actions.RemoveCase:
+                    _modelController.Remove(_dataBase.Shops[_pointerItems[0]], _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]]);
+                    break;
+                case (int)DataBase.Actions.RemoveProduct:
+                    _modelController.Remove(_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]], _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]]);
+                    break;
+                case (int)DataBase.Actions.AddShop:
+                    _modelController.Create(new Shop<Case<Product<int>>>(4));
+                    break;
+                case (int)DataBase.Actions.AddCase:
+                    _modelController.Create(_dataBase.Shops[_pointerItems[0]], new Case<Product<int>>(3));
+                    break;
+                case (int)DataBase.Actions.AddProduct:
+                    Product<int> product = new Product<int>(0);
+                    product.Name = Console.ReadLine();
+                    _modelController.Create(_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]], product);
+                    break;
+                default:
+                    break;
+            }
+            _pointerItems[3] = 0;
+            Console.Clear();
+        }
         private Dictionary<int, string> MakeMenu()
         {
             Dictionary<int, string> result = new Dictionary<int, string>();

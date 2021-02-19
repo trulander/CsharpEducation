@@ -9,6 +9,23 @@ namespace ShowCase.Models
     {
         private int _size;
         public List<T> Storage { get; set; }
+        public bool ChangeSize(int size, out string error)
+        {
+            if (size <= ISize<int>.maxSize && size >= ISize<int>.minSize)
+            {
+                if (Storage.Count > size)
+                {
+                    error = "The size must be more then case has items. (" + Storage.Count + ")";
+                    return false;
+                }
+                Storage.Capacity = size;
+                error = "";
+                return true;
+            }
+
+            error = "Please write new size ("+(Storage.Count > 1 ? Storage.Count : 1)+"-"+ISize<int>.maxSize+")";
+            return false;
+        }
 
         public int Id { get; set; }
         public string Name { get; set; }
@@ -26,14 +43,14 @@ namespace ShowCase.Models
             Storage.Add(item);
         }
 
-        public void Edit<T1>(T1 item)
+        public void Edit(T item)
         {
             throw new NotImplementedException();
         }
 
-        public void Remove<T1>(T1 item)
+        public void Remove(T item)
         {
-            throw new NotImplementedException();
+            Storage.Remove(item);
         }
 
     }
