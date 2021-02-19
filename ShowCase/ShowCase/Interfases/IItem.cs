@@ -7,10 +7,9 @@ namespace ShowCase.Interfases
 {
     public interface IItem<T> : ISize<T>
     {
-        int Id { get; set; }
-        string Name { get; set; }
-        DateTime WhenCreate { get; set; }
-        DateTime WhenDelete { get; set; }
+        Guid id { get; set; }
+        string name { get; set; }
+        DateTime whenCreate { get; set; }
         void Create(T item);
         void Edit(T item);
         void Remove(T item);

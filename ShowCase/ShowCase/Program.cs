@@ -11,14 +11,6 @@ namespace ShowCase
     {
         static void Main(string[] args)
         {
-
-            // Dictionary<string, int> menu = new Dictionary<string, int>();
-            // menu["test"] = 2;
-            // menu["test2"] = 3;
-            // menu["test3"] = 4;
-            // Console.WriteLine(menu.Keys.First());
-            // Console.WriteLine(menu.Values.First());
-            
             Program program = new Program();
             program.Start();
         }

@@ -6,7 +6,7 @@ namespace ShowCase.Interfases
 {
     public interface IDataBase
     {
-        public List<Shop<Case<Product<int>>>> Shops { get; set; }
+        public List<Shop<Case<Product<int>>>> shops { get; set; }
 
     }
 }

@@ -7,7 +7,7 @@ namespace ShowCase.Models
 {
     public class DataBase : IDataBase
     {
-        public List<Shop<Case<Product<int>>>> Shops { get; set; }
+        public List<Shop<Case<Product<int>>>> shops { get; set; }
         //public ArrayList[][] Root { get; set; }
 
         /*binding button*/
@@ -36,7 +36,7 @@ namespace ShowCase.Models
         }
         public DataBase()
         {
-            Shops = new List<Shop<Case<Product<int>>>>();
+            shops = new List<Shop<Case<Product<int>>>>();
         }
     }
 }

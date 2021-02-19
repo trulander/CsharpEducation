@@ -73,11 +73,11 @@ namespace ShowCase.Views
             Console.SetCursorPosition(0, 0);
             _pointerItems = pointerItems;
             _dataBase = dataBase;
-            for (int i = 0; i < dataBase.Shops.Capacity; i++)
+            for (int i = 0; i < dataBase.shops.Capacity; i++)
             {
-                if (_dataBase.Shops.Count > i)
+                if (_dataBase.shops.Count > i)
                 {                
-                    GenerateShop(dataBase.Shops[i], i);
+                    GenerateShop(dataBase.shops[i], i);
                 }
                 else
                 {
@@ -106,16 +106,32 @@ namespace ShowCase.Views
             {
                 color = ConsoleColor.White;
             }
+
+            int sizeHeadshop = -4;
+
+            for (int i = 0; i < shop.storage.Capacity; i++)
+            {
+                if (shop.storage.Count > i)
+                {
+                    sizeHeadshop += (shop.storage[i].storage.Capacity * 5) + 4;
+                }
+                else
+                {
+                    sizeHeadshop += 14;
+                }
+            }
+
+ 
             PrintLine("/-" + 
-                      new string('-',((shop.Storage.Capacity * 15) / 2) - 2) + 
+                      new string('-',(sizeHeadshop / 2) - 2) + 
                       "Shop" + 
-                      new string('-',((shop.Storage.Capacity * 15) / 2) - 2 + ((shop.Storage.Capacity * 15) % 2)) + 
+                      new string('-',(sizeHeadshop / 2) - 2 + (sizeHeadshop % 2)) + 
                       "-\\", color);
             
             SaveCursor();
             ConsoleColor caseColor;
             int currentCase;
-            for (int i = 0; i < shop.Storage.Capacity; i++)
+            for (int i = 0; i < shop.storage.Capacity; i++)
             {
                 if (currentShop == _pointerItems[0] && _pointerItems[1] == i)
                 {
@@ -128,9 +144,9 @@ namespace ShowCase.Views
                     currentCase = -1;
                 }
 
-                if (shop.Storage.Count > i)
+                if (shop.storage.Count > i)
                 {
-                    GenerateCase(shop.Storage[i], currentCase);
+                    GenerateCase(shop.storage[i], currentCase);
                 }
                 else
                 {
@@ -146,11 +162,7 @@ namespace ShowCase.Views
             }
             CountPointerForMenu();
             PrintLine("");
-            Print("\\-" + 
-                      new string('-',((shop.Storage.Capacity * 15) / 2) - 2) + 
-                      "----" + 
-                      new string('-',((shop.Storage.Capacity * 15) / 2) - 2 + ((shop.Storage.Capacity * 15) % 2)) + 
-                      "-/", color);
+            PrintLine("/-" + new string('-',sizeHeadshop) +"-\\", color);
             CountPointerForMenu();
             PrintLine("");
         }
@@ -168,13 +180,13 @@ namespace ShowCase.Views
             }
             SetCursorY();
             PrintLine("/-" + 
-                      new string('-',((case_.Storage.Capacity * 5) / 2) - 2) + 
+                      new string('-',((case_.storage.Capacity * 5) / 2) - 2) + 
                       "Case" + 
-                      new string('-',((case_.Storage.Capacity * 5) / 2) - 2 + ((case_.Storage.Capacity * 5) % 2)) + 
+                      new string('-',((case_.storage.Capacity * 5) / 2) - 2 + ((case_.storage.Capacity * 5) % 2)) + 
                       "-\\", caseColor);
             SetCursorX();
             Print("|-", caseColor);
-            for (int i = 0; i < case_.Storage.Capacity; i++)
+            for (int i = 0; i < case_.storage.Capacity; i++)
             {
                 ConsoleColor color;
                 if (currentCase == _pointerItems[1] && _pointerItems[2] == i)
@@ -186,9 +198,9 @@ namespace ShowCase.Views
                     color = ConsoleColor.White;
                 }
 
-                if (case_.Storage.Count > i)
+                if (case_.storage.Count > i)
                 {
-                    Print("-[" + case_.Storage[i].Marker + "]-", color);
+                    Print("-[" + case_.storage[i].Marker + "]-", color);
                 }
                 else
                 {
@@ -197,7 +209,7 @@ namespace ShowCase.Views
             }
             PrintLine("-|", caseColor);
             SetCursorX();
-            Print("\\-" + new string('-',case_.Storage.Capacity * 5) + "-/", caseColor);
+            Print("\\-" + new string('-',case_.storage.Capacity * 5) + "-/", caseColor);
             SaveCursorX();
         }
         
@@ -226,26 +238,24 @@ namespace ShowCase.Views
             sizeMenuX = PrintLine("Current shop : " + (_pointerItems[0] + 1));
 
             /*if i'm on empty shop, i don't have to show information about case*/
-            if (_dataBase.Shops.Count > _pointerItems[0])
+            if (_dataBase.shops.Count > _pointerItems[0])
             {
                 SetCursorX();
                 sizeMenuX = PrintLine("Current case : " + (_pointerItems[1] + 1));
                 /*if i/m on empty case, i don't have to show information about products*/
-                if (_dataBase.Shops[_pointerItems[0]].Storage.Count > _pointerItems[1] && _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Count > _pointerItems[2])
+                if (_dataBase.shops[_pointerItems[0]].storage.Count > _pointerItems[1] && _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage.Count > _pointerItems[2])
                 {
-                
-                    if (_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]].Name != default)
-                    {
-                        SetCursorX();
-                        sizeMenuX = PrintLine("Current product : " + (_pointerItems[2] + 1));
-                        SetCursorX();
-                        sizeMenuX = PrintLine("Product name : " + _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]].Name);                    
-                    }
-                    else
-                    {
-                        SetCursorX();
-                        sizeMenuX = PrintLine("Current product : " + (_pointerItems[2] + 1));
-                    }                    
+                    SetCursorX();
+                    sizeMenuX = PrintLine("Current product : " + (_pointerItems[2] + 1));
+                    SetCursorX();
+                    sizeMenuX = PrintLine("id : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].id.ToString().Substring(0,13));                    
+                    SetCursorX();
+                    sizeMenuX = PrintLine("data create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].whenCreate.ToString().Substring(0,10));
+                    SetCursorX();
+                    sizeMenuX = PrintLine("time create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].whenCreate.ToString().Substring(11));
+                    SetCursorX();
+                    sizeMenuX = PrintLine("name : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].name);
+                                   
                 }
             }
            
@@ -301,16 +311,10 @@ namespace ShowCase.Views
         /* custom method printline width color*/
         public static int PrintLine(string value, ConsoleColor color = ConsoleColor.White)
         {
-            if (color != null)
-            {
-                Console.ForegroundColor = color;
-            }
+            Console.ForegroundColor = color;
 
             Console.WriteLine(value);
-            if (color != null)
-            {
-                Console.ResetColor();
-            }
+            Console.ResetColor();
 
             return value.Length;
         }
@@ -323,15 +327,10 @@ namespace ShowCase.Views
         /* custom method print width color */
         public static int Print(string value, ConsoleColor color = ConsoleColor.White)
         {
-            if (color != null)
-            {
-                Console.ForegroundColor = color;
-            }
+            Console.ForegroundColor = color;
+
             Console.Write(value);
-            if (color != null)
-            {
-                Console.ResetColor();
-            }
+            Console.ResetColor();
 
             return value.Length;
         }

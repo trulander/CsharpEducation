@@ -13,13 +13,15 @@ namespace ShowCase.Models
         public Product(int size) : base(size)
         {
             Marker = "*";
+            id = Guid.NewGuid();
+            whenCreate = DateTime.Now;
         }
 
         public bool ReName(string name, out string error)
         {
             if (name.Length <= _nameLengthMax && name.Length >= _nameLengthMin)
             {
-                this.Name = name;
+                this.name = name;
                 error = "";
                 return true;
             }

@@ -8,39 +8,45 @@ namespace ShowCase.Models
     public class ItemAbstract<T> : IItem<T>
     {
         private int _size;
-        public List<T> Storage { get; set; }
+        public List<T> storage { get; set; }
+
+        public ItemAbstract()
+        {
+            whenCreate = DateTime.Now;
+            id = new Guid();
+            Console.WriteLine("111111111111");
+        }
         public bool ChangeSize(int size, out string error)
         {
             if (size <= ISize<int>.maxSize && size >= ISize<int>.minSize)
             {
-                if (Storage.Count > size)
+                if (storage.Count > size)
                 {
-                    error = "The size must be more then case has items. (" + Storage.Count + ")";
+                    error = "The size must be more then case has items. (" + storage.Count + ")";
                     return false;
                 }
-                Storage.Capacity = size;
+                storage.Capacity = size;
                 error = "";
                 return true;
             }
 
-            error = "Please write new size ("+(Storage.Count > 1 ? Storage.Count : 1)+"-"+ISize<int>.maxSize+")";
+            error = "Please write new size ("+(storage.Count > 1 ? storage.Count : 1)+"-"+ISize<int>.maxSize+")";
             return false;
         }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public DateTime WhenCreate { get; set; }
-        public DateTime WhenDelete { get; set; }
+        public Guid id { get; set; }
+        public string name { get; set; }
+        public DateTime whenCreate { get; set; }
         
         public ItemAbstract(int size)
         {
             _size = size;
-            Storage = new List<T>(_size);
+            storage = new List<T>(_size);
         }
         
         public void Create(T item)
         {
-            Storage.Add(item);
+            storage.Add(item);
         }
 
         public void Edit(T item)
@@ -50,7 +56,7 @@ namespace ShowCase.Models
 
         public void Remove(T item)
         {
-            Storage.Remove(item);
+            storage.Remove(item);
         }
 
     }

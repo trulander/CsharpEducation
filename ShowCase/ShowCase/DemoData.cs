@@ -1,4 +1,5 @@
-﻿using ShowCase.Controllers;
+﻿using System;
+using ShowCase.Controllers;
 using ShowCase.Models;
 
 namespace ShowCase
@@ -8,50 +9,49 @@ namespace ShowCase
         public DemoData(ModelController modelController, DataBase dataBase)
         {
             //modelController.Create(4);
-            dataBase.Shops.Add(new Shop<Case<Product<int>>>(4));
-            //modelController.Create(dataBase.Shops[0], 3);
-            dataBase.Shops[0].Create(new Case<Product<int>>(3));
-            dataBase.Shops[0].Storage[0].Create(new Product<int>(0));
-            dataBase.Shops[0].Storage[0].Create(new Product<int>(0));
-            dataBase.Shops[0].Storage[0].Storage[0].Name = "test";
-            dataBase.Shops[0].Storage[0].Storage[1].Name = "test";  
+            dataBase.shops.Add(new Shop<Case<Product<int>>>(4));
+            //modelController.Create(dataBase.shops[0], 3);
+            dataBase.shops[0].Create(new Case<Product<int>>(4));
+            dataBase.shops[0].storage[0].Create(new Product<int>(0));
+            dataBase.shops[0].storage[0].Create(new Product<int>(0));
+            dataBase.shops[0].storage[0].storage[0].name = "test";
+            dataBase.shops[0].storage[0].storage[1].name = "test";  
             
-            //modelController.Create(dataBase.Shops[0], 2);
-            dataBase.Shops[0].Create(new Case<Product<int>>(2));
-            dataBase.Shops[0].Storage[1].Create(new Product<int>(0));
-            dataBase.Shops[0].Storage[1].Create(new Product<int>(0));
-            dataBase.Shops[0].Storage[1].Storage[0].Name = "test";
-            dataBase.Shops[0].Storage[1].Storage[1].Name = "test";
+            //modelController.Create(dataBase.shops[0], 2);
+            dataBase.shops[0].Create(new Case<Product<int>>(2));
+            dataBase.shops[0].storage[1].Create(new Product<int>(0));
+            dataBase.shops[0].storage[1].Create(new Product<int>(0));
+            dataBase.shops[0].storage[1].storage[0].name = "test";
+            dataBase.shops[0].storage[1].storage[1].name = "test";
             
-            //modelController.Create(dataBase.Shops[0], 2);
-            dataBase.Shops[0].Create(new Case<Product<int>>(2));
-            dataBase.Shops[0].Storage[2].Create(new Product<int>(0));
-            dataBase.Shops[0].Storage[2].Create(new Product<int>(0)); 
-            dataBase.Shops[0].Storage[2].Storage[0].Name = "test";
-            dataBase.Shops[0].Storage[2].Storage[1].Name = "test";
+            //modelController.Create(dataBase.shops[0], 2);
+            dataBase.shops[0].Create(new Case<Product<int>>(2));
+            dataBase.shops[0].storage[2].Create(new Product<int>(0));
+            dataBase.shops[0].storage[2].Create(new Product<int>(0)); 
+            dataBase.shops[0].storage[2].storage[0].name = "test";
+            dataBase.shops[0].storage[2].storage[1].name = "test";
             
-            //modelController.Create(dataBase.Shops[0], 2);
-            dataBase.Shops[0].Create(new Case<Product<int>>(2));
-            dataBase.Shops[0].Storage[3].Create(new Product<int>(0));
-            dataBase.Shops[0].Storage[3].Create(new Product<int>(0));
-            dataBase.Shops[0].Storage[3].Storage[0].Name = "test";
-            dataBase.Shops[0].Storage[3].Storage[1].Name = "test";
-            
-            //modelController.Create(5);
-            dataBase.Shops.Add(new Shop<Case<Product<int>>>(5));
-            //modelController.Create(dataBase.Shops[1], 3);
-            dataBase.Shops[1].Create(new Case<Product<int>>(3));
-            dataBase.Shops[1].Storage[0].Create(new Product<int>(0));
-            dataBase.Shops[1].Storage[0].Create(new Product<int>(0));
-            dataBase.Shops[1].Storage[0].Storage[0].Name = "test";
-            dataBase.Shops[1].Storage[0].Storage[1].Name = "test";
-            
-            //modelController.Create(dataBase.Shops[1], 2);
-            dataBase.Shops[1].Create(new Case<Product<int>>(2));
+            //modelController.Create(dataBase.shops[0], 2);
+            dataBase.shops[0].Create(new Case<Product<int>>(2));
+            dataBase.shops[0].storage[3].Create(new Product<int>(0));
+            dataBase.shops[0].storage[3].Create(new Product<int>(0));
+            dataBase.shops[0].storage[3].storage[0].name = "test";
+            dataBase.shops[0].storage[3].storage[1].name = "test";
             
             //modelController.Create(5);
-            dataBase.Shops.Add(new Shop<Case<Product<int>>>(5));
- 
+            dataBase.shops.Add(new Shop<Case<Product<int>>>(5));
+            //modelController.Create(dataBase.shops[1], 3);
+            dataBase.shops[1].Create(new Case<Product<int>>(3));
+            dataBase.shops[1].storage[0].Create(new Product<int>(0));
+            dataBase.shops[1].storage[0].Create(new Product<int>(0));
+            dataBase.shops[1].storage[0].storage[0].name = "test";
+            dataBase.shops[1].storage[0].storage[1].name = "test";
+            
+            //modelController.Create(dataBase.shops[1], 2);
+            dataBase.shops[1].Create(new Case<Product<int>>(2));
+            
+            //modelController.Create(5);
+            dataBase.shops.Add(new Shop<Case<Product<int>>>(4));
         }
     }
 }
