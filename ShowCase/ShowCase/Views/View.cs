@@ -335,5 +335,20 @@ namespace ShowCase.Views
             return value.Length;
         }
 
+        public static void Instruction()
+        {
+            View.PrintLine("The buttons what you can to use:");
+            View.PrintLine("Up Down Left Right Enter Escape");
+            View.PrintLine("And the same buttons + 'shift'");
+            View.PrintLine("");
+            View.PrintLine("Navigation via shops you have to use buttons Up and Down");
+            View.PrintLine("Navigation via case you have to use buttons Right and Left");
+            View.PrintLine("Navigation via products you have to use buttons together Shift + Left and Shift + Right");
+            View.PrintLine("Navigation via menu you have to use buttons together Shift + Up and Shift + Down");
+            View.PrintLine("For apply point of menu you have to use button Enter");
+            View.PrintLine("For exit from the program you have to use button Enter");
+            Console.ReadKey();
+        }
+
     }
 }

@@ -17,6 +17,7 @@ namespace ShowCase
 
         private void Start()
         {
+            View.Instruction();
             ProgramController programController = new ProgramController();
         }
     }

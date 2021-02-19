@@ -14,7 +14,6 @@ namespace ShowCase.Models
         {
             whenCreate = DateTime.Now;
             id = new Guid();
-            Console.WriteLine("111111111111");
         }
         public bool ChangeSize(int size, out string error)
         {

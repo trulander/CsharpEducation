@@ -94,7 +94,6 @@ namespace ShowCase.Controllers
                         ChangePositionCase(-1);
                         break;
                     case (int)DataBase.KeyData.APPLY:
-                        Console.WriteLine("Apply");
                         MenuActions();
                         break;
                     case (int) DataBase.KeyData.EXIT:
