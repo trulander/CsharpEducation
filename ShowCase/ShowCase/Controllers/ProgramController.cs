@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ShowCase.Models;
 using ShowCase.Views;
 
@@ -11,8 +12,9 @@ namespace ShowCase.Controllers
         private ModelController _modelController;
         private View _view;
         private int PointerProduct = 0;
+        private Dictionary<int, string> _menu;
 
-        private int[] _pointerItems = new int[3];
+        private int[] _pointerItems = new int[4];
         public ProgramController()
         {
             /* 0 Pointer on a shop*/
@@ -21,17 +23,20 @@ namespace ShowCase.Controllers
             _pointerItems[1] = 0;
             /* 2 Pointer on a product*/
             _pointerItems[2] = 0;
-            
+            /* 3 Pointer on a point of menu*/
+            _pointerItems[3] = 0;
+
             _dataBase = new DataBase();
             _view = new View();
+            
             _modelController = new ModelController(_dataBase);
             /*filling out of demo data*/
             DemoData demoData = new DemoData(_modelController,_dataBase);
             
             Console.TreatControlCAsInput = true;/* drop default action when we're using modification key (ctrl, shift,alt) */
             Console.CursorVisible = false;/* hide cursor */
-            
-            _view.MapGenerate(_dataBase, _pointerItems, MakeMenu());
+            _menu = MakeMenu();
+            _view.MapGenerate(_dataBase, _pointerItems, _menu);
             Loop();
         }
 
@@ -42,7 +47,8 @@ namespace ShowCase.Controllers
             while (_continue)
             {
                 _continue = ReadKey();
-                _view.MapGenerate(_dataBase, _pointerItems, MakeMenu());
+                _menu = MakeMenu();
+                _view.MapGenerate(_dataBase, _pointerItems, _menu);
             }
         }
         /*Button handing*/
@@ -50,8 +56,24 @@ namespace ShowCase.Controllers
         {
             ConsoleKeyInfo key = Console.ReadKey(true);
             
+            
+            if ((key.Modifiers & ConsoleModifiers.Control) != 0)
+            {
+                switch ((int)key.Key)
+                {
+                    case (int)DataBase.KeyData.UP:
+                        ChangePositionMenu(-1);
+                        break;
+                    case (int)DataBase.KeyData.DOWN:
+                        ChangePositionMenu(1);
+                        break;
+                    default:
+                        return true;
+                        break;
+                }
+            }
             /*If i have hold "shift" button, i have to chacge position cursor inside a case*/
-            if ((key.Modifiers & ConsoleModifiers.Shift) != 0)
+            else if ((key.Modifiers & ConsoleModifiers.Shift) != 0)
             {
                 switch ((int)key.Key)
                 {
@@ -83,6 +105,9 @@ namespace ShowCase.Controllers
                     case (int) DataBase.KeyData.LEFT:
                         ChangePositionCase(-1);
                         break;
+                    case (int)DataBase.KeyData.APPLY:
+                        Console.WriteLine("Apply");
+                        break;
                     case (int) DataBase.KeyData.EXIT:
                         Console.WriteLine("Exit");
                         return false;
@@ -95,39 +120,44 @@ namespace ShowCase.Controllers
             return true;
         }
 
-        private List<string> MakeMenu()
+
+        private Dictionary<int, string> MakeMenu()
         {
-            List<string> result = new List<string>();
+            Dictionary<int, string> result = new Dictionary<int, string>();
             if (_dataBase.Shops.Count > _pointerItems[0])
             {
-                result.Add("Edit size the shop");
+                result.Add((int)DataBase.Actions.EditSizeShop ,"Edit size the shop");
                 if (_dataBase.Shops[_pointerItems[0]].Storage.Count > _pointerItems[1])
                 {
-                    result.Add("Edit size the case");
+                    result.Add((int)DataBase.Actions.EditSizeCase, "Edit size the case");
                     if (_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Count > _pointerItems[2])
                     {
-                        result.Add("Edit name the product");
-                        result.Add("Remove the product");
+                        result.Add((int)DataBase.Actions.EditNameProduct,"Edit name the product");
+                        result.Add((int)DataBase.Actions.RemoveProduct, "Remove the product");
                     }
                     else
                     {
-                        result.Add("Add new product");
+                        if (_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Count == 0)
+                        {
+                            result.Add((int)DataBase.Actions.RemoveCase, "Remove the case");
+                        }
+                        result.Add((int)DataBase.Actions.AddProduct, "Add new product");
                     }
                 }
                 else
                 {
-                    result.Add("Add new case");
+                    if (_dataBase.Shops[_pointerItems[0]].Storage.Count == 0)
+                    {
+                        result.Add((int)DataBase.Actions.RemoveShop, "Remove the shop");
+                    }
+                    result.Add((int)DataBase.Actions.AddCase, "Add new case");
                 }
             }
             else
             {
-                result.Add("Add new shop");
+                result.Add((int)DataBase.Actions.AddShop,"Add new shop");
             }
-            
-            //result.Add("Remove the shop");
-            //result.Add("Remove the case");
-            //result.Add("Remove the product");
-            
+           
             return result;
         }
 
@@ -168,11 +198,13 @@ namespace ShowCase.Controllers
                     _pointerItems[1] = _dataBase.Shops[_pointerItems[0]].Storage.Capacity - 1;
                     _pointerItems[2] = 0;
                 }
+                _pointerItems[3] = 0;
             }
             else
             {
                 _pointerItems[1] = 0;
                 _pointerItems[2] = 0;
+                _pointerItems[3] = 0;
             }
            
         }
@@ -188,9 +220,19 @@ namespace ShowCase.Controllers
                     if ((_pointerItems[2] + goTo) >= 0 && (goTo + _pointerItems[2]) <= _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Capacity-1)
                     {
                         _pointerItems[2] = _pointerItems[2] + goTo;
+                        _pointerItems[3] = 0;
                     }                
                 }                
             }
-        }        
+        }
+
+        private void ChangePositionMenu(int goTo)
+        {
+            _menu = MakeMenu();
+            if (goTo + _pointerItems[3] >= 0 && _menu.Count > _pointerItems[3] + goTo)
+            {
+                _pointerItems[3] = _pointerItems[3] + goTo;
+            }
+        }
     }
 }

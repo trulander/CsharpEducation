@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ShowCase.Interfases;
 using ShowCase.Models;
 
@@ -67,7 +68,7 @@ namespace ShowCase.Views
             Console.SetCursorPosition(_coordinateCursorX, _coordinateCursorY);
         }        
         /*Main generation view*/
-        public void MapGenerate(DataBase dataBase, int[] pointerItems, List<string> menu)
+        public void MapGenerate(DataBase dataBase, int[] pointerItems, Dictionary<int, string> menu)
         {
             Console.SetCursorPosition(0, 0);
             _pointerItems = pointerItems;
@@ -207,7 +208,7 @@ namespace ShowCase.Views
         }
 
         /*Generating menu*/
-        public void GenerateMenu(List<string> menu)
+        public void GenerateMenu(Dictionary<int, string> menu)
         {
             Console.SetCursorPosition(_maxCoordinatX+5,0);
             SaveCursor();
@@ -251,11 +252,33 @@ namespace ShowCase.Views
 
             SetCursorX();
             sizeMenuX = PrintLine("----Menu----");
-
-            foreach (string line in menu)
+            ConsoleColor color = ConsoleColor.White;
+            foreach (KeyValuePair<int, string> item in menu)
             {
+                if (_pointerItems[3] == 0)
+                {
+                    if (item.Key == menu.Keys.First())
+                    {
+                        color = ConsoleColor.Green;
+                    }
+                    else
+                    {
+                        color = ConsoleColor.White;    
+                    }
+                }
+                else
+                {
+                    if (menu.Keys.ElementAt(_pointerItems[3]) == item.Key)
+                    {
+                        color = ConsoleColor.Green;
+                    }
+                    else
+                    {
+                        color = ConsoleColor.White;                        
+                    }
+                }
                 SetCursorX();
-                sizeMenuX = PrintLine(line);
+                sizeMenuX = PrintLine(item.Value, color);
             }
             sizeMenuY = Console.CursorTop;
             Console.SetCursorPosition(0,_maxCoordinatY+1);

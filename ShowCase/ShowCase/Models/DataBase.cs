@@ -22,6 +22,18 @@ namespace ShowCase.Models
             ENTERMODIFIER = ConsoleModifiers.Control
             
         }
+        public enum Actions
+        {
+            EditSizeShop = 0,
+            EditSizeCase = 1,
+            EditNameProduct = 2,
+            RemoveShop = 3,
+            RemoveCase = 4,
+            RemoveProduct = 5,
+            AddShop = 6,
+            AddCase = 7,
+            AddProduct = 8
+        }
         public DataBase()
         {
             Shops = new List<Shop<Case<Product<int>>>>();

@@ -34,8 +34,9 @@ namespace ShowCase
             modelController.Create(dataBase.Shops[1].Storage[1], new Product<int>(2));     
             
             modelController.Create(dataBase.Shops[1], new Case<Product<int>>(2));
-            modelController.Create(dataBase.Shops[1].Storage[2], new Product<int>(2));
-            modelController.Create(dataBase.Shops[1].Storage[2], new Product<int>(2));     
+            
+            modelController.Create(new Shop<Case<Product<int>>>(5));
+ 
         }
     }
 }
