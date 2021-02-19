@@ -9,11 +9,14 @@ namespace ShowCase.Views
     {
         private int _coordinateCursorX = 0;
         private int _coordinateCursorY = 0;
-        private int[] _pointerItems;
         private int _maxCoordinatX = 0;
         private int _maxCoordinatY = 0;
         private int _sizeMenuX = 0;
         private int _sizeMenuY = 0;
+        
+        private DataBase _dataBase;
+        private int[] _pointerItems;
+        
         private int sizeMenuX
         {
             get { return _sizeMenuX;}
@@ -25,7 +28,6 @@ namespace ShowCase.Views
                 }
             }
         }
-
         private int sizeMenuY
         {
             get { return _sizeMenuY;}
@@ -37,8 +39,6 @@ namespace ShowCase.Views
                 }
             }
         }
-
-        private DataBase _dataBase;
         
         private void SaveCursor()
         {
@@ -66,19 +66,35 @@ namespace ShowCase.Views
         {
             Console.SetCursorPosition(_coordinateCursorX, _coordinateCursorY);
         }        
-
-        public void MapGenerate(DataBase dataBase, int[] pointerItems)
+        /*Main generation view*/
+        public void MapGenerate(DataBase dataBase, int[] pointerItems, List<string> menu)
         {
             Console.SetCursorPosition(0, 0);
             _pointerItems = pointerItems;
             _dataBase = dataBase;
-            for (int i = 0; i < dataBase.Shops.Count; i++)
+            for (int i = 0; i < dataBase.Shops.Capacity; i++)
             {
-                GenerateShop(dataBase.Shops[i], i);                     
+                if (_dataBase.Shops.Count > i)
+                {                
+                    GenerateShop(dataBase.Shops[i], i);
+                }
+                else
+                {
+                    ConsoleColor color = ConsoleColor.White;
+                    if (_pointerItems[0] == i)
+                    {
+                        color = ConsoleColor.Green;
+                    }
+                    PrintLine("/----Empty shop---\\", color);
+                    PrintLine("|-----------------|", color);
+                    Print("\\-----------------/", color);
+                    CountPointerForMenu();
+                    PrintLine("");
+                }
             }
-            GenerateMenu();
+            GenerateMenu(menu);
         }
-
+        /*Generating one of shops*/
         public void GenerateShop(Shop<Case<Product<int>>> shop, int currentShop)
         {
             ConsoleColor color;
@@ -137,7 +153,7 @@ namespace ShowCase.Views
             CountPointerForMenu();
             PrintLine("");
         }
-
+        /*Generating one of cases*/
         public void GenerateCase(Case<Product<int>> case_, int currentCase)
         {
             ConsoleColor caseColor;
@@ -183,24 +199,19 @@ namespace ShowCase.Views
             Print("\\-" + new string('-',case_.Storage.Capacity * 5) + "-/", caseColor);
             SaveCursorX();
         }
-
+        
+        /*Generating one of products*/
         public void GenerateProduct(Product<int> product, ConsoleColor color)
         {
             Print(product.Marker);
         }
 
-        public void GenerateMenu()
+        /*Generating menu*/
+        public void GenerateMenu(List<string> menu)
         {
-            /*
-                int x = Console.CursorLeft;
-                int y = Console.CursorTop;
-                Console.WriteLine(new string(' ', 30));
-                Console.SetCursorPosition(x,y);
-            */
-            
             Console.SetCursorPosition(_maxCoordinatX+5,0);
             SaveCursor();
-
+            /* clearing place for menu*/
             for (int i = 0; i < _sizeMenuY; i++)
             {
                 Console.WriteLine(new string(' ', _sizeMenuX));
@@ -212,36 +223,44 @@ namespace ShowCase.Views
             sizeMenuX = PrintLine("Shop information");
             SetCursorX();
             sizeMenuX = PrintLine("Current shop : " + (_pointerItems[0] + 1));
-            SetCursorX();
-            sizeMenuX = PrintLine("Current case : " + (_pointerItems[1] + 1));
 
-            if (_dataBase.Shops[_pointerItems[0]].Storage.Count > _pointerItems[1] && _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Count > _pointerItems[2])
+            /*if i'm on empty shop, i don't have to show information about case*/
+            if (_dataBase.Shops.Count > _pointerItems[0])
             {
+                SetCursorX();
+                sizeMenuX = PrintLine("Current case : " + (_pointerItems[1] + 1));
+                /*if i/m on empty case, i don't have to show information about products*/
+                if (_dataBase.Shops[_pointerItems[0]].Storage.Count > _pointerItems[1] && _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Count > _pointerItems[2])
+                {
                 
-                if (_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]].Name != default)
-                {
-                    SetCursorX();
-                    sizeMenuX = PrintLine("Current product : " + (_pointerItems[2] + 1));
-                    SetCursorX();
-                    sizeMenuX = PrintLine("Product name : " + _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]].Name);                    
+                    if (_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]].Name != default)
+                    {
+                        SetCursorX();
+                        sizeMenuX = PrintLine("Current product : " + (_pointerItems[2] + 1));
+                        SetCursorX();
+                        sizeMenuX = PrintLine("Product name : " + _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]].Name);                    
+                    }
+                    else
+                    {
+                        SetCursorX();
+                        sizeMenuX = PrintLine("Current product : " + (_pointerItems[2] + 1));
+                    }                    
                 }
-                else
-                {
-                    SetCursorX();
-                    sizeMenuX = PrintLine("Current product : " + (_pointerItems[2] + 1));
-                }                    
             }
+           
 
             SetCursorX();
             sizeMenuX = PrintLine("----Menu----");
-            SetCursorX();
-            sizeMenuX = PrintLine("Name product - *");
-            SetCursorX();
-            sizeMenuX = PrintLine("Name product2 - $");
+
+            foreach (string line in menu)
+            {
+                SetCursorX();
+                sizeMenuX = PrintLine(line);
+            }
             sizeMenuY = Console.CursorTop;
             Console.SetCursorPosition(0,_maxCoordinatY+1);
         }
-
+        /*save maximum coordinate for generate menu to the right of main place*/
         public void CountPointerForMenu()
         {
             if (_maxCoordinatX < Console.CursorLeft)

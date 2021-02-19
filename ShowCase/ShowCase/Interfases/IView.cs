@@ -7,11 +7,11 @@ namespace ShowCase.Interfases
 {
     public interface IView
     {
-        public void MapGenerate(DataBase dataBase, int[] pointerItems);
+        public void MapGenerate(DataBase dataBase, int[] pointerItems, List<string> menu);
         public void GenerateShop(Shop<Case<Product<int>>> obj, int currentShop);
         public void GenerateCase(Case<Product<int>> obj, int currentShop);
         public void GenerateProduct(Product<int> obj, ConsoleColor color);
-        public void GenerateMenu();
+        public void GenerateMenu(List<string> menu);
         public void CountPointerForMenu();
     }
 }
