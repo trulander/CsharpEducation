@@ -36,6 +36,7 @@ namespace ShowCase.Controllers
         {
             Product<int> product = new Product<int>(0);
             Rename(product);
+            ChacgeCost(product);
             case_.Create(product);
         }        
         /*Edit size shop*/
@@ -131,6 +132,25 @@ namespace ShowCase.Controllers
         public void Remove(Case<Product<int>> case_, Product<int> product)
         {
             case_.Remove(product);
-        }        
+        }
+
+        public void ChacgeCost(Product<int> product)
+        {
+            View.PrintLine("Please write new cost (number)");
+            bool complete = false;
+            int newcost = 0;
+            do
+            {
+                complete = int.TryParse(Console.ReadLine(), out newcost);
+                if (complete)
+                {
+                    product.ChacgeCost(newcost);
+                }
+                else
+                {
+                    View.PrintLine("Please write new cost (number)");
+                }
+            } while (!complete);
+        }
     }
 }

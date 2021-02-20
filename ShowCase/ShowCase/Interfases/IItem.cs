@@ -10,6 +10,7 @@ namespace ShowCase.Interfases
         Guid id { get; set; }
         string name { get; set; }
         DateTime whenCreate { get; set; }
+        int cost { get; set; }
         void Create(T item);
         bool ReName(string name, out string error);
         void Remove(T item);

@@ -148,7 +148,7 @@ namespace ShowCase.Controllers
                     _modelController.Rename(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]]);
                     break;
                 case (int)DataBase.Actions.EditCostProduct:
-                   // _modelController.ChacgeCost(_dataBase.shops[_pointerItems[0]]);
+                    _modelController.ChacgeCost(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]]);
                     break;
             }
             _pointerItems[3] = 0;
@@ -170,7 +170,7 @@ namespace ShowCase.Controllers
                     if (_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage.Count > _pointerItems[2])
                     {
                         result.Add((int)DataBase.Actions.EditNameProduct,"Edit name the product");
-                       // result.Add((int)DataBase.Actions.EditCostProduct ,"Edit cost the product");
+                        result.Add((int)DataBase.Actions.EditCostProduct ,"Edit cost the product");
                         result.Add((int)DataBase.Actions.RemoveProduct, "Remove the product");
                     }
                     else

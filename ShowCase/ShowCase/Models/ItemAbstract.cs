@@ -34,11 +34,16 @@ namespace ShowCase.Models
             error = "Please write new size ("+(storage.Count > 1 ? storage.Count : 1)+"-"+ISize<int>.maxSize+")";
             return false;
         }
+        public void ChacgeCost(int newcost)
+        {
+            cost = newcost;
+        }
 
         public Guid id { get; set; }
         public string name { get; set; }
         public DateTime whenCreate { get; set; }
-        
+        public int cost { get; set; }
+
         public ItemAbstract(int size)
         {
             _size = size;

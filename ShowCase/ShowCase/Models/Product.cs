@@ -14,7 +14,5 @@ namespace ShowCase.Models
             id = Guid.NewGuid();
             whenCreate = DateTime.Now;
         }
-
-
     }
 }
