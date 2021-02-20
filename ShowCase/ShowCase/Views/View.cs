@@ -237,24 +237,41 @@ namespace ShowCase.Views
             SetCursorX();
             sizeMenuX = PrintLine("Current shop : " + (_pointerItems[0] + 1));
 
-            /*if i'm on empty shop, i don't have to show information about case*/
+            /*if i'm on empty shop, i don't have to show information about shop*/
             if (_dataBase.shops.Count > _pointerItems[0])
             {
                 SetCursorX();
+                sizeMenuX = PrintLine("  id : " + _dataBase.shops[_pointerItems[0]].id.ToString().Substring(0,13));
+                SetCursorX();
+                sizeMenuX = PrintLine("  data create : " + _dataBase.shops[_pointerItems[0]].whenCreate.ToString().Substring(0,10));
+                SetCursorX();
+                sizeMenuX = PrintLine("  time create : " + _dataBase.shops[_pointerItems[0]].whenCreate.ToString().Substring(11));
+                SetCursorX();
                 sizeMenuX = PrintLine("Current case : " + (_pointerItems[1] + 1));
-                /*if i/m on empty case, i don't have to show information about products*/
-                if (_dataBase.shops[_pointerItems[0]].storage.Count > _pointerItems[1] && _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage.Count > _pointerItems[2])
-                {
+                /*if i'm on empty case, i don't have to show information about case*/
+                if (_dataBase.shops[_pointerItems[0]].storage.Count > _pointerItems[1])
+                {   
                     SetCursorX();
-                    sizeMenuX = PrintLine("Current product : " + (_pointerItems[2] + 1));
+                    sizeMenuX = PrintLine("  id : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].id.ToString().Substring(0,13));
                     SetCursorX();
-                    sizeMenuX = PrintLine("id : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].id.ToString().Substring(0,13));                    
+                    sizeMenuX = PrintLine("  data create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].whenCreate.ToString().Substring(0,10));
                     SetCursorX();
-                    sizeMenuX = PrintLine("data create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].whenCreate.ToString().Substring(0,10));
-                    SetCursorX();
-                    sizeMenuX = PrintLine("time create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].whenCreate.ToString().Substring(11));
-                    SetCursorX();
-                    sizeMenuX = PrintLine("name : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].name);
+                    sizeMenuX = PrintLine("  time create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].whenCreate.ToString().Substring(11));
+                    /*if i'm on empty field for product, i don't have to show information about products*/
+                    if (_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage.Count > _pointerItems[2])
+                    {
+                        SetCursorX();
+                        sizeMenuX = PrintLine("Current product : " + (_pointerItems[2] + 1));
+                        SetCursorX();
+                        sizeMenuX = PrintLine("  id : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].id.ToString().Substring(0,13));                    
+                        SetCursorX();
+                        sizeMenuX = PrintLine("  data create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].whenCreate.ToString().Substring(0,10));
+                        SetCursorX();
+                        sizeMenuX = PrintLine("  time create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].whenCreate.ToString().Substring(11));
+                        SetCursorX();
+                        sizeMenuX = PrintLine("  name : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].name);     
+                    }
+                   
                                    
                 }
             }
