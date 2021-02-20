@@ -11,7 +11,7 @@ namespace ShowCase.Interfases
         string name { get; set; }
         DateTime whenCreate { get; set; }
         void Create(T item);
-        void Edit(T item);
+        bool ReName(string name, out string error);
         void Remove(T item);
     }
 }

@@ -9,6 +9,8 @@ namespace ShowCase.Models
     {
         private int _size;
         public List<T> storage { get; set; }
+        private int _nameLengthMax = 15;
+        private int _nameLengthMin = 1;
 
         public ItemAbstract()
         {
@@ -48,15 +50,19 @@ namespace ShowCase.Models
             storage.Add(item);
         }
 
-        public void Edit(T item)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Remove(T item)
         {
             storage.Remove(item);
         }
-
-    }
+        public bool ReName(string name, out string error)
+        {
+            if (name.Length <= _nameLengthMax && name.Length >= _nameLengthMin)
+            {
+                this.name = name;
+                error = "";
+                return true;
+            }
+            error = "Please write new name. It must have length (" + _nameLengthMin + "-" + _nameLengthMax + ") simbols.";
+            return false;
+        }    }
 }

@@ -18,7 +18,8 @@ namespace ShowCase.Controllers
         public void Create (int size = 5)
         {
             Shop<Case<Product<int>>> shop = new Shop<Case<Product<int>>>(size);
-            Edit(shop);
+            EditSize(shop);
+            Rename(shop);
             _dataBase.shops.Add(shop);
         }
         
@@ -26,17 +27,19 @@ namespace ShowCase.Controllers
         public void Create (Shop<Case<Product<int>>> shop, int size = 3)
         {
             Case<Product<int>> case_ = new Case<Product<int>>(size);
-            Edit(case_);
+            EditSize(case_);
+            Rename(case_);
             shop.Create(case_);
         }
         /*create product*/
         public void Create (Case<Product<int>> case_)
         {
             Product<int> product = new Product<int>(0);
-            Edit(product);
+            Rename(product);
             case_.Create(product);
         }        
-        public void Edit(Shop<Case<Product<int>>> shop)
+        /*Edit size shop*/
+        public void EditSize(Shop<Case<Product<int>>> shop)
         {
             View.PrintLine("Please write new size (number)");
             bool complete;
@@ -56,7 +59,8 @@ namespace ShowCase.Controllers
                 }
             } while (!complete);
         }
-        public void Edit(Case<Product<int>> case_)
+        /*Edit size case*/
+        public void EditSize(Case<Product<int>> case_)
         {
             View.PrintLine("Please write new size (number)");
             bool complete = false;
@@ -76,8 +80,8 @@ namespace ShowCase.Controllers
                 }
             } while (!complete);
         }
-
-        public void Edit(Product<int> product)
+        /*Rename product*/
+        public void Rename(Product<int> product)
         {
             View.PrintLine("Please write new name");
             bool complete;
@@ -88,16 +92,42 @@ namespace ShowCase.Controllers
                 View.PrintLine(error);
             } while (!complete);
         }
+        /*Rename case*/
+        public void Rename(Case<Product<int>> case_)
+        {
+            View.PrintLine("Please write new name");
+            bool complete;
+            string error;
+            do
+            {
+                complete = case_.ReName(Console.ReadLine(),out error);
+                View.PrintLine(error);
+            } while (!complete);
+        }
+        /*Rename shop*/
+        public void Rename(Shop<Case<Product<int>>> shop)
+        {
+            View.PrintLine("Please write new name");
+            bool complete;
+            string error;
+            do
+            {
+                complete = shop.ReName(Console.ReadLine(),out error);
+                View.PrintLine(error);
+            } while (!complete);
+        }
 
-
+        /*Remove shop*/
         public void Remove(Shop<Case<Product<int>>> shop)
         {
             _dataBase.shops.Remove(shop);
         }
+        /*Remove case*/
         public void Remove(Shop<Case<Product<int>>> shop, Case<Product<int>> case_)
         {
             shop.Remove(case_);
         }
+        /*Remove product*/
         public void Remove(Case<Product<int>> case_, Product<int> product)
         {
             case_.Remove(product);

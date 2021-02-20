@@ -114,13 +114,10 @@ namespace ShowCase.Controllers
             switch (_menu.Keys.ElementAt(_pointerItems[3]))
             {
                 case (int)DataBase.Actions.EditSizeShop:
-                    _modelController.Edit(_dataBase.shops[_pointerItems[0]]);
+                    _modelController.EditSize(_dataBase.shops[_pointerItems[0]]);
                     break;
                 case (int)DataBase.Actions.EditSizeCase:
-                    _modelController.Edit(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]]);
-                    break;
-                case (int)DataBase.Actions.EditNameProduct:
-                    _modelController.Edit(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]]);
+                    _modelController.EditSize(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]]);
                     break;
                 case (int)DataBase.Actions.RemoveShop:
                     _modelController.Remove(_dataBase.shops[_pointerItems[0]]);
@@ -138,8 +135,20 @@ namespace ShowCase.Controllers
                     _modelController.Create(_dataBase.shops[_pointerItems[0]]);
                     break;
                 case (int)DataBase.Actions.AddProduct:
-                    Product<int> product = new Product<int>(0);
                     _modelController.Create(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]]);
+                    break;
+                case (int)DataBase.Actions.EditNameProduct:
+                    _modelController.Rename(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]]);
+                    break;
+
+                case (int)DataBase.Actions.EditNameShop:
+                    _modelController.Rename(_dataBase.shops[_pointerItems[0]]);
+                    break;
+                case (int)DataBase.Actions.EditNameCase:
+                    _modelController.Rename(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]]);
+                    break;
+                case (int)DataBase.Actions.EditCostProduct:
+                   // _modelController.ChacgeCost(_dataBase.shops[_pointerItems[0]]);
                     break;
             }
             _pointerItems[3] = 0;
@@ -153,12 +162,15 @@ namespace ShowCase.Controllers
             if (_dataBase.shops.Count > _pointerItems[0])
             {
                 result.Add((int)DataBase.Actions.EditSizeShop ,"Edit size the shop");
+                result.Add((int)DataBase.Actions.EditNameShop ,"Edit name the shop");
                 if (_dataBase.shops[_pointerItems[0]].storage.Count > _pointerItems[1])
                 {
                     result.Add((int)DataBase.Actions.EditSizeCase, "Edit size the case");
+                    result.Add((int)DataBase.Actions.EditNameCase ,"Edit name the case");
                     if (_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage.Count > _pointerItems[2])
                     {
                         result.Add((int)DataBase.Actions.EditNameProduct,"Edit name the product");
+                       // result.Add((int)DataBase.Actions.EditCostProduct ,"Edit cost the product");
                         result.Add((int)DataBase.Actions.RemoveProduct, "Remove the product");
                     }
                     else

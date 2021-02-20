@@ -32,7 +32,10 @@ namespace ShowCase.Models
             RemoveProduct = 5,
             AddShop = 6,
             AddCase = 7,
-            AddProduct = 8
+            AddProduct = 8,
+            EditNameShop = 9,
+            EditNameCase = 10,
+            EditCostProduct = 11
         }
         public DataBase()
         {

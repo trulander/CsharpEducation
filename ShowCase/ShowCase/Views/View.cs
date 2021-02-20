@@ -247,6 +247,8 @@ namespace ShowCase.Views
                 SetCursorX();
                 sizeMenuX = PrintLine("  time create : " + _dataBase.shops[_pointerItems[0]].whenCreate.ToString().Substring(11));
                 SetCursorX();
+                sizeMenuX = PrintLine("  name : " + _dataBase.shops[_pointerItems[0]].name);
+                SetCursorX();
                 sizeMenuX = PrintLine("Current case : " + (_pointerItems[1] + 1));
                 /*if i'm on empty case, i don't have to show information about case*/
                 if (_dataBase.shops[_pointerItems[0]].storage.Count > _pointerItems[1])
@@ -257,6 +259,8 @@ namespace ShowCase.Views
                     sizeMenuX = PrintLine("  data create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].whenCreate.ToString().Substring(0,10));
                     SetCursorX();
                     sizeMenuX = PrintLine("  time create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].whenCreate.ToString().Substring(11));
+                    SetCursorX();
+                    sizeMenuX = PrintLine("  name : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].name);
                     /*if i'm on empty field for product, i don't have to show information about products*/
                     if (_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage.Count > _pointerItems[2])
                     {
@@ -278,7 +282,7 @@ namespace ShowCase.Views
            
 
             SetCursorX();
-            sizeMenuX = PrintLine("----Menu----");
+            sizeMenuX = PrintLine("-------Menu-------");
             ConsoleColor color = ConsoleColor.White;
             foreach (KeyValuePair<int, string> item in menu)
             {
