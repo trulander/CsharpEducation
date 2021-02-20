@@ -162,7 +162,7 @@ namespace ShowCase.Views
             }
             CountPointerForMenu();
             PrintLine("");
-            PrintLine("/-" + new string('-',sizeHeadshop) +"-\\", color);
+            Print("\\-" + new string('-',sizeHeadshop) +"-/", color);
             CountPointerForMenu();
             PrintLine("");
         }
@@ -348,6 +348,7 @@ namespace ShowCase.Views
             View.PrintLine("For apply point of menu you have to use button Enter");
             View.PrintLine("For exit from the program you have to use button Enter");
             Console.ReadKey();
+            Console.Clear();
         }
 
     }
