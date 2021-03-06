@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using ShowCase.Interfases;
 using ShowCase.Models;
 
@@ -8,6 +9,10 @@ namespace ShowCase.Views
 {
     public class View : IView
     {
+        public string lastMethodRequired { get; set; }
+        public EventWaitHandle[] waitHandle { get; set; }
+        public int ConsoleKey { get; set; }
+        public string ConsoleText { get; set; }
         private int _coordinateCursorX = 0;
         private int _coordinateCursorY = 0;
         private int _maxCoordinatX = 0;
@@ -61,6 +66,8 @@ namespace ShowCase.Views
         }        
     
         /*Main generation view*/
+        public string Buffer { get; }
+
         public void MapGenerate(int[] pointerItems, Dictionary<int, string> menu)
         {
             Console.SetCursorPosition(0, 0);
