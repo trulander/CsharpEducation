@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ShowCase.Controllers;
+using ShowCase.Interfases;
 using ShowCase.Models;
 using ShowCase.Views;
 
@@ -17,8 +18,9 @@ namespace ShowCase
 
         private void Start()
         {
-            View.Instruction();
-            ProgramController programController = new ProgramController();
+            IView view = new View();
+            view.Instruction();
+            ProgramController programController = new ProgramController(view);
         }
     }
 }

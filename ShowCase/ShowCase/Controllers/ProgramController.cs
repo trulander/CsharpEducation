@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
+using ShowCase.Interfases;
 using ShowCase.Models;
 using ShowCase.Views;
 
@@ -9,13 +9,13 @@ namespace ShowCase.Controllers
 {
     public class ProgramController
     {
-        private DataBase _dataBase;
+        private DataBase _dataBase = DataBase.GetInstance();
         private ModelController _modelController;
-        private View _view;
+        private IView _view;
         private Dictionary<int, string> _menu;
 
         private int[] _pointerItems = new int[4];
-        public ProgramController()
+        public ProgramController(IView view)
         {
             /* 0 Pointer on a shop*/
             _pointerItems[0] = 0;
@@ -26,17 +26,17 @@ namespace ShowCase.Controllers
             /* 3 Pointer on a point of menu*/
             _pointerItems[3] = 0;
 
-            _dataBase = new DataBase();
-            _view = new View();
+            _view = view;
             
-            _modelController = new ModelController(_dataBase);
+            _modelController = new ModelController(_view);
+            
             /*filling out of demo data*/
-            DemoData demoData = new DemoData(_modelController,_dataBase);
+            DemoData demoData = new DemoData();
             
             Console.TreatControlCAsInput = true;/* drop default action when we're using modification key (ctrl, shift,alt) */
             Console.CursorVisible = false;/* hide cursor */
             _menu = MakeMenu();
-            _view.MapGenerate(_dataBase, _pointerItems, _menu);
+            _view.MapGenerate(_pointerItems, _menu);
             Loop();
         }
 
@@ -48,7 +48,7 @@ namespace ShowCase.Controllers
             {
                 continue_ = ReadKey();
                 _menu = MakeMenu();
-                _view.MapGenerate(_dataBase, _pointerItems, _menu);
+                _view.MapGenerate(_pointerItems, _menu);
             }
         }
         /*Button handing*/
@@ -148,7 +148,7 @@ namespace ShowCase.Controllers
                     _modelController.Rename(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]]);
                     break;
                 case (int)DataBase.Actions.EditCostProduct:
-                    _modelController.ChacgeCost(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]]);
+                    _modelController.ChangeCost(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]]);
                     break;
             }
             _pointerItems[3] = 0;

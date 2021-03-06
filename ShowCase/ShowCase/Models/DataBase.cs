@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ShowCase.Interfases;
@@ -7,6 +8,7 @@ namespace ShowCase.Models
 {
     public class DataBase : IDataBase
     {
+        private static DataBase? _instanceDatabase = null;
         public List<Shop<Case<Product<int>>>> shops { get; set; }
         //public ArrayList[][] Root { get; set; }
 
@@ -37,9 +39,16 @@ namespace ShowCase.Models
             EditNameCase = 10,
             EditCostProduct = 11
         }
-        public DataBase()
+
+        protected DataBase() { }
+        public static DataBase GetInstance()
         {
-            shops = new List<Shop<Case<Product<int>>>>();
+            if (_instanceDatabase == null)
+            {
+                _instanceDatabase = new DataBase();
+                _instanceDatabase.shops = new List<Shop<Case<Product<int>>>>();
+            }
+            return _instanceDatabase;
         }
     }
 }

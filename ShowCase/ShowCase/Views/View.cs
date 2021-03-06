@@ -15,7 +15,7 @@ namespace ShowCase.Views
         private int _sizeMenuX = 0;
         private int _sizeMenuY = 0;
         
-        private DataBase _dataBase;
+        private DataBase _dataBase = DataBase.GetInstance();
         private int[] _pointerItems;
         
         private int sizeMenuX
@@ -50,10 +50,6 @@ namespace ShowCase.Views
         {
             _coordinateCursorX = Console.CursorLeft;
         }
-        private void SaveCursorY()
-        {
-            _coordinateCursorY = Console.CursorTop;
-        }        
 
         private void SetCursorX()
         {
@@ -63,21 +59,17 @@ namespace ShowCase.Views
         {
             Console.SetCursorPosition(Console.CursorLeft, _coordinateCursorY);
         }        
-        private void SetCursor()
-        {
-            Console.SetCursorPosition(_coordinateCursorX, _coordinateCursorY);
-        }        
+    
         /*Main generation view*/
-        public void MapGenerate(DataBase dataBase, int[] pointerItems, Dictionary<int, string> menu)
+        public void MapGenerate(int[] pointerItems, Dictionary<int, string> menu)
         {
             Console.SetCursorPosition(0, 0);
             _pointerItems = pointerItems;
-            _dataBase = dataBase;
-            for (int i = 0; i < dataBase.shops.Capacity; i++)
+            for (int i = 0; i < _dataBase.shops.Capacity; i++)
             {
                 if (_dataBase.shops.Count > i)
                 {                
-                    GenerateShop(dataBase.shops[i], i);
+                    GenerateShop(_dataBase.shops[i], i);
                 }
                 else
                 {
@@ -213,12 +205,6 @@ namespace ShowCase.Views
             SaveCursorX();
         }
         
-        /*Generating one of products*/
-        public void GenerateProduct(Product<int> product, ConsoleColor color)
-        {
-            Print(product.Marker);
-        }
-
         /*Generating menu*/
         public void GenerateMenu(Dictionary<int, string> menu)
         {
@@ -332,7 +318,7 @@ namespace ShowCase.Views
 
 
         /* custom method printline width color*/
-        public static int PrintLine(string value, ConsoleColor color = ConsoleColor.White)
+        public int PrintLine(string value, ConsoleColor color = ConsoleColor.White)
         {
             Console.ForegroundColor = color;
 
@@ -342,13 +328,8 @@ namespace ShowCase.Views
             return value.Length;
         }
 
-        /* custom method printline */
-        public static void PrintLine()
-        {
-            Console.WriteLine();
-        }        
         /* custom method print width color */
-        public static int Print(string value, ConsoleColor color = ConsoleColor.White)
+        public int Print(string value, ConsoleColor color = ConsoleColor.White)
         {
             Console.ForegroundColor = color;
 
@@ -358,21 +339,20 @@ namespace ShowCase.Views
             return value.Length;
         }
 
-        public static void Instruction()
+        public void Instruction()
         {
-            View.PrintLine("The buttons what you can to use:");
-            View.PrintLine("Up Down Left Right Enter Escape");
-            View.PrintLine("And the same buttons + 'shift'");
-            View.PrintLine("");
-            View.PrintLine("Navigation via shops you have to use buttons Up and Down");
-            View.PrintLine("Navigation via case you have to use buttons Right and Left");
-            View.PrintLine("Navigation via products you have to use buttons together Shift + Left and Shift + Right");
-            View.PrintLine("Navigation via menu you have to use buttons together Shift + Up and Shift + Down");
-            View.PrintLine("For apply point of menu you have to use button Enter");
-            View.PrintLine("For exit from the program you have to use button Enter");
+            PrintLine("The buttons what you can to use:");
+            PrintLine("Up Down Left Right Enter Escape");
+            PrintLine("And the same buttons + 'shift'");
+            PrintLine("");
+            PrintLine("Navigation via shops you have to use buttons Up and Down");
+            PrintLine("Navigation via case you have to use buttons Right and Left");
+            PrintLine("Navigation via products you have to use buttons together Shift + Left and Shift + Right");
+            PrintLine("Navigation via menu you have to use buttons together Shift + Up and Shift + Down");
+            PrintLine("For apply point of menu you have to use button Enter");
+            PrintLine("For exit from the program you have to use button Enter");
             Console.ReadKey();
             Console.Clear();
         }
-
     }
 }

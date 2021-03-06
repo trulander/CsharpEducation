@@ -6,8 +6,9 @@ namespace ShowCase
 {
     public class DemoData
     {
-        public DemoData(ModelController modelController, DataBase dataBase)
+        public DemoData()
         {
+            var dataBase = DataBase.GetInstance();
             //modelController.Create(4);
             dataBase.shops.Add(new Shop<Case<Product<int>>>(4));
             dataBase.shops[0].name = "Shop with tests";

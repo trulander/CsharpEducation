@@ -7,11 +7,12 @@ namespace ShowCase.Controllers
 {
     public class ModelController
     {
-        private DataBase _dataBase;
+        private DataBase _dataBase = DataBase.GetInstance();
+        private IView _view;
 
-        public ModelController(DataBase dataBase)
+        public ModelController(IView view)
         {
-            _dataBase = dataBase;
+            _view = view;
         }
         
         /*create shop*/
@@ -36,13 +37,13 @@ namespace ShowCase.Controllers
         {
             Product<int> product = new Product<int>(0);
             Rename(product);
-            ChacgeCost(product);
+            ChangeCost(product);
             case_.Create(product);
         }        
         /*Edit size shop*/
         public void EditSize(Shop<Case<Product<int>>> shop)
         {
-            View.PrintLine("Please write new size (number)");
+            _view.PrintLine("Please write new size (number)");
             bool complete;
             int size;
             string error;
@@ -52,18 +53,18 @@ namespace ShowCase.Controllers
                 if (complete)
                 {
                     complete = shop.ChangeSize(size, out error);
-                    View.PrintLine(error);
+                    _view.PrintLine(error);
                 }
                 else
                 {
-                    View.PrintLine("Please write new size (number)");
+                    _view.PrintLine("Please write new size (number)");
                 }
             } while (!complete);
         }
         /*Edit size case*/
         public void EditSize(Case<Product<int>> case_)
         {
-            View.PrintLine("Please write new size (number)");
+            _view.PrintLine("Please write new size (number)");
             bool complete = false;
             int size = 0;
             string error;
@@ -73,48 +74,48 @@ namespace ShowCase.Controllers
                 if (complete)
                 {
                     complete = case_.ChangeSize(size, out error);
-                    View.PrintLine(error);
+                    _view.PrintLine(error);
                 }
                 else
                 {
-                    View.PrintLine("Please write new size (number)");
+                    _view.PrintLine("Please write new size (number)");
                 }
             } while (!complete);
         }
         /*Rename product*/
         public void Rename(Product<int> product)
         {
-            View.PrintLine("Please write new name");
+            _view.PrintLine("Please write new name");
             bool complete;
             string error;
             do
             {
                 complete = product.ReName(Console.ReadLine(),out error);
-                View.PrintLine(error);
+                _view.PrintLine(error);
             } while (!complete);
         }
         /*Rename case*/
         public void Rename(Case<Product<int>> case_)
         {
-            View.PrintLine("Please write new name");
+            _view.PrintLine("Please write new name");
             bool complete;
             string error;
             do
             {
                 complete = case_.ReName(Console.ReadLine(),out error);
-                View.PrintLine(error);
+                _view.PrintLine(error);
             } while (!complete);
         }
         /*Rename shop*/
         public void Rename(Shop<Case<Product<int>>> shop)
         {
-            View.PrintLine("Please write new name");
+            _view.PrintLine("Please write new name");
             bool complete;
             string error;
             do
             {
                 complete = shop.ReName(Console.ReadLine(),out error);
-                View.PrintLine(error);
+                _view.PrintLine(error);
             } while (!complete);
         }
 
@@ -134,9 +135,9 @@ namespace ShowCase.Controllers
             case_.Remove(product);
         }
 
-        public void ChacgeCost(Product<int> product)
+        public void ChangeCost(Product<int> product)
         {
-            View.PrintLine("Please write new cost (number)");
+            _view.PrintLine("Please write new cost (number)");
             bool complete = false;
             int newcost = 0;
             do
@@ -148,7 +149,7 @@ namespace ShowCase.Controllers
                 }
                 else
                 {
-                    View.PrintLine("Please write new cost (number)");
+                    _view.PrintLine("Please write new cost (number)");
                 }
             } while (!complete);
         }
