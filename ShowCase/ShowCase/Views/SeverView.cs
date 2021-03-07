@@ -1,58 +1,158 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Collections.Immutable;
+using System.Linq;
 using ShowCase.Interfases;
 using ShowCase.Models;
 
 namespace ShowCase.Views
 {
-    public class SeverView : IView
+    public class SeverView : ViewAbstract, IView
     {
-        public string lastMethodRequired { get; set; }
-        public EventWaitHandle[] waitHandle { get; set; }
-        public int ConsoleKey { get; set; }
-        public string ConsoleText { get; set; }
+        private Dictionary<int, Dictionary<int, Dictionary<char, ConsoleColor>>> map = new Dictionary<int, Dictionary<int, Dictionary<char, ConsoleColor>>>();
 
-        public string Buffer { get; }
 
-        public void MapGenerate(int[] pointerItems, Dictionary<int, string> menu)
+        public SeverView()
         {
-            throw new NotImplementedException();
+            Buffer = "123";
+
+            
+
+            SavePixel(0,0,'a',ConsoleColor.Red);
+            SavePixel(0,1,'a',ConsoleColor.Blue);
+            SavePixel(0,2,'a',ConsoleColor.Green);
+
+            // var enumerable = GetPixel(0, 0).Key;
+            ShowPixel(0, 0);
+            ShowPixel(1, 0);
+            ShowPixel(2, 0);
+            ShowPixel(0, 1);
+            ShowPixel(0, 2);
+            Console.ReadKey();
+        }
+        private void ShowPixel(int x, int y)
+        {
+            Console.ForegroundColor = GetPixel(x, y).Value;
+            Console.Write(GetPixel(x, y).Key);
+
+        }
+        private void SavePixel(int x, int y, char symbol, ConsoleColor color)
+        {
+            if (!map.ContainsKey(x))
+            {
+                map.Add(x, new Dictionary<int, Dictionary<char, ConsoleColor>>());
+            }
+            if (!map[x].ContainsKey(y))
+            {
+                map[x].Add(y, new Dictionary<char, ConsoleColor>());
+            }
+            if (!map[x][y].ContainsKey(symbol))
+            {
+                map[x][y].Add(symbol, color);
+            }
+            else
+            {
+                map[x][y][symbol] = color;
+            }
         }
 
-        public void GenerateShop(Shop<Case<Product<int>>> obj, int currentShop)
+        private KeyValuePair<char, ConsoleColor> GetPixel(int x, int y)
         {
-            throw new NotImplementedException();
+            if (map.ContainsKey(x))
+            {
+                if (map[x].ContainsKey(y))
+                {
+                    return map[x][y].ToImmutableDictionary().Single();
+                }
+                
+            }
+
+            return new KeyValuePair<char, ConsoleColor>(' ',ConsoleColor.White);
+
+        }
+        public override void Clear()
+        {
+            Buffer = "";
         }
 
-        public void GenerateCase(Case<Product<int>> obj, int currentShop)
+        public override string ReadLine()
         {
-            throw new NotImplementedException();
+            lastMethodRequired = "ReadLine";
+            if (ConsoleText == "")
+            {
+                waitHandle[0].Reset();
+                waitHandle[1].Set();
+                waitHandle[0].WaitOne();
+                lastMethodRequired = "ReadKey";
+            }
+            var result = ConsoleText;
+            ConsoleText = "";
+            return result;
         }
 
-        public void GenerateMenu(Dictionary<int, string> menu)
+        public override int ReadKey()
         {
-            throw new NotImplementedException();
+            lastMethodRequired = "ReadKey";
+            if (ConsoleKey == 0)
+            {
+                waitHandle[0].Reset();
+                waitHandle[1].Set();
+                waitHandle[0].WaitOne();
+                lastMethodRequired = "ReadKey";
+            }
+            var result = ConsoleKey;
+            ConsoleKey = 0;
+            return result;
         }
 
-        public void CountPointerForMenu()
+        protected override void SaveCurrentCursor()
         {
-            throw new NotImplementedException();
+            _savedCursorX = _curentCursorX;
+            _savedCursorY = _curentCursorY;
         }
 
-        public int PrintLine(string value, ConsoleColor color = ConsoleColor.White)
+
+
+        protected override void SaveCurrentCursorX()
         {
-            throw new NotImplementedException();
+            _savedCursorX = _curentCursorX;
         }
 
-        public int Print(string value, ConsoleColor color = ConsoleColor.White)
+        protected override void SetCursorX(int x)
         {
-            throw new NotImplementedException();
+            _curentCursorX = x;
         }
 
-        public void Instruction()
+        protected override void SetCursorY(int y)
         {
-            throw new NotImplementedException();
+            _curentCursorY = y;
+        }    
+        protected override int GetCurrentCursorY()
+        {
+            return _curentCursorY;
+        }
+        protected override int GetCurrentCursorX()
+        {
+            return _curentCursorX;
+        }
+        
+        /* custom method printline width color*/
+        public override int PrintLine(string value, ConsoleColor color = ConsoleColor.White)
+        {
+            Print(value, color);
+            _curentCursorY++;
+            return value.Length;
+        }
+
+        /* custom method print width color */
+        public override int Print(string value, ConsoleColor color = ConsoleColor.White)
+        {
+            foreach (var symbol in value)
+            {
+                SavePixel(_curentCursorX,_curentCursorY,symbol, color);
+                _curentCursorX++;
+            }
+            return value.Length;
         }
     }
 }

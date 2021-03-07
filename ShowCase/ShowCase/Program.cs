@@ -18,9 +18,12 @@ namespace ShowCase
 
         private void Start()
         {
-            IView view = new View();
+
+            ServerController serverController = new ServerController(new SeverView());
+            IView view = new ConsoleView();
             view.Instruction();
             ProgramController programController = new ProgramController(view);
+            programController.StartProgram();
         }
     }
 }

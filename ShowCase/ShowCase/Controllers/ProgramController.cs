@@ -29,7 +29,10 @@ namespace ShowCase.Controllers
             _view = view;
             
             _modelController = new ModelController(_view);
-            
+        }
+
+        public void StartProgram()
+        {
             /*filling out of demo data*/
             DemoData demoData = new DemoData();
             
@@ -39,9 +42,8 @@ namespace ShowCase.Controllers
             _view.MapGenerate(_pointerItems, _menu);
             Loop();
         }
-
         /*Main loop the programm*/
-        private void Loop()
+        public void Loop()
         {
             bool continue_ = true;
             while (continue_)

@@ -107,7 +107,7 @@ namespace ShowCase.Controllers
 
         private static void ProgramLoop(IView view)
         {
-           // _programController.MainLoop();
+            _programController.Loop();
             view.waitHandle[1].Set();
         }
         

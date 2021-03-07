@@ -12,6 +12,10 @@ namespace ShowCase.Interfases
         public int ConsoleKey { get; set; }
         public string ConsoleText { get; set; }
         public string Buffer { get; }
+        public void Clear();
+        public string ReadLine();
+        public int ReadKey();
+
         public void MapGenerate(int[] pointerItems, Dictionary<int, string> menu);
         public void GenerateShop(Shop<Case<Product<int>>> obj, int currentShop);
         public void GenerateCase(Case<Product<int>> obj, int currentShop);
@@ -20,5 +24,8 @@ namespace ShowCase.Interfases
         public int PrintLine(string value, ConsoleColor color = ConsoleColor.White);
         public int Print(string value, ConsoleColor color = ConsoleColor.White);
         public void Instruction();
+        
+        
+
     }
 }
