@@ -2,20 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using System.Threading;
+using Microsoft.VisualBasic;
 using ShowCase.Interfases;
 
 namespace ShowCase.Models
 {
     public abstract class ViewAbstract
     {
-        public string lastMethodRequired { get; set; }
         public EventWaitHandle[] waitHandle { get; set; }
-        public int ConsoleKey { get; set; }
-        public string Buffer { get; protected set; }
-
-        public string ConsoleText { get; set; }
+        public string lastMethodRequired { get; set; }
+        public int? ConsoleKey { get; set; }
+        public int? ConsoleKeyModifiers { get; set; }
+        public string? ConsoleText { get; set; }
+        
+        protected Dictionary<int, Dictionary<int, Dictionary<char, ConsoleColor>>> _map = new Dictionary<int, Dictionary<int, Dictionary<char, ConsoleColor>>>();
         protected int _savedCursorX = 0;
         protected int _savedCursorY = 0;
         protected int _curentCursorX = 0;
@@ -28,8 +32,18 @@ namespace ShowCase.Models
         protected DataBase _dataBase = DataBase.GetInstance();
         protected int[] _pointerItems;
 
-
-        protected int sizeMenuX
+        public string Buffer
+        {
+            get
+            {
+                if (_map.Count == 0)
+                {
+                    return JsonConvert.SerializeObject(new String("123"));
+                }
+                return JsonConvert.SerializeObject(_map, Formatting.Indented);
+            }
+        }
+        protected int SizeMenuX
         {
             get { return _sizeMenuX;}
             set
@@ -40,7 +54,7 @@ namespace ShowCase.Models
                 }
             }
         }
-        protected int sizeMenuY
+        protected int SizeMenuY
         {
             get { return _sizeMenuY;}
             set
@@ -206,58 +220,58 @@ namespace ShowCase.Models
             SetCursorY(0);
             SaveCurrentCursor();
             /* clearing place for menu*/
-            for (int i = 0; i < _sizeMenuY; i++)
+            for (int i = 0; i < SizeMenuY; i++)
             {
-                PrintLine(new string(' ', _sizeMenuX));
+                PrintLine(new string(' ', SizeMenuX));
                 SetCursorX(_savedCursorX);
             } 
 
             SetCursorX(_maxCoordinatX+5);
             SetCursorY(0);
 
-            sizeMenuX = PrintLine("Shop information");
+            SizeMenuX = PrintLine("Shop information");
             SetCursorX(_savedCursorX);
-            sizeMenuX = PrintLine("Current shop : " + (_pointerItems[0] + 1));
+            SizeMenuX = PrintLine("Current shop : " + (_pointerItems[0] + 1));
 
             /*if i'm on empty shop, i don't have to show information about shop*/
             if (_dataBase.shops.Count > _pointerItems[0])
             {
                 SetCursorX(_savedCursorX);
-                sizeMenuX = PrintLine("  id : " + _dataBase.shops[_pointerItems[0]].id.ToString().Substring(0,13));
+                SizeMenuX = PrintLine("  id : " + _dataBase.shops[_pointerItems[0]].id.ToString().Substring(0,13));
                 SetCursorX(_savedCursorX);
-                sizeMenuX = PrintLine("  data create : " + _dataBase.shops[_pointerItems[0]].whenCreate.ToString().Substring(0,10));
+                SizeMenuX = PrintLine("  data create : " + _dataBase.shops[_pointerItems[0]].whenCreate.ToString().Substring(0,10));
                 SetCursorX(_savedCursorX);
-                sizeMenuX = PrintLine("  time create : " + _dataBase.shops[_pointerItems[0]].whenCreate.ToString().Substring(11));
+                SizeMenuX = PrintLine("  time create : " + _dataBase.shops[_pointerItems[0]].whenCreate.ToString().Substring(11));
                 SetCursorX(_savedCursorX);
-                sizeMenuX = PrintLine("  name : " + _dataBase.shops[_pointerItems[0]].name);
+                SizeMenuX = PrintLine("  name : " + _dataBase.shops[_pointerItems[0]].name);
                 SetCursorX(_savedCursorX);
-                sizeMenuX = PrintLine("Current case : " + (_pointerItems[1] + 1));
+                SizeMenuX = PrintLine("Current case : " + (_pointerItems[1] + 1));
                 /*if i'm on empty case, i don't have to show information about case*/
                 if (_dataBase.shops[_pointerItems[0]].storage.Count > _pointerItems[1])
                 {   
                     SetCursorX(_savedCursorX);
-                    sizeMenuX = PrintLine("  id : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].id.ToString().Substring(0,13));
+                    SizeMenuX = PrintLine("  id : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].id.ToString().Substring(0,13));
                     SetCursorX(_savedCursorX);
-                    sizeMenuX = PrintLine("  data create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].whenCreate.ToString().Substring(0,10));
+                    SizeMenuX = PrintLine("  data create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].whenCreate.ToString().Substring(0,10));
                     SetCursorX(_savedCursorX);
-                    sizeMenuX = PrintLine("  time create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].whenCreate.ToString().Substring(11));
+                    SizeMenuX = PrintLine("  time create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].whenCreate.ToString().Substring(11));
                     SetCursorX(_savedCursorX);
-                    sizeMenuX = PrintLine("  name : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].name);
+                    SizeMenuX = PrintLine("  name : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].name);
                     /*if i'm on empty field for product, i don't have to show information about products*/
                     if (_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage.Count > _pointerItems[2])
                     {
                         SetCursorX(_savedCursorX);
-                        sizeMenuX = PrintLine("Current product : " + (_pointerItems[2] + 1));
+                        SizeMenuX = PrintLine("Current product : " + (_pointerItems[2] + 1));
                         SetCursorX(_savedCursorX);
-                        sizeMenuX = PrintLine("  id : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].id.ToString().Substring(0,13));                    
+                        SizeMenuX = PrintLine("  id : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].id.ToString().Substring(0,13));                    
                         SetCursorX(_savedCursorX);
-                        sizeMenuX = PrintLine("  data create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].whenCreate.ToString().Substring(0,10));
+                        SizeMenuX = PrintLine("  data create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].whenCreate.ToString().Substring(0,10));
                         SetCursorX(_savedCursorX);
-                        sizeMenuX = PrintLine("  time create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].whenCreate.ToString().Substring(11));
+                        SizeMenuX = PrintLine("  time create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].whenCreate.ToString().Substring(11));
                         SetCursorX(_savedCursorX);
-                        sizeMenuX = PrintLine("  name : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].name);
+                        SizeMenuX = PrintLine("  name : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].name);
                         SetCursorX(_savedCursorX);
-                        sizeMenuX = PrintLine("  cost : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].cost);
+                        SizeMenuX = PrintLine("  cost : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].cost);
                     }
                    
                                    
@@ -266,7 +280,7 @@ namespace ShowCase.Models
            
 
             SetCursorX(_savedCursorX);
-            sizeMenuX = PrintLine("-------Menu-------");
+            SizeMenuX = PrintLine("-------Menu-------");
             ConsoleColor color = ConsoleColor.White;
             foreach (KeyValuePair<int, string> item in menu)
             {
@@ -293,9 +307,9 @@ namespace ShowCase.Models
                     }
                 }
                 SetCursorX(_savedCursorX);
-                sizeMenuX = PrintLine(item.Value, color);
+                SizeMenuX = PrintLine(item.Value, color);
             }
-            sizeMenuY = GetCurrentCursorY();
+            SizeMenuY = GetCurrentCursorY();
             SetCursorX(0);
             SetCursorY(_maxCoordinatY+1);
         }
@@ -340,6 +354,6 @@ namespace ShowCase.Models
         public abstract int Print(string value, ConsoleColor color = ConsoleColor.White);
         public abstract void Clear();
         public abstract string ReadLine();
-        public abstract int ReadKey();
+        public abstract int[] ReadKey();
     }
 }

@@ -20,10 +20,11 @@ namespace ShowCase
         {
 
             ServerController serverController = new ServerController(new SeverView());
-            IView view = new ConsoleView();
-            view.Instruction();
-            ProgramController programController = new ProgramController(view);
-            programController.StartProgram();
+            DemoData demoData = new DemoData();
+            // IView view = new ConsoleView();
+            // view.Instruction();
+            // ProgramController programController = new ProgramController(view);
+            // programController.StartProgram();
         }
     }
 }

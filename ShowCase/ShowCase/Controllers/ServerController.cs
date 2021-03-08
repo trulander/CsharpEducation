@@ -4,8 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
+using Newtonsoft.Json;
 using ShowCase.Interfases;
+using JsonConverter = System.Text.Json.Serialization.JsonConverter;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ShowCase.Controllers
 {
@@ -47,41 +52,52 @@ namespace ShowCase.Controllers
                 
                 if ( request.HttpMethod == "POST" )
                 {
-                    string consoleText;
-                    int consoleKey;
-                    
-                    requestContext.Response.StatusCode = 200; //OK     
+                    requestContext.Response.StatusCode = 200; //OK 
+                    requestContext.Response.ContentType = "application/json";
                     var postData = GetNameValues(request);
-                    
                    
-                    if (postData.TryGetValue("text", out consoleText))
+                    if (postData.TryGetValue("text", out var text))
                     {
-                        view.ConsoleText = consoleText; 
+                        view.ConsoleText = text; 
                     }
-                   
-                    if (Int32.TryParse(postData?["key"], out consoleKey))
+
+                    if (postData.TryGetValue("console_modifiers", out var consoleModifiers))
                     {
-                        view.ConsoleKey = consoleKey;
-                        
-                        view.waitHandle[1].Reset();
-                        view.waitHandle[0].Set();
-                        
-                        if (!programLoopThread.IsAlive)
+                        if (consoleModifiers != "null" && Int32.TryParse(consoleModifiers, out var consoleKeyModifiers))
                         {
-                            programLoopThread = new Thread(()=>ProgramLoop(view));
-                            programLoopThread.IsBackground = false;
-                            programLoopThread.Start();
+                            view.ConsoleKeyModifiers = consoleKeyModifiers;
                         }
-                        view.waitHandle[1].WaitOne();
                     }
+
+                    if (postData.TryGetValue("console_key", out var key))
+                    {
+                        if (key != "null" && Int32.TryParse(key, out var consoleKey))
+                        {
+                            view.ConsoleKey = consoleKey;
+                        }
+                    }
+
+                    view.waitHandle[1].Reset();
+                    view.waitHandle[0].Set();
+                
+                    if (!programLoopThread.IsAlive)
+                    {
+                        programLoopThread = new Thread(()=>ProgramLoop(view));
+                        programLoopThread.IsBackground = false;
+                        programLoopThread.Start();
+                    }
+                    view.waitHandle[1].WaitOne();
+                    
                 }
                 else
                 {
                     requestContext.Response.StatusCode = 500; //exception
                 }
         
-                Console.WriteLine(view.Buffer);
-
+               // Console.WriteLine(view.Buffer);
+               Console.Clear();
+               view.ShowMap();
+                   
                 requestContext.Response.Headers.Add("lastMethodRequired",view.lastMethodRequired);
                 view.lastMethodRequired = "";
                 
@@ -107,7 +123,7 @@ namespace ShowCase.Controllers
 
         private static void ProgramLoop(IView view)
         {
-            _programController.Loop();
+            _programController.Step();
             view.waitHandle[1].Set();
         }
         

@@ -43,7 +43,7 @@ namespace ShowCase.Controllers
             Loop();
         }
         /*Main loop the programm*/
-        public void Loop()
+        private void Loop()
         {
             bool continue_ = true;
             while (continue_)
@@ -53,14 +53,20 @@ namespace ShowCase.Controllers
                 _view.MapGenerate(_pointerItems, _menu);
             }
         }
+        public void Step()
+        {
+            ReadKey();
+            _menu = MakeMenu();
+            _view.MapGenerate(_pointerItems, _menu);
+        }
         /*Button handing*/
         private bool ReadKey()
         {
-            ConsoleKeyInfo key = Console.ReadKey(true);
+            var key = _view.ReadKey();
             /*If i have hold "shift" button, i can to change position cursor inside a case and in menu*/
-            if ((key.Modifiers & ConsoleModifiers.Shift) != 0)
+            if (key[0] != 0 && key[1] != 0)
             {
-                switch ((int)key.Key)
+                switch (key[0])
                 {
                     case (int)DataBase.KeyData.UP:
                         ChangePositionMenu(-1);
@@ -81,7 +87,7 @@ namespace ShowCase.Controllers
             /*Main moving by view*/
             else
             {
-                switch ((int) key.Key)
+                switch (key[0])
                 {
                     case (int) DataBase.KeyData.UP:
                         ChangePositionShop(-1);
@@ -99,7 +105,7 @@ namespace ShowCase.Controllers
                         MenuActions();
                         break;
                     case (int) DataBase.KeyData.EXIT:
-                        Console.WriteLine("Exit");
+                        _view.PrintLine("Exit");
                         return false;
                     default:
                         return true;
@@ -154,7 +160,7 @@ namespace ShowCase.Controllers
                     break;
             }
             _pointerItems[3] = 0;
-            Console.Clear();
+            _view.Clear();
             Console.TreatControlCAsInput = true;/* drop default action when we're using modification key (ctrl, shift,alt) */
             Console.CursorVisible = false;/* hide cursor */
         }

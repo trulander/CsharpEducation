@@ -49,7 +49,7 @@ namespace ShowCase.Controllers
             string error;
             do
             {
-                complete = int.TryParse(Console.ReadLine(), out size);
+                complete = int.TryParse(_view.ReadLine(), out size);
                 if (complete)
                 {
                     complete = shop.ChangeSize(size, out error);
@@ -70,7 +70,7 @@ namespace ShowCase.Controllers
             string error;
             do
             {
-                complete = int.TryParse(Console.ReadLine(), out size);
+                complete = int.TryParse(_view.ReadLine(), out size);
                 if (complete)
                 {
                     complete = case_.ChangeSize(size, out error);
@@ -90,7 +90,7 @@ namespace ShowCase.Controllers
             string error;
             do
             {
-                complete = product.ReName(Console.ReadLine(),out error);
+                complete = product.ReName(_view.ReadLine(),out error);
                 _view.PrintLine(error);
             } while (!complete);
         }
@@ -102,7 +102,7 @@ namespace ShowCase.Controllers
             string error;
             do
             {
-                complete = case_.ReName(Console.ReadLine(),out error);
+                complete = case_.ReName(_view.ReadLine(),out error);
                 _view.PrintLine(error);
             } while (!complete);
         }
@@ -114,7 +114,7 @@ namespace ShowCase.Controllers
             string error;
             do
             {
-                complete = shop.ReName(Console.ReadLine(),out error);
+                complete = shop.ReName(_view.ReadLine(),out error);
                 _view.PrintLine(error);
             } while (!complete);
         }
@@ -142,7 +142,7 @@ namespace ShowCase.Controllers
             int newcost = 0;
             do
             {
-                complete = int.TryParse(Console.ReadLine(), out newcost);
+                complete = int.TryParse(_view.ReadLine(), out newcost);
                 if (complete)
                 {
                     product.ChacgeCost(newcost);

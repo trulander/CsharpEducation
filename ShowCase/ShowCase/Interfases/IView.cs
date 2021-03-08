@@ -7,14 +7,20 @@ namespace ShowCase.Interfases
 {
     public interface IView
     {
+        public void ShowMap();
         public string lastMethodRequired{ get; set; }
         public EventWaitHandle[] waitHandle { get; set; }
-        public int ConsoleKey { get; set; }
-        public string ConsoleText { get; set; }
+        public int? ConsoleKey { get; set; }
+        public int? ConsoleKeyModifiers { get; set; }
+        public string? ConsoleText { get; set; }
         public string Buffer { get; }
         public void Clear();
         public string ReadLine();
-        public int ReadKey();
+        /// <summary>
+        /// modified method as Console.ReadKey
+        /// </summary>
+        /// <returns>int[0] = code key, int[1] = code key modifiers</returns>
+        public int[] ReadKey();
 
         public void MapGenerate(int[] pointerItems, Dictionary<int, string> menu);
         public void GenerateShop(Shop<Case<Product<int>>> obj, int currentShop);

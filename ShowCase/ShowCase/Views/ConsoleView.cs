@@ -9,6 +9,13 @@ namespace ShowCase.Views
 {
     public class ConsoleView : ViewAbstract, IView
     {
+        public  void ShowMap()
+        {
+            throw new NotImplementedException();
+        }
+
+
+
         public override void Clear()
         {
             Console.Clear();
@@ -19,9 +26,14 @@ namespace ShowCase.Views
             return Console.ReadLine();
         }
 
-        public override int ReadKey()
+        public override int[] ReadKey()
         {
-            return (int)Console.ReadKey(true).Key;
+            var key = Console.ReadKey(true);
+            return new[]
+            {
+                (int) key.Key,
+                (int) key.Modifiers
+            };
         }
 
         protected override void SaveCurrentCursor()

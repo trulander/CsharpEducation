@@ -9,72 +9,87 @@ namespace ShowCase.Views
 {
     public class SeverView : ViewAbstract, IView
     {
-        private Dictionary<int, Dictionary<int, Dictionary<char, ConsoleColor>>> map = new Dictionary<int, Dictionary<int, Dictionary<char, ConsoleColor>>>();
-
-
-        public SeverView()
+        
+        /// <summary>
+        /// temporary method for local test client view 
+        /// </summary>
+        public void ShowMap()
         {
-            Buffer = "123";
-
-            
-
-            SavePixel(0,0,'a',ConsoleColor.Red);
-            SavePixel(0,1,'a',ConsoleColor.Blue);
-            SavePixel(0,2,'a',ConsoleColor.Green);
-
-            // var enumerable = GetPixel(0, 0).Key;
-            ShowPixel(0, 0);
-            ShowPixel(1, 0);
-            ShowPixel(2, 0);
-            ShowPixel(0, 1);
-            ShowPixel(0, 2);
-            Console.ReadKey();
-        }
-        private void ShowPixel(int x, int y)
-        {
-            Console.ForegroundColor = GetPixel(x, y).Value;
-            Console.Write(GetPixel(x, y).Key);
-
-        }
-        private void SavePixel(int x, int y, char symbol, ConsoleColor color)
-        {
-            if (!map.ContainsKey(x))
+            foreach (var x in _map)
             {
-                map.Add(x, new Dictionary<int, Dictionary<char, ConsoleColor>>());
-            }
-            if (!map[x].ContainsKey(y))
-            {
-                map[x].Add(y, new Dictionary<char, ConsoleColor>());
-            }
-            if (!map[x][y].ContainsKey(symbol))
-            {
-                map[x][y].Add(symbol, color);
-            }
-            else
-            {
-                map[x][y][symbol] = color;
+                foreach (var y in x.Value)
+                {
+                    ShowPixel(x.Key, y.Key, _map);
+                }
             }
         }
+        /// <summary>
+        /// temporary method for local test client view 
+        /// </summary>
+        private void ShowPixel(int x, int y, Dictionary<int, Dictionary<int, Dictionary<char, ConsoleColor>>> map)
+        {
+            Console.SetCursorPosition(x,y);
+            Console.ForegroundColor = GetPixel(x, y, map).Value;
+            Console.Write(GetPixel(x, y, map).Key);
 
-        private KeyValuePair<char, ConsoleColor> GetPixel(int x, int y)
+        }
+        /// <summary>
+        /// temporary method for local test client view 
+        /// </summary>
+        private KeyValuePair<char, ConsoleColor> GetPixel(int x, int y, Dictionary<int, Dictionary<int, Dictionary<char, ConsoleColor>>> map)
         {
             if (map.ContainsKey(x))
             {
                 if (map[x].ContainsKey(y))
                 {
-                    return map[x][y].ToImmutableDictionary().Single();
+                    return map[x][y].ToImmutableDictionary().First();
                 }
-                
             }
-
-            return new KeyValuePair<char, ConsoleColor>(' ',ConsoleColor.White);
-
+            return new KeyValuePair<char, ConsoleColor>(' ', ConsoleColor.White);
         }
+        
+        
+        
+        /// <summary>
+        /// Save pixel in charmap
+        /// </summary>
+        /// <param name="x">x coordinate</param>
+        /// <param name="y">y coordinate</param>
+        /// <param name="symbol">symbol for save</param>
+        /// <param name="color">color for symbol</param>
+        private void SavePixel(int x, int y, char symbol, ConsoleColor color)
+        {
+            if (!_map.ContainsKey(x))
+            {
+                _map.Add(x, new Dictionary<int, Dictionary<char, ConsoleColor>>());
+            }
+            if (!_map[x].ContainsKey(y))
+            {
+                _map[x].Add(y, new Dictionary<char, ConsoleColor>());
+            }
+            if (_map[x][y].Count == 0)
+            {
+                _map[x][y].Add(symbol, color);
+            }
+            else
+            {
+                _map[x][y].Clear();
+                _map[x][y].Add(symbol, color);
+            }
+        }
+        
+        /// <summary>
+        /// Clear charmap
+        /// </summary>
         public override void Clear()
         {
-            Buffer = "";
+            _map = new Dictionary<int, Dictionary<int, Dictionary<char, ConsoleColor>>>();
         }
 
+        /// <summary>
+        /// method for getting text from client? imitation console.readline
+        /// </summary>
+        /// <returns>text that got from client</returns>
         public override string ReadLine()
         {
             lastMethodRequired = "ReadLine";
@@ -89,22 +104,35 @@ namespace ShowCase.Views
             ConsoleText = "";
             return result;
         }
-
-        public override int ReadKey()
+        
+        /// <summary>
+        /// method for getting key from client? imitation console.readkey
+        /// </summary>
+        /// <returns>key that got from client</returns>
+        public override int[] ReadKey()
         {
             lastMethodRequired = "ReadKey";
-            if (ConsoleKey == 0)
+            if (ConsoleKey == null)
             {
                 waitHandle[0].Reset();
                 waitHandle[1].Set();
                 waitHandle[0].WaitOne();
                 lastMethodRequired = "ReadKey";
             }
-            var result = ConsoleKey;
-            ConsoleKey = 0;
+
+            int[] result = new int[]
+            {
+                ConsoleKey ?? 0,
+                ConsoleKeyModifiers ?? 0
+            };
+                
+            ConsoleKey = null;
             return result;
         }
 
+        /// <summary>
+        /// Save position virtual cursor to storage
+        /// </summary>
         protected override void SaveCurrentCursor()
         {
             _savedCursorX = _curentCursorX;
@@ -112,21 +140,35 @@ namespace ShowCase.Views
         }
 
 
-
+        /// <summary>
+        /// Save position virtual cursor for coordinate x to storage
+        /// </summary>
         protected override void SaveCurrentCursorX()
         {
             _savedCursorX = _curentCursorX;
         }
 
+        /// <summary>
+        /// set virtual cursor to position for x
+        /// </summary>
+        /// <param name="x">input coordinate x</param>
         protected override void SetCursorX(int x)
         {
             _curentCursorX = x;
         }
 
+        /// <summary>
+        /// set virtual cursor to position for y
+        /// </summary>
+        /// <param name="y">input coordinate y</param>
         protected override void SetCursorY(int y)
         {
             _curentCursorY = y;
         }    
+        
+        /// <summary>
+        /// Save position virtual cursor for coordinate y to storage
+        /// </summary>
         protected override int GetCurrentCursorY()
         {
             return _curentCursorY;
@@ -140,6 +182,7 @@ namespace ShowCase.Views
         public override int PrintLine(string value, ConsoleColor color = ConsoleColor.White)
         {
             Print(value, color);
+            _curentCursorX = 0;
             _curentCursorY++;
             return value.Length;
         }

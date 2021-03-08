@@ -1,6 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ClientShowCase
 {
@@ -9,11 +13,12 @@ namespace ClientShowCase
         public const string urlServerHost = "Http://localhost:8080/";
         private View _view = new View();
 
-        public Result Request(int key, string text = "")
+        public Result Request(int? consoleKey = null, int? consoleModifiers = null, string? text = null)
         {
             HttpClient httpClient = new HttpClient();
+            httpClient.Timeout = new TimeSpan(0, 0, 3);
             Result result;
-            var postData = new StringContent("key=" + key + "&text=" + text, Encoding.UTF8);
+            var postData = new StringContent("console_key=" + consoleKey + "&console_modifiers=" + consoleModifiers + "&text=" + text, Encoding.UTF8, "application/json");
             
             try
             {
@@ -21,7 +26,7 @@ namespace ClientShowCase
                 result = new Result
                 (
                     response.Headers.Contains("lastMethodRequired") ? response.Headers.GetValues("lastMethodRequired").Single() : "empty",
-                    response.Content.ReadAsStringAsync().Result
+                    JsonConvert.DeserializeObject<Dictionary<int, Dictionary<int, Dictionary<char, ConsoleColor>>>>(response.Content.ReadAsStringAsync().Result)
                 );
             }
             catch
