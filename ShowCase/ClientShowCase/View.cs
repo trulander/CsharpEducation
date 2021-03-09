@@ -11,19 +11,11 @@ namespace ClientShowCase
         {
             Console.TreatControlCAsInput = true;
         }
-        public void Write(string text, ConsoleColor color = ConsoleColor.Gray)
-        {
-            Console.ForegroundColor = color;
-            Console.Write(text);
-            Console.ResetColor();
-        }
 
-        public void WriteLine(string text, ConsoleColor color = ConsoleColor.Gray)
-        {
-            Write(text, color);
-            Console.WriteLine();
-        }
-
+        /// <summary>
+        /// Generating layout from client data
+        /// </summary>
+        /// <param name="map">char map</param>
         public void GenerateMap(Dictionary<int, Dictionary<int, Dictionary<char, ConsoleColor>>> map)
         {
             foreach (var x in map)
@@ -34,7 +26,12 @@ namespace ClientShowCase
                 }
             }
         }
-
+        /// <summary>
+        /// write one symbol in console
+        /// </summary>
+        /// <param name="x">coordinate x</param>
+        /// <param name="y">coordinate y</param>
+        /// <param name="map">char map</param>
         private void ShowPixel(int x, int y, Dictionary<int, Dictionary<int, Dictionary<char, ConsoleColor>>> map)
         {
             Console.SetCursorPosition(x, y);
@@ -43,6 +40,13 @@ namespace ClientShowCase
 
         }
 
+        /// <summary>
+        /// For getting associative KeyValuePair <char, color>
+        /// </summary>
+        /// <param name="x">x coordinate</param>
+        /// <param name="y">y coordinate</param>
+        /// <param name="map">char map</param>
+        /// <returns>KeyValuePair <char, color></returns>
         private KeyValuePair<char, ConsoleColor> GetPixel(int x, int y, Dictionary<int, Dictionary<int, Dictionary<char, ConsoleColor>>> map)
         {
             if (map.ContainsKey(x))
@@ -81,6 +85,18 @@ namespace ClientShowCase
                 (int) key.Key,
                 (int) key.Modifiers
             };
+        }
+        public void Write(string text, ConsoleColor color = ConsoleColor.Gray)
+        {
+            Console.ForegroundColor = color;
+            Console.Write(text);
+            Console.ResetColor();
+        }
+
+        public void WriteLine(string text, ConsoleColor color = ConsoleColor.Gray)
+        {
+            Write(text, color);
+            Console.WriteLine();
         }
     }
 }

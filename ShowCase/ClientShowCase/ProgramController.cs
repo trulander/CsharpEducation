@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ClientShowCase
+﻿namespace ClientShowCase
 {
     public class ProgramController
     {
@@ -12,7 +10,9 @@ namespace ClientShowCase
             _view = new View();
             _view.WriteLine("Http client for ShowCase");
             _httpController = new HttpController();
-            //first request for get view from server
+            /*
+             * first request for get view from server
+             */
             _response = _httpController.Request();
         }
 
