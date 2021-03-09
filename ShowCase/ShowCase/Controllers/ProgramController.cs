@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ShowCase.Interfases;
 using ShowCase.Models;
-using ShowCase.Views;
 
 namespace ShowCase.Controllers
 {
@@ -33,33 +31,37 @@ namespace ShowCase.Controllers
 
         public void StartProgram()
         {
-            /*filling out of demo data*/
-            DemoData demoData = new DemoData();
-            
-            Console.TreatControlCAsInput = true;/* drop default action when we're using modification key (ctrl, shift,alt) */
-            Console.CursorVisible = false;/* hide cursor */
             _menu = MakeMenu();
             _view.MapGenerate(_pointerItems, _menu);
             Loop();
         }
-        /*Main loop the programm*/
+        
+        /// <summary>
+        /// Main loop the programm
+        /// </summary>
         private void Loop()
         {
             bool continue_ = true;
             while (continue_)
             {
-                continue_ = ReadKey();
-                _menu = MakeMenu();
-                _view.MapGenerate(_pointerItems, _menu);
+                continue_ = Step();
             }
         }
-        public void Step()
+        /// <summary>
+        /// One step program of main loop
+        /// </summary>
+        /// <returns>if false it mean user wanted to exit from the program</returns>
+        public bool Step()
         {
-            ReadKey();
+            var result = ReadKey();
             _menu = MakeMenu();
             _view.MapGenerate(_pointerItems, _menu);
+            return result;
         }
-        /*Button handing*/
+        /// <summary>
+        /// Button handing
+        /// </summary>
+        /// <returns>if true we have to continue, if false we have to close the program</returns>
         private bool ReadKey()
         {
             var key = _view.ReadKey();
@@ -114,11 +116,11 @@ namespace ShowCase.Controllers
             return true;
         }
 
-        /*Router actions for menu*/
+        /// <summary>
+        /// Router actions for menu
+        /// </summary>
         private void MenuActions()
         {
-            Console.TreatControlCAsInput = false;/* apply default action when we're using modification key (ctrl, shift,alt) */
-            Console.CursorVisible = true;/* show cursor */
             switch (_menu.Keys.ElementAt(_pointerItems[3]))
             {
                 case (int)DataBase.Actions.EditSizeShop:
@@ -161,9 +163,11 @@ namespace ShowCase.Controllers
             }
             _pointerItems[3] = 0;
             _view.Clear();
-            Console.TreatControlCAsInput = true;/* drop default action when we're using modification key (ctrl, shift,alt) */
-            Console.CursorVisible = false;/* hide cursor */
         }
+        /// <summary>
+        /// Generator menu
+        /// </summary>
+        /// <returns>Dictionary<action,text for action></returns>
         private Dictionary<int, string> MakeMenu()
         {
             Dictionary<int, string> result = new Dictionary<int, string>();
@@ -206,7 +210,12 @@ namespace ShowCase.Controllers
            
             return result;
         }
-
+        
+        /// <summary>
+        /// Change position for virtual pointer for chose Shop.
+        /// That can see on the view
+        /// </summary>
+        /// <param name="goTo">+/-1</param>
         private void ChangePositionShop(int goTo)
         {
             if ((_pointerItems[0] + goTo) >= 0 && (goTo + _pointerItems[0]) <= _dataBase.shops.Capacity-1)
@@ -215,7 +224,12 @@ namespace ShowCase.Controllers
                 ChangePositionCase(0);
             }
         }
-
+        
+        /// <summary>
+        /// Change position for virtual pointer for chose Case.
+        /// That can see on the view
+        /// </summary>
+        /// <param name="goTo">+/-1</param>
         private void ChangePositionCase(int goTo)
         {
             /*if i on the empty shop, i have to clear case and product positions*/
@@ -254,6 +268,11 @@ namespace ShowCase.Controllers
             }
            
         }
+        /// <summary>
+        /// Change position for virtual pointer inside Case for chose product or empty place.
+        /// That can see on the view
+        /// </summary>
+        /// <param name="goTo">+/-1</param>
         private void ChangePositionProduct(int goTo)
         {
             /*if i'm not on the empty shop*/
@@ -272,6 +291,11 @@ namespace ShowCase.Controllers
             }
         }
 
+        /// <summary>
+        /// Change position for virtual pointer inside menu.
+        /// That can see on the view
+        /// </summary>
+        /// <param name="goTo">+/-1</param>
         private void ChangePositionMenu(int goTo)
         {
             _menu = MakeMenu();

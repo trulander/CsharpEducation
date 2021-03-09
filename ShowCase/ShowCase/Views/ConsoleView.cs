@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using ShowCase.Interfases;
 using ShowCase.Models;
 
@@ -9,12 +6,14 @@ namespace ShowCase.Views
 {
     public class ConsoleView : ViewAbstract, IView
     {
+        public ConsoleView()
+        {
+            Console.CursorVisible = false;/* hide cursor */
+        }
         public  void ShowMap()
         {
             throw new NotImplementedException();
         }
-
-
 
         public override void Clear()
         {
@@ -23,12 +22,18 @@ namespace ShowCase.Views
 
         public override string ReadLine()
         {
-            return Console.ReadLine();
+            Console.CursorVisible = true;
+            var result = Console.ReadLine();
+            Console.CursorVisible = false;
+            return result;
+
         }
 
         public override int[] ReadKey()
         {
+            Console.TreatControlCAsInput = true;
             var key = Console.ReadKey(true);
+            Console.TreatControlCAsInput = false;
             return new[]
             {
                 (int) key.Key,

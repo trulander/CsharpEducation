@@ -7,6 +7,10 @@ namespace ClientShowCase
 {
     public class View
     {
+        public View()
+        {
+            Console.TreatControlCAsInput = true;
+        }
         public void Write(string text, ConsoleColor color = ConsoleColor.Gray)
         {
             Console.ForegroundColor = color;
@@ -57,6 +61,26 @@ namespace ClientShowCase
         public void Clear()
         {
             Console.Clear();
+        }
+        public string ReadLine()
+        {
+            Console.CursorVisible = true;
+            Console.TreatControlCAsInput = false;
+            var result = Console.ReadLine();
+            Console.CursorVisible = false;
+            Console.TreatControlCAsInput = true;
+            return result;
+
+        }
+
+        public int[] ReadKey()
+        {
+            var key = Console.ReadKey(true);
+            return new[]
+            {
+                (int) key.Key,
+                (int) key.Modifiers
+            };
         }
     }
 }

@@ -8,6 +8,7 @@ namespace ClientShowCase
         static void Main(string[] args)
         {
             ProgramController programController = new ProgramController();
+            programController.StartProgram();
         }
     }
 }

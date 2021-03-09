@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Threading;
-using Microsoft.VisualBasic;
-using ShowCase.Interfases;
+
 
 namespace ShowCase.Models
 {
