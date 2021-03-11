@@ -9,7 +9,6 @@ namespace ShowCase.Controllers
     {
         private DataBase _dataBase = DataBase.GetInstance();
         private IView _view;
-
         public ModelController(IView view)
         {
             _view = view;

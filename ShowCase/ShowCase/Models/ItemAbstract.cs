@@ -11,7 +11,7 @@ namespace ShowCase.Models
         public List<T> storage { get; set; }
         private int _nameLengthMax = 15;
         private int _nameLengthMin = 1;
-
+        
         public ItemAbstract()
         {
             whenCreate = DateTime.Now;
@@ -59,6 +59,7 @@ namespace ShowCase.Models
         {
             storage.Remove(item);
         }
+
         public bool ReName(string name, out string error)
         {
             if (name.Length <= _nameLengthMax && name.Length >= _nameLengthMin)

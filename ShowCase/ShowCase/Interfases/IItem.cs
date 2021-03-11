@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ShowCase.Controllers;
+using ShowCase.Models;
 
 namespace ShowCase.Interfases
 {
@@ -14,5 +15,6 @@ namespace ShowCase.Interfases
         void Create(T item);
         bool ReName(string name, out string error);
         void Remove(T item);
+
     }
 }

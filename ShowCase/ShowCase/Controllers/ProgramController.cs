@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ShowCase.Interfases;
 using ShowCase.Models;
 
 namespace ShowCase.Controllers
 {
+    public delegate void DelegateNotification(string message);
     public class ProgramController
     {
+        private DelegateNotification _notifier = message => { };
         private DataBase _dataBase = DataBase.GetInstance();
         private ModelController _modelController;
         private IView _view;
         private Dictionary<int, string> _menu;
-
         private int[] _pointerItems = new int[4];
         public ProgramController(IView view)
         {
@@ -27,8 +29,28 @@ namespace ShowCase.Controllers
             _view = view;
             
             _modelController = new ModelController(_view);
-        }
 
+            /*
+             * Setup delegate chain.
+             * The chain include database - programcontroller.
+             * It needs for connecting local part of the program and server part.
+             * Database in the program has singleton realization and has all data for both parts of the program.
+             */
+            _notifier += NotificationUpdate;
+            _notifier += _view.NotifiedMessage;
+            _notifier += _dataBase.SetNotifier(_notifier);
+        }
+        
+        /// <summary>
+        /// Method for delegate notification
+        /// </summary>
+        /// <param name="message"></param>
+        private void NotificationUpdate(string message)
+        {
+            _view.Clear();
+            _menu = MakeMenu();
+            _view.MapGenerate(_pointerItems, _menu);
+        }
         public void StartProgram()
         {
             _menu = MakeMenu();
@@ -121,48 +143,62 @@ namespace ShowCase.Controllers
         /// </summary>
         private void MenuActions()
         {
+            string resultText = null;
             switch (_menu.Keys.ElementAt(_pointerItems[3]))
             {
                 case (int)DataBase.Actions.EditSizeShop:
                     _modelController.EditSize(_dataBase.shops[_pointerItems[0]]);
+                    resultText = "Shop was resized";
                     break;
                 case (int)DataBase.Actions.EditSizeCase:
                     _modelController.EditSize(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]]);
+                    resultText = "Case was resized";
                     break;
                 case (int)DataBase.Actions.RemoveShop:
                     _modelController.Remove(_dataBase.shops[_pointerItems[0]]);
+                    resultText = "Shop was removed";
                     break;
                 case (int)DataBase.Actions.RemoveCase:
                     _modelController.Remove(_dataBase.shops[_pointerItems[0]], _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]]);
+                    resultText = "Case was removed";
                     break;
                 case (int)DataBase.Actions.RemoveProduct:
                     _modelController.Remove(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]], _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]]);
+                    resultText = "Product was removed";
                     break;
                 case (int)DataBase.Actions.AddShop:
                     _modelController.Create();
+                    resultText = "Shop was created";
                     break;
                 case (int)DataBase.Actions.AddCase:
                     _modelController.Create(_dataBase.shops[_pointerItems[0]]);
+                    resultText = "Case was created";
                     break;
                 case (int)DataBase.Actions.AddProduct:
                     _modelController.Create(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]]);
+                    resultText = "Product was created";
                     break;
                 case (int)DataBase.Actions.EditNameProduct:
                     _modelController.Rename(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]]);
+                    resultText = "Product was renamed";
                     break;
 
                 case (int)DataBase.Actions.EditNameShop:
                     _modelController.Rename(_dataBase.shops[_pointerItems[0]]);
+                    resultText = "Shop was renamed";
                     break;
                 case (int)DataBase.Actions.EditNameCase:
                     _modelController.Rename(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]]);
+                    resultText = "Case was renamed";
                     break;
                 case (int)DataBase.Actions.EditCostProduct:
                     _modelController.ChangeCost(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]]);
+                    resultText = "Product's cost was changed";
                     break;
             }
             _pointerItems[3] = 0;
-            _view.Clear();
+            _dataBase.MakeNotification(resultText);
+            //_view.Clear();
         }
         /// <summary>
         /// Generator menu

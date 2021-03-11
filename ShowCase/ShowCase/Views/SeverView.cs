@@ -197,5 +197,10 @@ namespace ShowCase.Views
             }
             return value.Length;
         }
+
+        public void NotifiedMessage(string message)
+        {
+            //Console.WriteLine("server notification");
+        }
     }
 }

@@ -2,6 +2,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
+using ShowCase.Controllers;
 using ShowCase.Interfases;
 
 namespace ShowCase.Models
@@ -9,8 +12,18 @@ namespace ShowCase.Models
     public class DataBase : IDataBase
     {
         private static DataBase? _instanceDatabase = null;
-        public List<Shop<Case<Product<int>>>> shops { get; set; }
-        //public ArrayList[][] Root { get; set; }
+        private List<Shop<Case<Product<int>>>> _shops;
+        private DelegateNotification _notifier = message => { };
+
+        public void MakeNotification(string message)
+        {
+            _notifier.Invoke(message);
+        }
+        public DelegateNotification SetNotifier(DelegateNotification delegation)
+        {
+            return _notifier += delegation;
+        }
+        public List<Shop<Case<Product<int>>>> shops{ get; set; }
 
         /*binding button*/
         public enum KeyData

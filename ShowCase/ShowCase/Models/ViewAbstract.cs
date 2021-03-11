@@ -278,36 +278,39 @@ namespace ShowCase.Models
             SetCursorX(_savedCursorX);
             SizeMenuX = PrintLine("-------Menu-------");
             ConsoleColor color = ConsoleColor.White;
-            foreach (KeyValuePair<int, string> item in menu)
+            if (menu != null)
             {
-                if (_pointerItems[3] == 0)
+                foreach (KeyValuePair<int, string> item in menu)
                 {
-                    if (item.Key == menu.Keys.First())
+                    if (_pointerItems[3] == 0)
                     {
-                        color = ConsoleColor.Green;
+                        if (item.Key == menu.Keys.First())
+                        {
+                            color = ConsoleColor.Green;
+                        }
+                        else
+                        {
+                            color = ConsoleColor.White;    
+                        }
                     }
                     else
                     {
-                        color = ConsoleColor.White;    
+                        if (menu.Keys.ElementAt(_pointerItems[3]) == item.Key)
+                        {
+                            color = ConsoleColor.Green;
+                        }
+                        else
+                        {
+                            color = ConsoleColor.White;                        
+                        }
                     }
+                    SetCursorX(_savedCursorX);
+                    SizeMenuX = PrintLine(item.Value, color);
                 }
-                else
-                {
-                    if (menu.Keys.ElementAt(_pointerItems[3]) == item.Key)
-                    {
-                        color = ConsoleColor.Green;
-                    }
-                    else
-                    {
-                        color = ConsoleColor.White;                        
-                    }
-                }
-                SetCursorX(_savedCursorX);
-                SizeMenuX = PrintLine(item.Value, color);
+                SizeMenuY = GetCurrentCursorY();
+                SetCursorX(0);
+                SetCursorY(_maxCoordinatY+1);
             }
-            SizeMenuY = GetCurrentCursorY();
-            SetCursorX(0);
-            SetCursorY(_maxCoordinatY+1);
         }
         /*save maximum coordinate for generate menu to the right of main place*/
         public void CountPointerForMenu()

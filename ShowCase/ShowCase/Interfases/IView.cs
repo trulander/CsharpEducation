@@ -30,8 +30,9 @@ namespace ShowCase.Interfases
         public int PrintLine(string value, ConsoleColor color = ConsoleColor.White);
         public int Print(string value, ConsoleColor color = ConsoleColor.White);
         public void Instruction();
-        
-        
+
+        public void NotifiedMessage(string message);
+
 
     }
 }
