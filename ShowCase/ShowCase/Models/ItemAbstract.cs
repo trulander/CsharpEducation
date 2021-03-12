@@ -8,63 +8,62 @@ namespace ShowCase.Models
     public class ItemAbstract<T> : IItem<T>
     {
         private int _size;
-        public List<T> storage { get; set; }
         private int _nameLengthMax = 15;
         private int _nameLengthMin = 1;
-        
+        public List<T> Storage { get; set; }        
         public ItemAbstract()
         {
-            whenCreate = DateTime.Now;
-            id = new Guid();
+            WhenCreate = DateTime.Now;
+            Id = new Guid();
         }
         public bool ChangeSize(int size, out string error)
         {
             if (size <= ISize<int>.maxSize && size >= ISize<int>.minSize)
             {
-                if (storage.Count > size)
+                if (Storage.Count > size)
                 {
-                    error = "The size must be more then case has items. (" + storage.Count + ")";
+                    error = "The size must be more then case has items. (" + Storage.Count + ")";
                     return false;
                 }
-                storage.Capacity = size;
+                Storage.Capacity = size;
                 error = "";
                 return true;
             }
 
-            error = "Please write new size ("+(storage.Count > 1 ? storage.Count : 1)+"-"+ISize<int>.maxSize+")";
+            error = "Please write new size ("+(Storage.Count > 1 ? Storage.Count : 1)+"-"+ISize<int>.maxSize+")";
             return false;
         }
         public void ChacgeCost(int newcost)
         {
-            cost = newcost;
+            Cost = newcost;
         }
 
-        public Guid id { get; set; }
-        public string name { get; set; }
-        public DateTime whenCreate { get; set; }
-        public int cost { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public DateTime WhenCreate { get; set; }
+        public int Cost { get; set; }
 
         public ItemAbstract(int size)
         {
             _size = size;
-            storage = new List<T>(_size);
+            Storage = new List<T>(_size);
         }
         
         public void Create(T item)
         {
-            storage.Add(item);
+            Storage.Add(item);
         }
 
         public void Remove(T item)
         {
-            storage.Remove(item);
+            Storage.Remove(item);
         }
 
         public bool ReName(string name, out string error)
         {
             if (name.Length <= _nameLengthMax && name.Length >= _nameLengthMin)
             {
-                this.name = name;
+                this.Name = name;
                 error = "";
                 return true;
             }

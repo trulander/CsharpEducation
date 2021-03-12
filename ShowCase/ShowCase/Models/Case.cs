@@ -10,8 +10,8 @@ namespace ShowCase.Models
     {
         public Case(int size) : base(size)
         {
-            id = Guid.NewGuid();
-            whenCreate = DateTime.Now;
+            Id = Guid.NewGuid();
+            WhenCreate = DateTime.Now;
         }
     }
 }

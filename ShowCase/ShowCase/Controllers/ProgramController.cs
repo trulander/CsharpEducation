@@ -147,23 +147,23 @@ namespace ShowCase.Controllers
             switch (_menu.Keys.ElementAt(_pointerItems[3]))
             {
                 case (int)DataBase.Actions.EditSizeShop:
-                    _modelController.EditSize(_dataBase.shops[_pointerItems[0]]);
+                    _modelController.EditSize(_dataBase.Shops[_pointerItems[0]]);
                     resultText = "Shop was resized";
                     break;
                 case (int)DataBase.Actions.EditSizeCase:
-                    _modelController.EditSize(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]]);
+                    _modelController.EditSize(_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]]);
                     resultText = "Case was resized";
                     break;
                 case (int)DataBase.Actions.RemoveShop:
-                    _modelController.Remove(_dataBase.shops[_pointerItems[0]]);
+                    _modelController.Remove(_dataBase.Shops[_pointerItems[0]]);
                     resultText = "Shop was removed";
                     break;
                 case (int)DataBase.Actions.RemoveCase:
-                    _modelController.Remove(_dataBase.shops[_pointerItems[0]], _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]]);
+                    _modelController.Remove(_dataBase.Shops[_pointerItems[0]], _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]]);
                     resultText = "Case was removed";
                     break;
                 case (int)DataBase.Actions.RemoveProduct:
-                    _modelController.Remove(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]], _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]]);
+                    _modelController.Remove(_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]], _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]]);
                     resultText = "Product was removed";
                     break;
                 case (int)DataBase.Actions.AddShop:
@@ -171,28 +171,28 @@ namespace ShowCase.Controllers
                     resultText = "Shop was created";
                     break;
                 case (int)DataBase.Actions.AddCase:
-                    _modelController.Create(_dataBase.shops[_pointerItems[0]]);
+                    _modelController.Create(_dataBase.Shops[_pointerItems[0]]);
                     resultText = "Case was created";
                     break;
                 case (int)DataBase.Actions.AddProduct:
-                    _modelController.Create(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]]);
+                    _modelController.Create(_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]]);
                     resultText = "Product was created";
                     break;
                 case (int)DataBase.Actions.EditNameProduct:
-                    _modelController.Rename(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]]);
+                    _modelController.Rename(_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]]);
                     resultText = "Product was renamed";
                     break;
 
                 case (int)DataBase.Actions.EditNameShop:
-                    _modelController.Rename(_dataBase.shops[_pointerItems[0]]);
+                    _modelController.Rename(_dataBase.Shops[_pointerItems[0]]);
                     resultText = "Shop was renamed";
                     break;
                 case (int)DataBase.Actions.EditNameCase:
-                    _modelController.Rename(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]]);
+                    _modelController.Rename(_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]]);
                     resultText = "Case was renamed";
                     break;
                 case (int)DataBase.Actions.EditCostProduct:
-                    _modelController.ChangeCost(_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]]);
+                    _modelController.ChangeCost(_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]]);
                     resultText = "Product's cost was changed";
                     break;
             }
@@ -207,15 +207,15 @@ namespace ShowCase.Controllers
         private Dictionary<int, string> MakeMenu()
         {
             Dictionary<int, string> result = new Dictionary<int, string>();
-            if (_dataBase.shops.Count > _pointerItems[0])
+            if (_dataBase.Shops.Count > _pointerItems[0])
             {
                 result.Add((int)DataBase.Actions.EditSizeShop ,"Edit size the shop");
                 result.Add((int)DataBase.Actions.EditNameShop ,"Edit name the shop");
-                if (_dataBase.shops[_pointerItems[0]].storage.Count > _pointerItems[1])
+                if (_dataBase.Shops[_pointerItems[0]].Storage.Count > _pointerItems[1])
                 {
                     result.Add((int)DataBase.Actions.EditSizeCase, "Edit size the case");
                     result.Add((int)DataBase.Actions.EditNameCase ,"Edit name the case");
-                    if (_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage.Count > _pointerItems[2])
+                    if (_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Count > _pointerItems[2])
                     {
                         result.Add((int)DataBase.Actions.EditNameProduct,"Edit name the product");
                         result.Add((int)DataBase.Actions.EditCostProduct ,"Edit cost the product");
@@ -223,7 +223,7 @@ namespace ShowCase.Controllers
                     }
                     else
                     {
-                        if (_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage.Count == 0)
+                        if (_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Count == 0)
                         {
                             result.Add((int)DataBase.Actions.RemoveCase, "Remove the case");
                         }
@@ -232,7 +232,7 @@ namespace ShowCase.Controllers
                 }
                 else
                 {
-                    if (_dataBase.shops[_pointerItems[0]].storage.Count == 0)
+                    if (_dataBase.Shops[_pointerItems[0]].Storage.Count == 0)
                     {
                         result.Add((int)DataBase.Actions.RemoveShop, "Remove the shop");
                     }
@@ -254,7 +254,7 @@ namespace ShowCase.Controllers
         /// <param name="goTo">+/-1</param>
         private void ChangePositionShop(int goTo)
         {
-            if ((_pointerItems[0] + goTo) >= 0 && (goTo + _pointerItems[0]) <= _dataBase.shops.Capacity-1)
+            if ((_pointerItems[0] + goTo) >= 0 && (goTo + _pointerItems[0]) <= _dataBase.Shops.Capacity-1)
             {
                 _pointerItems[0] = _pointerItems[0] + goTo;
                 ChangePositionCase(0);
@@ -269,19 +269,19 @@ namespace ShowCase.Controllers
         private void ChangePositionCase(int goTo)
         {
             /*if i on the empty shop, i have to clear case and product positions*/
-            if (_dataBase.shops.Count > _pointerItems[0])
+            if (_dataBase.Shops.Count > _pointerItems[0])
             {
                 /*if possible to go where i want*/
-                if ((_pointerItems[1] + goTo) >= 0 && (goTo + _pointerItems[1]) <= _dataBase.shops[_pointerItems[0]].storage.Capacity-1)
+                if ((_pointerItems[1] + goTo) >= 0 && (goTo + _pointerItems[1]) <= _dataBase.Shops[_pointerItems[0]].Storage.Capacity-1)
                 {
                     _pointerItems[1] = _pointerItems[1] + goTo;
                     /*if i'm on the empty case? i have to clear product position*/
-                    if (_dataBase.shops[_pointerItems[0]].storage.Count > _pointerItems[1])
+                    if (_dataBase.Shops[_pointerItems[0]].Storage.Count > _pointerItems[1])
                     {
                         /*if after change case position i'm on impossible product, i have to change product position for possible(for last)*/
-                        if (_pointerItems[2] > _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage.Capacity-1)
+                        if (_pointerItems[2] > _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Capacity-1)
                         {
-                            _pointerItems[2] = _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage.Capacity-1;
+                            _pointerItems[2] = _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Capacity-1;
                         }
                     }
                     else
@@ -289,9 +289,9 @@ namespace ShowCase.Controllers
                         _pointerItems[2] = 0;
                     } 
                 /*if i can't to go where i want*/
-                }else if (_pointerItems[1] > _dataBase.shops[_pointerItems[0]].storage.Capacity-1)
+                }else if (_pointerItems[1] > _dataBase.Shops[_pointerItems[0]].Storage.Capacity-1)
                 {
-                    _pointerItems[1] = _dataBase.shops[_pointerItems[0]].storage.Capacity - 1;
+                    _pointerItems[1] = _dataBase.Shops[_pointerItems[0]].Storage.Capacity - 1;
                     _pointerItems[2] = 0;
                 }
                 _pointerItems[3] = 0;
@@ -312,13 +312,13 @@ namespace ShowCase.Controllers
         private void ChangePositionProduct(int goTo)
         {
             /*if i'm not on the empty shop*/
-            if (_dataBase.shops.Count > _pointerItems[0])
+            if (_dataBase.Shops.Count > _pointerItems[0])
             {
                 /*if i'm not on the empty case*/
-                if (_dataBase.shops[_pointerItems[0]].storage.Count > _pointerItems[1])
+                if (_dataBase.Shops[_pointerItems[0]].Storage.Count > _pointerItems[1])
                 {
                     /*check for possible to move*/
-                    if ((_pointerItems[2] + goTo) >= 0 && (goTo + _pointerItems[2]) <= _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage.Capacity-1)
+                    if ((_pointerItems[2] + goTo) >= 0 && (goTo + _pointerItems[2]) <= _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Capacity-1)
                     {
                         _pointerItems[2] = _pointerItems[2] + goTo;
                         _pointerItems[3] = 0;

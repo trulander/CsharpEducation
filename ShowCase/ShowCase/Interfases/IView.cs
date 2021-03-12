@@ -8,8 +8,8 @@ namespace ShowCase.Interfases
     public interface IView
     {
         public void ShowMap();
-        public string lastMethodRequired{ get; set; }
-        public EventWaitHandle[] waitHandle { get; set; }
+        public string LastMethodRequired{ get; set; }
+        public EventWaitHandle[] WaitHandles { get; set; }
         public int? ConsoleKey { get; set; }
         public int? ConsoleKeyModifiers { get; set; }
         public string? ConsoleText { get; set; }

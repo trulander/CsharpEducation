@@ -9,8 +9,8 @@ namespace ShowCase.Models
 {
     public abstract class ViewAbstract
     {
-        public EventWaitHandle[] waitHandle { get; set; }
-        public string lastMethodRequired { get; set; }
+        public EventWaitHandle[] WaitHandles { get; set; }
+        public string LastMethodRequired { get; set; }
         public int? ConsoleKey { get; set; }
         public int? ConsoleKeyModifiers { get; set; }
         public string? ConsoleText { get; set; }
@@ -68,11 +68,11 @@ namespace ShowCase.Models
             SetCursorX(0);
             SetCursorY(0);
             _pointerItems = pointerItems;
-            for (int i = 0; i < _dataBase.shops.Capacity; i++)
+            for (int i = 0; i < _dataBase.Shops.Capacity; i++)
             {
-                if (_dataBase.shops.Count > i)
+                if (_dataBase.Shops.Count > i)
                 {                
-                    GenerateShop(_dataBase.shops[i], i);
+                    GenerateShop(_dataBase.Shops[i], i);
                 }
                 else
                 {
@@ -90,7 +90,7 @@ namespace ShowCase.Models
             }
             GenerateMenu(menu);
         }
-        /*Generating one of shops*/
+        /*Generating one of Shops*/
         public void GenerateShop(Shop<Case<Product<int>>> shop, int currentShop)
         {
             ConsoleColor color;
@@ -104,11 +104,11 @@ namespace ShowCase.Models
 
             int sizeHeadshop = -4;
 
-            for (int i = 0; i < shop.storage.Capacity; i++)
+            for (int i = 0; i < shop.Storage.Capacity; i++)
             {
-                if (shop.storage.Count > i)
+                if (shop.Storage.Count > i)
                 {
-                    sizeHeadshop += (shop.storage[i].storage.Capacity * 5) + 4;
+                    sizeHeadshop += (shop.Storage[i].Storage.Capacity * 5) + 4;
                 }
                 else
                 {
@@ -126,7 +126,7 @@ namespace ShowCase.Models
             SaveCurrentCursor();
             ConsoleColor caseColor;
             int currentCase;
-            for (int i = 0; i < shop.storage.Capacity; i++)
+            for (int i = 0; i < shop.Storage.Capacity; i++)
             {
                 if (currentShop == _pointerItems[0] && _pointerItems[1] == i)
                 {
@@ -139,9 +139,9 @@ namespace ShowCase.Models
                     currentCase = -1;
                 }
 
-                if (shop.storage.Count > i)
+                if (shop.Storage.Count > i)
                 {
-                    GenerateCase(shop.storage[i], currentCase);
+                    GenerateCase(shop.Storage[i], currentCase);
                 }
                 else
                 {
@@ -176,13 +176,13 @@ namespace ShowCase.Models
             }
             SetCursorY(_savedCursorY);
             PrintLine("/-" + 
-                      new string('-',((case_.storage.Capacity * 5) / 2) - 2) + 
+                      new string('-',((case_.Storage.Capacity * 5) / 2) - 2) + 
                       "Case" + 
-                      new string('-',((case_.storage.Capacity * 5) / 2) - 2 + ((case_.storage.Capacity * 5) % 2)) + 
+                      new string('-',((case_.Storage.Capacity * 5) / 2) - 2 + ((case_.Storage.Capacity * 5) % 2)) + 
                       "-\\", caseColor);
             SetCursorX(_savedCursorX);
             Print("|-", caseColor);
-            for (int i = 0; i < case_.storage.Capacity; i++)
+            for (int i = 0; i < case_.Storage.Capacity; i++)
             {
                 ConsoleColor color;
                 if (currentCase == _pointerItems[1] && _pointerItems[2] == i)
@@ -194,9 +194,9 @@ namespace ShowCase.Models
                     color = ConsoleColor.White;
                 }
 
-                if (case_.storage.Count > i)
+                if (case_.Storage.Count > i)
                 {
-                    Print("-[" + case_.storage[i].Marker + "]-", color);
+                    Print("-[" + case_.Storage[i].Marker + "]-", color);
                 }
                 else
                 {
@@ -205,7 +205,7 @@ namespace ShowCase.Models
             }
             PrintLine("-|", caseColor);
             SetCursorX(_savedCursorX);
-            Print("\\-" + new string('-',case_.storage.Capacity * 5) + "-/", caseColor);
+            Print("\\-" + new string('-',case_.Storage.Capacity * 5) + "-/", caseColor);
             SaveCurrentCursorX();
         }
         
@@ -230,44 +230,44 @@ namespace ShowCase.Models
             SizeMenuX = PrintLine("Current shop : " + (_pointerItems[0] + 1));
 
             /*if i'm on empty shop, i don't have to show information about shop*/
-            if (_dataBase.shops.Count > _pointerItems[0])
+            if (_dataBase.Shops.Count > _pointerItems[0])
             {
                 SetCursorX(_savedCursorX);
-                SizeMenuX = PrintLine("  id : " + _dataBase.shops[_pointerItems[0]].id.ToString().Substring(0,13));
+                SizeMenuX = PrintLine("  id : " + _dataBase.Shops[_pointerItems[0]].Id.ToString().Substring(0,13));
                 SetCursorX(_savedCursorX);
-                SizeMenuX = PrintLine("  data create : " + _dataBase.shops[_pointerItems[0]].whenCreate.ToString().Substring(0,10));
+                SizeMenuX = PrintLine("  data create : " + _dataBase.Shops[_pointerItems[0]].WhenCreate.ToString().Substring(0,10));
                 SetCursorX(_savedCursorX);
-                SizeMenuX = PrintLine("  time create : " + _dataBase.shops[_pointerItems[0]].whenCreate.ToString().Substring(11));
+                SizeMenuX = PrintLine("  time create : " + _dataBase.Shops[_pointerItems[0]].WhenCreate.ToString().Substring(11));
                 SetCursorX(_savedCursorX);
-                SizeMenuX = PrintLine("  name : " + _dataBase.shops[_pointerItems[0]].name);
+                SizeMenuX = PrintLine("  name : " + _dataBase.Shops[_pointerItems[0]].Name);
                 SetCursorX(_savedCursorX);
                 SizeMenuX = PrintLine("Current case : " + (_pointerItems[1] + 1));
                 /*if i'm on empty case, i don't have to show information about case*/
-                if (_dataBase.shops[_pointerItems[0]].storage.Count > _pointerItems[1])
+                if (_dataBase.Shops[_pointerItems[0]].Storage.Count > _pointerItems[1])
                 {   
                     SetCursorX(_savedCursorX);
-                    SizeMenuX = PrintLine("  id : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].id.ToString().Substring(0,13));
+                    SizeMenuX = PrintLine("  id : " + _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Id.ToString().Substring(0,13));
                     SetCursorX(_savedCursorX);
-                    SizeMenuX = PrintLine("  data create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].whenCreate.ToString().Substring(0,10));
+                    SizeMenuX = PrintLine("  data create : " + _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].WhenCreate.ToString().Substring(0,10));
                     SetCursorX(_savedCursorX);
-                    SizeMenuX = PrintLine("  time create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].whenCreate.ToString().Substring(11));
+                    SizeMenuX = PrintLine("  time create : " + _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].WhenCreate.ToString().Substring(11));
                     SetCursorX(_savedCursorX);
-                    SizeMenuX = PrintLine("  name : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].name);
+                    SizeMenuX = PrintLine("  name : " + _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Name);
                     /*if i'm on empty field for product, i don't have to show information about products*/
-                    if (_dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage.Count > _pointerItems[2])
+                    if (_dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage.Count > _pointerItems[2])
                     {
                         SetCursorX(_savedCursorX);
                         SizeMenuX = PrintLine("Current product : " + (_pointerItems[2] + 1));
                         SetCursorX(_savedCursorX);
-                        SizeMenuX = PrintLine("  id : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].id.ToString().Substring(0,13));                    
+                        SizeMenuX = PrintLine("  id : " + _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]].Id.ToString().Substring(0,13));                    
                         SetCursorX(_savedCursorX);
-                        SizeMenuX = PrintLine("  data create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].whenCreate.ToString().Substring(0,10));
+                        SizeMenuX = PrintLine("  data create : " + _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]].WhenCreate.ToString().Substring(0,10));
                         SetCursorX(_savedCursorX);
-                        SizeMenuX = PrintLine("  time create : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].whenCreate.ToString().Substring(11));
+                        SizeMenuX = PrintLine("  time create : " + _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]].WhenCreate.ToString().Substring(11));
                         SetCursorX(_savedCursorX);
-                        SizeMenuX = PrintLine("  name : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].name);
+                        SizeMenuX = PrintLine("  name : " + _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]].Name);
                         SetCursorX(_savedCursorX);
-                        SizeMenuX = PrintLine("  cost : " + _dataBase.shops[_pointerItems[0]].storage[_pointerItems[1]].storage[_pointerItems[2]].cost);
+                        SizeMenuX = PrintLine("  cost : " + _dataBase.Shops[_pointerItems[0]].Storage[_pointerItems[1]].Storage[_pointerItems[2]].Cost);
                     }
                    
                                    
@@ -333,7 +333,7 @@ namespace ShowCase.Models
             PrintLine("Up Down Left Right Enter Escape");
             PrintLine("And the same buttons + 'shift'");
             PrintLine("");
-            PrintLine("Navigation via shops you have to use buttons Up and Down");
+            PrintLine("Navigation via Shops you have to use buttons Up and Down");
             PrintLine("Navigation via case you have to use buttons Right and Left");
             PrintLine("Navigation via products you have to use buttons together Shift + Left and Shift + Right");
             PrintLine("Navigation via menu you have to use buttons together Shift + Up and Shift + Down");

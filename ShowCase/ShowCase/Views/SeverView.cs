@@ -92,13 +92,13 @@ namespace ShowCase.Views
         /// <returns>text that got from client</returns>
         public override string ReadLine()
         {
-            lastMethodRequired = "ReadLine";
+            LastMethodRequired = "ReadLine";
             if (ConsoleText == "")
             {
-                waitHandle[0].Reset();
-                waitHandle[1].Set();
-                waitHandle[0].WaitOne();
-                lastMethodRequired = "ReadKey";
+                WaitHandles[0].Reset();
+                WaitHandles[1].Set();
+                WaitHandles[0].WaitOne();
+                LastMethodRequired = "ReadKey";
             }
             var result = ConsoleText;
             ConsoleText = "";
@@ -111,13 +111,13 @@ namespace ShowCase.Views
         /// <returns>key that got from client</returns>
         public override int[] ReadKey()
         {
-            lastMethodRequired = "ReadKey";
+            LastMethodRequired = "ReadKey";
             if (ConsoleKey == null)
             {
-                waitHandle[0].Reset();
-                waitHandle[1].Set();
-                waitHandle[0].WaitOne();
-                lastMethodRequired = "ReadKey";
+                WaitHandles[0].Reset();
+                WaitHandles[1].Set();
+                WaitHandles[0].WaitOne();
+                LastMethodRequired = "ReadKey";
             }
 
             int[] result = new int[]
@@ -131,7 +131,7 @@ namespace ShowCase.Views
         }
 
         /// <summary>
-        /// Save position virtual cursor to storage
+        /// Save position virtual cursor to Storage
         /// </summary>
         protected override void SaveCurrentCursor()
         {
@@ -141,7 +141,7 @@ namespace ShowCase.Views
 
 
         /// <summary>
-        /// Save position virtual cursor for coordinate x to storage
+        /// Save position virtual cursor for coordinate x to Storage
         /// </summary>
         protected override void SaveCurrentCursorX()
         {
@@ -167,7 +167,7 @@ namespace ShowCase.Views
         }    
         
         /// <summary>
-        /// Save position virtual cursor for coordinate y to storage
+        /// Save position virtual cursor for coordinate y to Storage
         /// </summary>
         protected override int GetCurrentCursorY()
         {

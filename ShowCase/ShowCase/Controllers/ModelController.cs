@@ -20,7 +20,7 @@ namespace ShowCase.Controllers
             Shop<Case<Product<int>>> shop = new Shop<Case<Product<int>>>(size);
             EditSize(shop);
             Rename(shop);
-            _dataBase.shops.Add(shop);
+            _dataBase.Shops.Add(shop);
         }
         
         /*create case*/
@@ -121,7 +121,7 @@ namespace ShowCase.Controllers
         /*Remove shop*/
         public void Remove(Shop<Case<Product<int>>> shop)
         {
-            _dataBase.shops.Remove(shop);
+            _dataBase.Shops.Remove(shop);
         }
         /*Remove case*/
         public void Remove(Shop<Case<Product<int>>> shop, Case<Product<int>> case_)

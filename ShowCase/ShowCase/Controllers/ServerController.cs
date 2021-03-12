@@ -24,7 +24,7 @@ namespace ShowCase.Controllers
              * [0] - for serverThread
              * [1] - for programLoopThread
              */
-            _view.waitHandle = new[]
+            _view.WaitHandles = new[]
             {
                 new ManualResetEvent(initialState: true),
                 new ManualResetEvent(initialState: true)
@@ -101,8 +101,8 @@ namespace ShowCase.Controllers
                      * Reset waiting handler for programLoopThread
                      * Set waiting handler for ServerThread
                      */
-                    view.waitHandle[1].Reset();
-                    view.waitHandle[0].Set();
+                    view.WaitHandles[1].Reset();
+                    view.WaitHandles[0].Set();
                 
                     /*
                      * If programLoopThread is dead, i'll start it again.
@@ -119,7 +119,7 @@ namespace ShowCase.Controllers
                      * waiting for programLoopThread
                      * i don't have to continue until programLoopThread is working and don't give allow
                      */
-                    view.waitHandle[1].WaitOne();
+                    view.WaitHandles[1].WaitOne();
                     
                 }
                 else
@@ -131,8 +131,8 @@ namespace ShowCase.Controllers
                //Console.Clear();
                // view.ShowMap();
                    
-                requestContext.Response.Headers.Add("lastMethodRequired",view.lastMethodRequired);
-                view.lastMethodRequired = "";
+                requestContext.Response.Headers.Add("LastMethodRequired",view.LastMethodRequired);
+                view.LastMethodRequired = "";
                 
                 var stream = requestContext.Response.OutputStream;
                 var bytes = Encoding.UTF8.GetBytes(view.Buffer);
@@ -161,7 +161,7 @@ namespace ShowCase.Controllers
         private static void ProgramLoop(IView view)
         {
             _programController.Step();
-            view.waitHandle[1].Set();
+            view.WaitHandles[1].Set();
         }
         
         /// <summary>

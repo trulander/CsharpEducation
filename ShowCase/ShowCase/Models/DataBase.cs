@@ -12,7 +12,6 @@ namespace ShowCase.Models
     public class DataBase : IDataBase
     {
         private static DataBase? _instanceDatabase = null;
-        private List<Shop<Case<Product<int>>>> _shops;
         private DelegateNotification _notifier = message => { };
 
         public void MakeNotification(string message)
@@ -23,7 +22,7 @@ namespace ShowCase.Models
         {
             return _notifier += delegation;
         }
-        public List<Shop<Case<Product<int>>>> shops{ get; set; }
+        public List<Shop<Case<Product<int>>>> Shops{ get; set; }
 
         /*binding button*/
         public enum KeyData
@@ -59,7 +58,7 @@ namespace ShowCase.Models
             if (_instanceDatabase == null)
             {
                 _instanceDatabase = new DataBase();
-                _instanceDatabase.shops = new List<Shop<Case<Product<int>>>>();
+                _instanceDatabase.Shops = new List<Shop<Case<Product<int>>>>();
             }
             return _instanceDatabase;
         }
